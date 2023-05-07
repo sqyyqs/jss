@@ -1,0 +1,15 @@
+#ide specific
+.idea/
+*.iml
+*.iws
+*.ipr
+
+#all compiled
+*.class
+
+#all logs
+*.log
+
+#all maven target
+**/target/
+
