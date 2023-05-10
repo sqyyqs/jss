@@ -10,10 +10,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>business</module>
-        <module>web</module>
-        <module>data</module>
-        <module>app</module>
+        <module>jss-business</module>
+        <module>jss-web</module>
+        <module>jss-data</module>
+        <module>jss-app</module>
     </modules>
 
     <properties>

@@ -9,7 +9,7 @@
         <version>${revision}${changelist}</version>
     </parent>
     <packaging>jar</packaging>
-    <artifactId>app</artifactId>
+    <artifactId>jss-app</artifactId>
 
     <properties>
         <main.class>com.sqy.app.Main</main.class>
@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.sqy</groupId>
-            <artifactId>web</artifactId>
+            <artifactId>jss-web</artifactId>
             <version>${revision}${changelist}</version>
         </dependency>
     </dependencies>

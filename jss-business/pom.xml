@@ -9,11 +9,10 @@
         <version>${revision}${changelist}</version>
     </parent>
     <packaging>pom</packaging>
-    <artifactId>business</artifactId>
+    <artifactId>jss-business</artifactId>
 
     <modules>
         <module>service</module>
-        <module>util</module>
     </modules>
 
     <dependencies>

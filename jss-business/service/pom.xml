@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sqy</groupId>
-        <artifactId>business</artifactId>
+        <artifactId>jss-business</artifactId>
         <version>${revision}${changelist}</version>
     </parent>
     <packaging>jar</packaging>

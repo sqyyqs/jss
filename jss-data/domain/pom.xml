@@ -5,17 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sqy</groupId>
-        <artifactId>jss</artifactId>
+        <artifactId>jss-data</artifactId>
         <version>${revision}${changelist}</version>
     </parent>
-    <packaging>pom</packaging>
-
-    <artifactId>data</artifactId>
-
-    <modules>
-        <module>dto</module>
-        <module>domain</module>
-        <module>repository</module>
-    </modules>
+    <packaging>jar</packaging>
+    <artifactId>domain</artifactId>
 
 </project>

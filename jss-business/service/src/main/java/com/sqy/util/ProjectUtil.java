@@ -1,4 +1,4 @@
-package com.sqy.utils;
+package com.sqy.util;
 
 import com.sqy.domain.Project;
 

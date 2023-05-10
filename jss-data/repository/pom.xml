@@ -5,10 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sqy</groupId>
-        <artifactId>data</artifactId>
+        <artifactId>jss-data</artifactId>
         <version>${revision}${changelist}</version>
     </parent>
     <packaging>jar</packaging>
-    <artifactId>domain</artifactId>
+    <artifactId>repository</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sqy</groupId>
+            <artifactId>domain</artifactId>
+            <version>${revision}${changelist}</version>
+        </dependency>
+    </dependencies>
 
 </project>
