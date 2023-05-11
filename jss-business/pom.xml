@@ -12,23 +12,23 @@
     <artifactId>jss-business</artifactId>
 
     <modules>
-        <module>service</module>
+        <module>jss-service</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>com.sqy</groupId>
-            <artifactId>dto</artifactId>
+            <artifactId>jss-dto</artifactId>
             <version>${revision}${changelist}</version>
         </dependency>
         <dependency>
             <groupId>com.sqy</groupId>
-            <artifactId>repository</artifactId>
+            <artifactId>jss-repository</artifactId>
             <version>${revision}${changelist}</version>
         </dependency>
         <dependency>
             <groupId>com.sqy</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>jss-domain</artifactId>
             <version>${revision}${changelist}</version>
         </dependency>
     </dependencies>

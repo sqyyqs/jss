@@ -5,18 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sqy</groupId>
-        <artifactId>jss</artifactId>
+        <artifactId>jss-data</artifactId>
         <version>${revision}${changelist}</version>
     </parent>
     <packaging>jar</packaging>
-    <artifactId>jss-web</artifactId>
-
     <dependencies>
         <dependency>
             <groupId>com.sqy</groupId>
-            <artifactId>jss-service</artifactId>
+            <artifactId>jss-domain</artifactId>
             <version>${revision}${changelist}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
+    <artifactId>jss-dto</artifactId>
 
 </project>

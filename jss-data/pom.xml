@@ -13,9 +13,9 @@
     <artifactId>jss-data</artifactId>
 
     <modules>
-        <module>dto</module>
-        <module>domain</module>
-        <module>repository</module>
+        <module>jss-dto</module>
+        <module>jss-domain</module>
+        <module>jss-repository</module>
     </modules>
 
 </project>
