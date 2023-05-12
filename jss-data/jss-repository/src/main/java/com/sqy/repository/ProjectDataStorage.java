@@ -82,15 +82,7 @@ public class ProjectDataStorage implements ProjectRepository {
                         project.setDescription(value);
                     }
                 }
-                case "projectStatus" -> {
-                    switch (value) {
-                        case "DRAFT" -> project.setProjectStatus(Project.ProjectStatus.DRAFT);
-                        case "IN_PROGRESS" -> project.setProjectStatus(Project.ProjectStatus.IN_PROGRESS);
-                        case "IN_TESTING" -> project.setProjectStatus(Project.ProjectStatus.IN_TESTING);
-                        case "COMPLETED" -> project.setProjectStatus(Project.ProjectStatus.COMPLETED);
-                        default -> throw new IllegalArgumentException("Invalid project status: " + value);
-                    }
-                }
+                case "projectStatus" -> project.setProjectStatus(Project.ProjectStatus.valueOf(value));
                 default -> throw new IllegalArgumentException("Invalid project string: " + projectStr);
             }
         }
