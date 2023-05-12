@@ -1,4 +1,4 @@
-package com.sqy.domain;
+package com.sqy.domain.project;
 
 public class Project {
     private Long id;
@@ -75,10 +75,5 @@ public class Project {
                 '}';
     }
 
-    public enum ProjectStatus {
-        DRAFT,
-        IN_PROGRESS,
-        IN_TESTING,
-        COMPLETED
-    }
+
 }

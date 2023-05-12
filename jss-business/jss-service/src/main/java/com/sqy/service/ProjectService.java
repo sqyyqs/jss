@@ -1,6 +1,6 @@
 package com.sqy.service;
 
-import com.sqy.domain.Project;
+import com.sqy.domain.project.Project;
 import com.sqy.dto.ProjectDto;
 import com.sqy.mapper.ProjectMapper;
 import com.sqy.repository.ProjectDataStorage;

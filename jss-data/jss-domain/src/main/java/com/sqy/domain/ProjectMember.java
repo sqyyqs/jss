@@ -1,5 +1,8 @@
 package com.sqy.domain;
 
+import com.sqy.domain.employee.Employee;
+import com.sqy.domain.project.Project;
+
 public class ProjectMember {
     private Long id;
     private Project project;

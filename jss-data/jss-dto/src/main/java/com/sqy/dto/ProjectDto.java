@@ -1,19 +1,19 @@
 package com.sqy.dto;
 
-import com.sqy.domain.Project;
+import com.sqy.domain.project.ProjectStatus;
 
 public class ProjectDto {
     private Long id;
     private String code;
     private String name;
     /*todo @Nullable*/ private String description;
-    private Project.ProjectStatus projectStatus;
+    private ProjectStatus projectStatus;
 
     public ProjectDto(Long id,
                       String code,
                       String name,
                       String description,
-                      Project.ProjectStatus projectStatus) {
+                      ProjectStatus projectStatus) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -45,11 +45,11 @@ public class ProjectDto {
         this.description = description;
     }
 
-    public Project.ProjectStatus getProjectStatus() {
+    public ProjectStatus getProjectStatus() {
         return projectStatus;
     }
 
-    public void setProjectStatus(Project.ProjectStatus projectStatus) {
+    public void setProjectStatus(ProjectStatus projectStatus) {
         this.projectStatus = projectStatus;
     }
 

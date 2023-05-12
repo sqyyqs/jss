@@ -1,7 +1,8 @@
 package com.sqy.repository;
 
 import com.sqy.configuration.DataStorageConfiguration;
-import com.sqy.domain.Project;
+import com.sqy.domain.project.Project;
+import com.sqy.domain.project.ProjectStatus;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -82,7 +83,7 @@ public class ProjectDataStorage implements ProjectRepository {
                         project.setDescription(value);
                     }
                 }
-                case "projectStatus" -> project.setProjectStatus(Project.ProjectStatus.valueOf(value));
+                case "projectStatus" -> project.setProjectStatus(ProjectStatus.valueOf(value));
                 default -> throw new IllegalArgumentException("Invalid project string: " + projectStr);
             }
         }

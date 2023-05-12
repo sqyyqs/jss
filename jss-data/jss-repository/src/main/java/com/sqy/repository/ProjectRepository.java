@@ -1,6 +1,6 @@
 package com.sqy.repository;
 
-import com.sqy.domain.Project;
+import com.sqy.domain.project.Project;
 
 import java.io.IOException;
 import java.util.List;

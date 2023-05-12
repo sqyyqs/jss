@@ -1,4 +1,4 @@
-package com.sqy.domain;
+package com.sqy.domain.employee;
 
 public class Employee {
     private Long id;
@@ -106,10 +106,5 @@ public class Employee {
                 ", email='" + email + '\'' +
                 ", status=" + status +
                 '}';
-    }
-
-    public enum EmployeeStatus {
-        ACTIVE,
-        DELETED
     }
 }

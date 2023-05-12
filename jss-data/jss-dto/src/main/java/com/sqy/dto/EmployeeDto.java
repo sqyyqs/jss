@@ -1,6 +1,6 @@
 package com.sqy.dto;
 
-import com.sqy.domain.Employee;
+import com.sqy.domain.employee.EmployeeStatus;
 
 public class EmployeeDto {
     private Long id;
@@ -10,7 +10,7 @@ public class EmployeeDto {
     /*todo @Nullable*/ private String position;
     /*todo @Nullable*/ private Object account;
     /*todo @Nullable*/ private String email;
-    private Employee.EmployeeStatus status;
+    private EmployeeStatus status;
 
     public EmployeeDto(Long id,
                        String lastName,
@@ -19,7 +19,7 @@ public class EmployeeDto {
                        String position,
                        Object account,
                        String email,
-                       Employee.EmployeeStatus status) {
+                       EmployeeStatus status) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -78,11 +78,11 @@ public class EmployeeDto {
         this.email = email;
     }
 
-    public Employee.EmployeeStatus getStatus() {
+    public EmployeeStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Employee.EmployeeStatus status) {
+    public void setStatus(EmployeeStatus status) {
         this.status = status;
     }
 

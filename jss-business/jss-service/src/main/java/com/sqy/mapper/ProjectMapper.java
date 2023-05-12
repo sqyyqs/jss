@@ -1,6 +1,6 @@
 package com.sqy.mapper;
 
-import com.sqy.domain.Project;
+import com.sqy.domain.project.Project;
 import com.sqy.dto.ProjectDto;
 
 public class ProjectMapper {
