@@ -1,0 +1,153 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-employee
+      author: sqy
+      changes:
+        - createTable:
+            tableName: employee
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: middle_name
+                  type: varchar(255)
+              - column:
+                  name: position
+                  type: varchar(255)
+              - column:
+                  name: account
+                  type: json
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create-table-project
+      author: your_name
+      changes:
+        - createTable:
+            tableName: project
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: code
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create-table-project-member
+      author: your_name
+      changes:
+        - createTable:
+            tableName: project_member
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: employee_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+            constraints:
+              - foreignKey:
+                  constraintName: fk_project_member_project
+                  baseTableName: project_member
+                  baseColumnNames: project_id
+                  referencedTableName: project
+                  referencedColumnNames: id
+                  onDelete: cascade
+              - foreignKey:
+                  constraintName: fk_project_member_employee
+                  baseTableName: project_member
+                  baseColumnNames: employee_id
+                  referencedTableName: employee
+                  referencedColumnNames: id
+                  onDelete: cascade
+
+  - changeSet:
+      id: create-table-task
+      author: your_name
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: performer_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: estimated_hours
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deadline
+                  type: timestamp

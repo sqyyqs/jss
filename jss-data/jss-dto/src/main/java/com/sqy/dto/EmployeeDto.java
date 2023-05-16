@@ -1,22 +1,16 @@
 package com.sqy.dto;
 
-import com.sqy.domain.employee.EmployeeStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@ToString
-public class EmployeeDto {
-    private Long id;
-    private String lastName;
-    private String firstName;
-    /*todo @Nullable*/ private String middleName;
-    /*todo @Nullable*/ private String position;
-    /*todo @Nullable*/ private Object account;
-    /*todo @Nullable*/ private String email;
-    private EmployeeStatus status;
+import com.sqy.domain.employee.EmployeeStatus;
+
+public record EmployeeDto(
+        Long id,
+        String lastName,
+        String firstName,
+        String middleName,
+        String position,
+        Object account,
+        String email,
+        EmployeeStatus status
+) {
 }

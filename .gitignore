@@ -10,5 +10,8 @@
 #all logs
 *.log
 
+#props
+*.properties
+
 #all maven target
 **/target/
