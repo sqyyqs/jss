@@ -19,17 +19,16 @@
         <dependency>
             <groupId>com.sqy</groupId>
             <artifactId>jss-dto</artifactId>
-            <version>${revision}${changelist}</version>
         </dependency>
+
         <dependency>
             <groupId>com.sqy</groupId>
             <artifactId>jss-repository</artifactId>
-            <version>${revision}${changelist}</version>
         </dependency>
+
         <dependency>
             <groupId>com.sqy</groupId>
             <artifactId>jss-domain</artifactId>
-            <version>${revision}${changelist}</version>
         </dependency>
     </dependencies>
 
