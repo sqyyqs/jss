@@ -12,6 +12,13 @@
 
     <artifactId>jss-data</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
     <modules>
         <module>jss-dto</module>
         <module>jss-domain</module>

@@ -2,17 +2,19 @@ package com.sqy.repository;
 
 import com.sqy.domain.project.Project;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface ProjectRepository {
-    void create(Project project) throws IOException;
+    void create(Project project);
 
-    void update(Project project) throws IOException;
+    void update(Project project);
 
-    Project getById(Long id) throws IOException;
+    Project getById(Long id);
 
-    List<Project> getAll() throws IOException;
+    List<Project> getAll();
 
-    void deleteById(Long id) throws IOException;
+    void deleteById(Long id);
+
+    List<Project> searchByProps(Map<String, Object> properties);
 }
