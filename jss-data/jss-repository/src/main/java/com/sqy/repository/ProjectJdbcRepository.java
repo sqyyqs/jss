@@ -143,11 +143,12 @@ public class ProjectJdbcRepository implements ProjectRepository {
 
     private static Project getProjectFrom(ResultSet resultSet) throws SQLException {
         return new Project(
-                resultSet.getLong("id"),
+                resultSet.getLong("project_id"),
                 resultSet.getString("code"),
                 resultSet.getString("name"),
                 resultSet.getString("description"),
                 ProjectStatus.valueOf(resultSet.getString("status"))
         );
     }
+
 }

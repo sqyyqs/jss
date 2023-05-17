@@ -42,7 +42,7 @@ databaseChangeLog:
 
   - changeSet:
       id: create-table-project
-      author: your_name
+      author: sqy
       changes:
         - createTable:
             tableName: project
@@ -75,7 +75,7 @@ databaseChangeLog:
 
   - changeSet:
       id: create-table-project-member
-      author: your_name
+      author: sqy
       changes:
         - createTable:
             tableName: project_member
@@ -119,7 +119,7 @@ databaseChangeLog:
 
   - changeSet:
       id: create-table-task
-      author: your_name
+      author: sqy
       changes:
         - createTable:
             tableName: task
