@@ -5,11 +5,11 @@ import com.sqy.domain.employee.EmployeeStatus;
 
 public record EmployeeDto(
         Long id,
-        String lastName,
         String firstName,
+        String lastName,
         String middleName,
         String position,
-        Object account,
+        /* TODO: 17.05.2023 change from object */ Object account,
         String email,
         EmployeeStatus status
 ) {

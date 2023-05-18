@@ -13,7 +13,6 @@
         <dependency>
             <groupId>com.sqy</groupId>
             <artifactId>jss-domain</artifactId>
-            <version>${revision}${changelist}</version>
         </dependency>
     </dependencies>
     <artifactId>jss-dto</artifactId>

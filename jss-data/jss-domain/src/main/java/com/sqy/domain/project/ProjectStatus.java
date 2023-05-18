@@ -1,18 +1,23 @@
 package com.sqy.domain.project;
 
+import jakarta.annotation.Nullable;
+
+import java.util.Arrays;
+
 public enum ProjectStatus {
-    DRAFT("draft"),
-    IN_PROGRESS("inProgress"),
-    IN_TESTING("inTesting"),
-    COMPLETED("completed");
+    DRAFT,
+    IN_PROGRESS,
+    IN_TESTING,
+    COMPLETED;
 
-    private final String statusString;
-
-    ProjectStatus(String statusString) {
-        this.statusString = statusString;
-    }
-
-    public String getStatusString() {
-        return statusString;
+    @Nullable
+    public static ProjectStatus getTaskType(@Nullable String name) {
+        if (name == null) {
+            return null;
+        }
+        return Arrays.stream(values())
+                .filter(status -> status.name().equals(name))
+                .findAny()
+                .orElse(null);
     }
 }
