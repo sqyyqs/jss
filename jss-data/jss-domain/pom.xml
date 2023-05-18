@@ -22,19 +22,5 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.sqy</groupId>
-            <artifactId>jss-dto</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sqy</groupId>
-            <artifactId>jss-repository</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sqy</groupId>
-            <artifactId>jss-domain</artifactId>
-        </dependency>
     </dependencies>
 </project>

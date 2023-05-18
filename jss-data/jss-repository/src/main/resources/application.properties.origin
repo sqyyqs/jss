@@ -2,3 +2,4 @@ spring.datasource.username=
 spring.datasource.password=
 spring.datasource.url=
 spring.datasource.driver-class-name=
+spring.liquibase.change-log=
