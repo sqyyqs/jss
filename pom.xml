@@ -31,6 +31,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.26</lombok.version>
         <jdbc.postgres.driver.version>42.6.0</jdbc.postgres.driver.version>
+        <liquibase.version>4.22.0</liquibase.version>
     </properties>
 
 
@@ -66,11 +67,17 @@
                 <version>${jdbc.postgres.driver.version}</version>
                 <scope>runtime</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.sqy</groupId>
                 <artifactId>jss-service</artifactId>
                 <version>${revision}${changelist}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
             </dependency>
 
             <dependency>
