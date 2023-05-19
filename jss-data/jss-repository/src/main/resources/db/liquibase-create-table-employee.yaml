@@ -7,7 +7,7 @@ databaseChangeLog:
             tableName: employee
             columns:
               - column:
-                  name: id
+                  name: employee_id
                   type: serial
                   constraints:
                     primaryKey: true

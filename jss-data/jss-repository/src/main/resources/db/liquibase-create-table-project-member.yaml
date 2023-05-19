@@ -7,7 +7,7 @@ databaseChangeLog:
             tableName: project_member
             columns:
               - column:
-                  name: id
+                  name: project_member_id
                   type: serial
                   constraints:
                     primaryKey: true

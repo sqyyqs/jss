@@ -1,62 +1,19 @@
 package com.sqy.service;
 
-import com.sqy.domain.project.Project;
 import com.sqy.dto.project.ProjectDto;
-import com.sqy.dto.project.ProjectSearchParametersDto;
-import com.sqy.mapper.Mapper;
-import com.sqy.repository.ProjectRepository;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
-@Service
-public class ProjectService {
-    private final ProjectRepository projectRepository;
-    private final Mapper<ProjectDto, Project> projectMapper;
+public interface ProjectService {
+    List<ProjectDto> getAll();
 
-    public ProjectService(ProjectRepository projectRepository, Mapper<ProjectDto, Project> projectMapper) {
-        this.projectRepository = projectRepository;
-        this.projectMapper = projectMapper;
-    }
+    ProjectDto getById(Long id);
 
-    public List<ProjectDto> getAll() {
-        return projectRepository.findAll()
-                .stream()
-                .map(projectMapper::getDtoFromModel)
-                .toList();
-    }
+    void save(ProjectDto projectDto);
 
-    @Nullable
-    public ProjectDto getById(Long id) {
-        return projectRepository.findById(id)
-                .stream()
-                .map(projectMapper::getDtoFromModel)
-                .findAny()
-                .orElse(null);
-    }
+    void update(ProjectDto projectDto);
 
-    public void save(ProjectDto projectDto) {
-        if (projectRepository.existsById(projectDto.id())) {
-            throw new IllegalArgumentException();
-        }
-        projectRepository.save(projectMapper.getModelFromDto(projectDto));
-    }
+    void delete(Long id);
 
-    public void update(ProjectDto projectDto) {
-        if (!projectRepository.existsById(projectDto.id())) {
-            throw new IllegalArgumentException();
-        }
-        projectRepository.save(projectMapper.getModelFromDto(projectDto));
-    }
-
-    public void delete(Long id) {
-        projectRepository.deleteById(id);
-    }
-
-    public List<ProjectDto> search(ProjectSearchParametersDto pssd) {
-        return Collections.emptyList();
-        // TODO: 17.05.2023
-    }
+    List<ProjectDto> search();
 }

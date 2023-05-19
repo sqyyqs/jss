@@ -1,61 +1,19 @@
 package com.sqy.service;
 
-import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.dto.ProjectMemberDto;
-import com.sqy.mapper.Mapper;
-import com.sqy.repository.ProjectMemberRepository;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
-@Service
-public class ProjectMemberService {
-    private final ProjectMemberRepository projectMemberRepository;
-    private final Mapper<ProjectMemberDto, ProjectMember> projectMemberMapper;
+public interface ProjectMemberService {
+    List<ProjectMemberDto> getAll();
 
-    public ProjectMemberService(ProjectMemberRepository projectMemberRepository, Mapper<ProjectMemberDto, ProjectMember> projectMemberMapper) {
-        this.projectMemberRepository = projectMemberRepository;
-        this.projectMemberMapper = projectMemberMapper;
-    }
+    ProjectMemberDto getById(Long id);
 
-    public List<ProjectMemberDto> getAll() {
-        return projectMemberRepository.findAll()
-                .stream()
-                .map(projectMemberMapper::getDtoFromModel)
-                .toList();
-    }
+    void save(ProjectMemberDto projectMemberDto);
 
-    @Nullable
-    public ProjectMemberDto getById(Long id) {
-        return projectMemberRepository.findById(id)
-                .stream()
-                .map(projectMemberMapper::getDtoFromModel)
-                .findAny()
-                .orElse(null);
-    }
+    void update(ProjectMemberDto projectMemberDto);
 
-    public void save(ProjectMemberDto projectMemberDto) {
-        if (projectMemberRepository.existsById(projectMemberDto.id())) {
-            throw new IllegalArgumentException();
-        }
-        projectMemberRepository.save(projectMemberMapper.getModelFromDto(projectMemberDto));
-    }
+    void delete(Long id);
 
-    public void update(ProjectMemberDto projectMemberDto) {
-        if (!projectMemberRepository.existsById(projectMemberDto.id())) {
-            throw new IllegalArgumentException();
-        }
-        projectMemberRepository.save(projectMemberMapper.getModelFromDto(projectMemberDto));
-    }
-
-    public void delete(Long id) {
-        projectMemberRepository.deleteById(id);
-    }
-
-    public List<ProjectMemberDto> search() {
-        return Collections.emptyList();
-        // TODO: 17.05.2023
-    }
+    List<ProjectMemberDto> search();
 }

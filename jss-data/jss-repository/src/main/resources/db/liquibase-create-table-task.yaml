@@ -7,7 +7,7 @@ databaseChangeLog:
             tableName: task
             columns:
               - column:
-                  name: id
+                  name: task_id
                   type: serial
                   constraints:
                     primaryKey: true

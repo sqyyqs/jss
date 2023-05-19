@@ -1,7 +1,6 @@
 package com.sqy.controller;
 
 import com.sqy.dto.project.ProjectDto;
-import com.sqy.dto.project.ProjectSearchParametersDto;
 import com.sqy.service.ProjectService;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -37,7 +36,7 @@ public class ProjectController {
         projectService.delete(id);
     }
 
-    public List<ProjectDto> search(ProjectSearchParametersDto projectSearchParametersDto) {
-        return projectService.search(projectSearchParametersDto);
+    public List<ProjectDto> search() {
+        return projectService.search();
     }
 }
