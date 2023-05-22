@@ -9,13 +9,14 @@
         <version>${revision}${changelist}</version>
     </parent>
     <packaging>jar</packaging>
+
     <dependencies>
         <dependency>
             <groupId>com.sqy</groupId>
             <artifactId>jss-domain</artifactId>
-            <version>${revision}${changelist}</version>
         </dependency>
     </dependencies>
+
     <artifactId>jss-dto</artifactId>
 
 </project>

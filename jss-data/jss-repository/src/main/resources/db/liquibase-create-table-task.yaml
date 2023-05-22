@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTaskTable
+      author: sqy
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: task_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: performer_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: estimated_hours
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deadline
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_update_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+            foreignKeys:
+              - foreignKey:
+                  baseTableName: task
+                  baseColumnNames: performer_id
+                  referencedTableName: employee
+                  referencedColumnNames: employee_id
+                  onDelete: SET NULL
+              - foreignKey:
+                  baseTableName: task
+                  baseColumnNames: author_id
+                  referencedTableName: project_member
+                  referencedColumnNames: project_member_id
+                  onDelete: SET NULL

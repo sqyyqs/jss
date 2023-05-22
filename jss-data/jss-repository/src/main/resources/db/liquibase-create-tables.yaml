@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/liquibase-create-table-employee.yaml
+  - include:
+      file: classpath:db/liquibase-create-table-project.yaml
+  - include:
+      file: classpath:db/liquibase-create-table-project-member.yaml
+  - include:
+      file: classpath:db/liquibase-create-table-task.yaml

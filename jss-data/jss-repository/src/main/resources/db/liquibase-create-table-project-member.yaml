@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: createProjectMemberTable
+      author: sqy
+      changes:
+        - createTable:
+            tableName: project_member
+            columns:
+              - column:
+                  name: project_member_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: employee_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+            foreignKeys:
+              - foreignKey:
+                  baseTableName: project_member
+                  baseColumnNames: project_id
+                  referencedTableName: project
+                  referencedColumnNames: id
+                  onDelete: CASCADE
+              - foreignKey:
+                  baseTableName: project_member
+                  baseColumnNames: employee_id
+                  referencedTableName: employee
+                  referencedColumnNames: id
+                  onDelete: CASCADE

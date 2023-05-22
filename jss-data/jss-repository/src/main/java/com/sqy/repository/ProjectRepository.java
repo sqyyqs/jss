@@ -1,20 +1,10 @@
 package com.sqy.repository;
 
 import com.sqy.domain.project.Project;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-
-public interface ProjectRepository {
-    void create(Project project);
-
-    void update(Project project);
-
-    Project getById(Long id);
-
-    List<Project> getAll();
-
-    void deleteById(Long id);
-
-    List<Project> searchByProps(Map<String, Object> properties);
+@Repository
+public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpecificationExecutor<Project> {
 }

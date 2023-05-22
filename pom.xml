@@ -4,6 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.6</version>
+        <relativePath/>
+    </parent>
+
     <groupId>com.sqy</groupId>
     <artifactId>jss</artifactId>
     <version>${revision}${changelist}</version>
@@ -24,22 +31,63 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.26</lombok.version>
         <jdbc.postgres.driver.version>42.6.0</jdbc.postgres.driver.version>
+        <liquibase.version>4.22.0</liquibase.version>
+<!--        <hibernate.version>6.2.2.Final</hibernate.version>-->
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.sqy</groupId>
+                <artifactId>jss-web</artifactId>
+                <version>${revision}${changelist}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sqy</groupId>
+                <artifactId>jss-dto</artifactId>
+                <version>${revision}${changelist}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sqy</groupId>
+                <artifactId>jss-repository</artifactId>
+                <version>${revision}${changelist}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sqy</groupId>
+                <artifactId>jss-domain</artifactId>
+                <version>${revision}${changelist}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${jdbc.postgres.driver.version}</version>
+                <scope>runtime</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.sqy</groupId>
+                <artifactId>jss-service</artifactId>
+                <version>${revision}${changelist}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
