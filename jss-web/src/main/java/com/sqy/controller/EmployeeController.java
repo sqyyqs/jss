@@ -1,7 +1,7 @@
 package com.sqy.controller;
 
 import com.sqy.dto.EmployeeDto;
-import com.sqy.service.EmployeeService;
+import com.sqy.service.interfaces.EmployeeService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.sqy.controller;
 
 import com.sqy.dto.TaskDto;
-import com.sqy.service.TaskService;
+import com.sqy.service.interfaces.TaskService;
 
 import java.util.List;
 

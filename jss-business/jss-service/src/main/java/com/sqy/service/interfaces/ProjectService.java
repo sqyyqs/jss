@@ -1,6 +1,7 @@
-package com.sqy.service;
+package com.sqy.service.interfaces;
 
 import com.sqy.dto.project.ProjectDto;
+import com.sqy.dto.project.ProjectSearchParametersDto;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface ProjectService {
 
     void delete(Long id);
 
-    List<ProjectDto> search();
+    List<ProjectDto> search(ProjectSearchParametersDto projectSearchParametersDto);
 }

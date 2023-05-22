@@ -59,11 +59,11 @@ databaseChangeLog:
                   baseTableName: task
                   baseColumnNames: performer_id
                   referencedTableName: employee
-                  referencedColumnNames: id
+                  referencedColumnNames: employee_id
                   onDelete: SET NULL
               - foreignKey:
                   baseTableName: task
                   baseColumnNames: author_id
                   referencedTableName: project_member
-                  referencedColumnNames: id
+                  referencedColumnNames: project_member_id
                   onDelete: SET NULL

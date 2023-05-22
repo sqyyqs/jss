@@ -1,7 +1,7 @@
 package com.sqy.controller;
 
 import com.sqy.dto.ProjectMemberDto;
-import com.sqy.service.ProjectMemberService;
+import com.sqy.service.interfaces.ProjectMemberService;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
