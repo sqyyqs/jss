@@ -1,14 +1,14 @@
 create table employee
 (
-    employee_id serial,
+    employee_id serial
+        primary key,
     first_name  varchar(255) not null,
     last_name   varchar(255) not null,
     middle_name varchar(255),
     position    varchar(255),
-    account     json,
+    account     bytea,
     email       varchar(255),
-    status      varchar(50)  not null,
-    primary key (employee_id)
+    status      varchar(50)  not null
 );
 
 create table project
@@ -43,9 +43,25 @@ create table task
     deadline         timestamp    not null,
     status           varchar(50)  not null,
     author_id        int          not null,
-    creation_date    timestamp    not null,
-    last_update_date timestamp    not null,
+    creation_date    timestamp default current_timestamp,
+    last_update_date timestamp default current_timestamp,
     primary key (task_id),
     foreign key (performer_id) references employee (employee_id) on delete set null,
     foreign key (author_id) references project_member (project_member_id) on delete set null
 );
+
+CREATE OR REPLACE FUNCTION update_last_modified()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+    NEW.last_update_date = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER task_last_modified
+    BEFORE UPDATE
+    ON task
+    FOR EACH ROW
+EXECUTE FUNCTION update_last_modified();

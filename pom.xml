@@ -32,6 +32,7 @@
         <lombok.version>1.18.26</lombok.version>
         <jdbc.postgres.driver.version>42.6.0</jdbc.postgres.driver.version>
         <liquibase.version>4.22.0</liquibase.version>
+        <spring-doc.version>2.1.0</spring-doc.version>
     </properties>
 
 
@@ -85,6 +86,12 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${spring-doc.version}</version>
             </dependency>
 
         </dependencies>
