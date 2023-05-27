@@ -5,8 +5,6 @@ import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
 import com.sqy.dto.task.TaskDto;
 
-import java.time.LocalDateTime;
-
 public class TaskMapper {
 
     public static Task getModelFromDto(TaskDto taskDto) {
@@ -17,8 +15,8 @@ public class TaskMapper {
         task.setEstimatedHours(taskDto.getEstimatedHours());
         task.setDeadline(taskDto.getDeadline());
         task.setStatus(taskDto.getStatus());
-        task.setCreationDate(LocalDateTime.of(2004, 7, 11, 20, 20));
-        task.setLastUpdateDate(LocalDateTime.of(2004, 7, 11, 20, 20));
+        task.setCreationDate(taskDto.getCreationDate());
+        task.setLastUpdateDate(taskDto.getLastUpdateDate());
 
         ProjectMember author = new ProjectMember();
         author.setProjectMemberId(taskDto.getAuthorId());
