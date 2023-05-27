@@ -1,15 +1,27 @@
+CREATE TYPE employee_status AS ENUM (
+    'ACTIVE',
+    'DELETED'
+    );
+
 create table employee
 (
-    employee_id serial
-        primary key,
-    first_name  varchar(255) not null,
-    last_name   varchar(255) not null,
+    employee_id serial,
+    first_name  varchar(255)    not null,
+    last_name   varchar(255)    not null,
     middle_name varchar(255),
     position    varchar(255),
     account     bytea,
     email       varchar(255),
-    status      varchar(50)  not null
+    status      employee_status not null,
+    primary key (employee_id)
 );
+
+CREATE TYPE project_status AS ENUM (
+    'DRAFT',
+    'IN_PROGRESS',
+    'IN_TESTING',
+    'COMPLETED'
+    );
 
 create table project
 (
@@ -17,9 +29,16 @@ create table project
     code        varchar(255) unique not null,
     name        varchar(255)        not null,
     description text,
-    status      varchar(50)         not null,
+    status      project_status      not null,
     primary key (project_id)
 );
+
+CREATE TYPE project_member_role AS ENUM (
+    'LEAD',
+    'ANALYST',
+    'DEVELOPER',
+    'TESTER'
+    );
 
 create table project_member
 (
@@ -32,6 +51,12 @@ create table project_member
     foreign key (employee_id) references employee (employee_id) on delete cascade
 );
 
+CREATE TYPE task_status AS ENUM (
+    'NEW',
+    'IN_PROGRESS',
+    'COMPLETED',
+    'CLOSED'
+    );
 
 create table task
 (

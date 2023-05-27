@@ -21,6 +21,7 @@
         <module>jss-web</module>
         <module>jss-data</module>
         <module>jss-app</module>
+        <module>jss-security</module>
     </modules>
 
     <properties>
@@ -33,6 +34,7 @@
         <jdbc.postgres.driver.version>42.6.0</jdbc.postgres.driver.version>
         <liquibase.version>4.22.0</liquibase.version>
         <spring-doc.version>2.1.0</spring-doc.version>
+        <jwt.version>4.4.0</jwt.version>
     </properties>
 
 
@@ -92,6 +94,18 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${spring-doc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sqy</groupId>
+                <artifactId>jss-security</artifactId>
+                <version>${revision}${changelist}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
             </dependency>
 
         </dependencies>

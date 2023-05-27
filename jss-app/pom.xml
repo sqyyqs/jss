@@ -12,7 +12,7 @@
     <artifactId>jss-app</artifactId>
 
     <properties>
-        <main.class>com.sqy.Main</main.class>
+        <main.class>com.sqy.security.configuration.Main</main.class>
     </properties>
 
     <dependencies>

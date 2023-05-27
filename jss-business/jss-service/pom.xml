@@ -31,5 +31,6 @@
             <groupId>com.sqy</groupId>
             <artifactId>jss-repository</artifactId>
         </dependency>
+
     </dependencies>
 </project>

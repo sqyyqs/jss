@@ -52,7 +52,7 @@ public class Employee {
     @Nullable
     private Object account;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Nullable
     private String email;
 

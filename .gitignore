@@ -12,6 +12,7 @@
 
 #props
 *.properties
+*.yaml
 
 #all maven target
 **/target/
