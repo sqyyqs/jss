@@ -1,7 +1,8 @@
 package com.sqy.service.interfaces;
 
 import com.sqy.dto.project.ProjectDto;
-import com.sqy.dto.project.ProjectSearchParametersDto;
+import com.sqy.dto.project.ProjectNewStatusDto;
+import com.sqy.dto.project.ProjectSearchDto;
 
 import java.util.List;
 
@@ -10,11 +11,11 @@ public interface ProjectService {
 
     ProjectDto getById(Long id);
 
-    void save(ProjectDto projectDto);
+    boolean save(ProjectDto projectDto);
 
-    void update(ProjectDto projectDto);
+    boolean update(ProjectDto projectDto);
 
-    void delete(Long id);
+    boolean updateState(ProjectNewStatusDto projectNewStatusDto);
 
-    List<ProjectDto> search(ProjectSearchParametersDto projectSearchParametersDto);
+    List<ProjectDto> search(ProjectSearchDto projectSearchDto);
 }

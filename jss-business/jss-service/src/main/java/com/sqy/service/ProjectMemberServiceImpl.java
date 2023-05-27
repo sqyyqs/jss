@@ -1,59 +1,77 @@
 package com.sqy.service;
 
-import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.dto.ProjectMemberDto;
-import com.sqy.mapper.Mapper;
+import com.sqy.mapper.ProjectMemberMapper;
 import com.sqy.repository.ProjectMemberRepository;
 import com.sqy.service.interfaces.ProjectMemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+
+import static com.sqy.mapper.ProjectMemberMapper.getModelFromDto;
 
 @Service
 public class ProjectMemberServiceImpl implements ProjectMemberService {
+    private static final Logger logger = LoggerFactory.getLogger(ProjectMemberServiceImpl.class);
     private final ProjectMemberRepository projectMemberRepository;
-    private final Mapper<ProjectMemberDto, ProjectMember> projectMemberMapper;
 
-    public ProjectMemberServiceImpl(ProjectMemberRepository projectMemberRepository, Mapper<ProjectMemberDto, ProjectMember> projectMemberMapper) {
+    public ProjectMemberServiceImpl(ProjectMemberRepository projectMemberRepository) {
         this.projectMemberRepository = projectMemberRepository;
-        this.projectMemberMapper = projectMemberMapper;
     }
 
     public List<ProjectMemberDto> getAll() {
+        logger.info("Invoke getAll().");
         return projectMemberRepository.findAll()
                 .stream()
-                .map(projectMemberMapper::getDtoFromModel)
+                .map(ProjectMemberMapper::getDtoFromModel)
                 .toList();
     }
 
     @Nullable
     public ProjectMemberDto getById(Long id) {
+        logger.info("Invoke getById({}).", id);
         return projectMemberRepository.findById(id)
                 .stream()
-                .map(projectMemberMapper::getDtoFromModel)
+                .map(ProjectMemberMapper::getDtoFromModel)
                 .findAny()
                 .orElse(null);
     }
 
-    public void save(ProjectMemberDto projectMemberDto) {
-        projectMemberRepository.save(projectMemberMapper.getModelFromDto(projectMemberDto));
+    @Override
+    public List<ProjectMemberDto> getAllByProjectId(Long projectId) {
+        logger.info("Invoke getAllByProjectId({}).", projectId);
+        return projectMemberRepository.findProjectMemberByProjectProjectId(projectId)
+                .stream()
+                .map(ProjectMemberMapper::getDtoFromModel)
+                .toList();
     }
 
-    public void update(ProjectMemberDto projectMemberDto) {
-        if (!projectMemberRepository.existsById(projectMemberDto.id())) {
-            throw new IllegalArgumentException();
+    public boolean save(ProjectMemberDto projectMemberDto) {
+        logger.info("Invoke save({}).", projectMemberDto);
+        if (projectMemberDto.getId() != null) {
+            projectMemberDto.setId(null);
         }
-        projectMemberRepository.save(projectMemberMapper.getModelFromDto(projectMemberDto));
+        try {
+            projectMemberRepository.save(getModelFromDto(projectMemberDto));
+            return true;
+        } catch (DataIntegrityViolationException ex) {
+            logger.info("Invoke save({}) with exception.", projectMemberDto, ex);
+        }
+        return false;
     }
 
-    public void delete(Long id) {
+    @Override
+    public boolean delete(Long id) {
+        logger.info("Invoke delete({}).", id);
+        if (!projectMemberRepository.existsById(id)) {
+            return false;
+        }
         projectMemberRepository.deleteById(id);
+        return true;
     }
 
-    public List<ProjectMemberDto> search() {
-        return Collections.emptyList();
-        // TODO: 17.05.2023
-    }
 }

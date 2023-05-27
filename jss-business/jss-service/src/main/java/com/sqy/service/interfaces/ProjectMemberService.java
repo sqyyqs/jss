@@ -9,11 +9,10 @@ public interface ProjectMemberService {
 
     ProjectMemberDto getById(Long id);
 
-    void save(ProjectMemberDto projectMemberDto);
+    List<ProjectMemberDto> getAllByProjectId(Long id);
 
-    void update(ProjectMemberDto projectMemberDto);
+    boolean save(ProjectMemberDto projectMemberDto);
 
-    void delete(Long id);
+    boolean delete(Long id);
 
-    List<ProjectMemberDto> search();
 }

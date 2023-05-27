@@ -1,6 +1,6 @@
 package com.sqy.service.interfaces;
 
-import com.sqy.dto.EmployeeDto;
+import com.sqy.dto.employee.EmployeeDto;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ public interface EmployeeService {
 
     EmployeeDto getById(Long id);
 
-    void save(EmployeeDto employeeDto);
+    boolean save(EmployeeDto employeeDto);
 
-    void update(EmployeeDto employeeDto);
+    boolean update(EmployeeDto employeeDto);
 
-    void delete(Long id);
+    boolean delete(Long id);
 
-    List<EmployeeDto> search();
+    List<EmployeeDto> search(String value);
 }

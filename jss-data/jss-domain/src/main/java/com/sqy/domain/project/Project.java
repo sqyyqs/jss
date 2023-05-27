@@ -4,6 +4,8 @@ import com.sqy.domain.projectmember.ProjectMember;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +30,7 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
-    private Long id;
+    private Long projectId;
 
     @Column(name = "code", nullable = false, unique = true)
     private String code;
@@ -41,6 +43,7 @@ public class Project {
     private String description;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProjectStatus projectStatus;
 
     @OneToMany(mappedBy = "project")

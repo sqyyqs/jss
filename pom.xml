@@ -32,7 +32,6 @@
         <lombok.version>1.18.26</lombok.version>
         <jdbc.postgres.driver.version>42.6.0</jdbc.postgres.driver.version>
         <liquibase.version>4.22.0</liquibase.version>
-<!--        <hibernate.version>6.2.2.Final</hibernate.version>-->
     </properties>
 
 

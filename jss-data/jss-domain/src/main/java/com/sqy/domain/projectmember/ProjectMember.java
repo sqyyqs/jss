@@ -5,6 +5,8 @@ import com.sqy.domain.project.Project;
 import com.sqy.domain.task.Task;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +31,7 @@ public class ProjectMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_member_id")
-    private Long id;
+    private Long projectMemberId;
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
@@ -40,6 +42,7 @@ public class ProjectMember {
     private Employee employee;
 
     @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProjectMemberRole projectMemberRole;
 
     @OneToOne(mappedBy = "author")

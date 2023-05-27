@@ -1,40 +1,83 @@
 package com.sqy.controller;
 
-import com.sqy.dto.EmployeeDto;
+import com.sqy.dto.employee.EmployeeDto;
 import com.sqy.service.interfaces.EmployeeService;
-import org.springframework.stereotype.Controller;
+import com.sqy.util.MappingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/employee")
 public class EmployeeController {
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    public List<EmployeeDto> getAll() {
-        return employeeService.getAll();
+    @GetMapping
+    public ResponseEntity<List<EmployeeDto>> getAll() {
+        logger.info("Invoke getAll().");
+        return ResponseEntity.ok(employeeService.getAll());
     }
 
-    public EmployeeDto getById(Long id) {
-        return employeeService.getById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDto> getById(@PathVariable("id") Long id) {
+        logger.info("Invoke getById({}).", id);
+        EmployeeDto result = employeeService.getById(id);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
     }
 
-    public void save(EmployeeDto employeeDto) {
-        employeeService.save(employeeDto);
+    @PostMapping("/save")
+    public ResponseEntity<String> save(@RequestBody EmployeeDto employeeDto) {
+        logger.info("Invoke save({}).", employeeDto);
+        boolean status = employeeService.save(employeeDto);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
-    public void update(EmployeeDto employeeDto) {
-        employeeService.update(employeeDto);
+    @PutMapping("/update")
+    public ResponseEntity<String> update(@RequestBody EmployeeDto employeeDto) {
+        logger.info("Invoke update({}).", employeeDto);
+        boolean status = employeeService.update(employeeDto);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    public void delete(Long id) {
-        employeeService.delete(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+        logger.info("Invoke delete({}).", id);
+        boolean status = employeeService.delete(id);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    public List<EmployeeDto> search() {
-        return employeeService.search();
+    @GetMapping("/search/{value}")
+    public ResponseEntity<List<EmployeeDto>> search(@PathVariable("value") String value) {
+        logger.info("Invoke search({}).", value);
+        return ResponseEntity.ok(employeeService.search(value));
     }
 }
