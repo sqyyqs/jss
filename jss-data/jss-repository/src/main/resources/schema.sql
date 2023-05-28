@@ -1,15 +1,31 @@
+CREATE TYPE employee_status AS ENUM (
+    'ACTIVE',
+    'DELETED'
+    );
+
 create table employee
 (
     employee_id serial,
-    first_name  varchar(255) not null,
-    last_name   varchar(255) not null,
+    first_name  varchar(255)    not null,
+    last_name   varchar(255)    not null,
     middle_name varchar(255),
     position    varchar(255),
-    account     json,
+    account     bytea,
     email       varchar(255),
-    status      varchar(50)  not null,
+    status      employee_status not null,
     primary key (employee_id)
 );
+
+CREATE UNIQUE INDEX employee_unique_account
+    ON employee (account)
+    WHERE status = 'ACTIVE';
+
+CREATE TYPE project_status AS ENUM (
+    'DRAFT',
+    'IN_PROGRESS',
+    'IN_TESTING',
+    'COMPLETED'
+    );
 
 create table project
 (
@@ -17,9 +33,16 @@ create table project
     code        varchar(255) unique not null,
     name        varchar(255)        not null,
     description text,
-    status      varchar(50)         not null,
+    status      project_status      not null,
     primary key (project_id)
 );
+
+CREATE TYPE project_member_role AS ENUM (
+    'LEAD',
+    'ANALYST',
+    'DEVELOPER',
+    'TESTER'
+    );
 
 create table project_member
 (
@@ -32,6 +55,12 @@ create table project_member
     foreign key (employee_id) references employee (employee_id) on delete cascade
 );
 
+CREATE TYPE task_status AS ENUM (
+    'NEW',
+    'IN_PROGRESS',
+    'COMPLETED',
+    'CLOSED'
+    );
 
 create table task
 (
@@ -43,9 +72,25 @@ create table task
     deadline         timestamp    not null,
     status           varchar(50)  not null,
     author_id        int          not null,
-    creation_date    timestamp    not null,
-    last_update_date timestamp    not null,
+    creation_date    timestamp default current_timestamp,
+    last_update_date timestamp default current_timestamp,
     primary key (task_id),
     foreign key (performer_id) references employee (employee_id) on delete set null,
     foreign key (author_id) references project_member (project_member_id) on delete set null
 );
+
+CREATE OR REPLACE FUNCTION update_last_modified()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+    NEW.last_update_date = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER task_last_modified
+    BEFORE UPDATE
+    ON task
+    FOR EACH ROW
+EXECUTE FUNCTION update_last_modified();

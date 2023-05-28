@@ -1,40 +1,45 @@
 package com.sqy.mapper;
 
+import com.sqy.domain.employee.Employee;
+import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
-import com.sqy.dto.TaskDto;
-import org.springframework.stereotype.Component;
+import com.sqy.dto.task.TaskDto;
 
-@Component
-public class TaskMapper implements Mapper<TaskDto, Task> {
-    @Override
-    public Task getModelFromDto(TaskDto taskDto) {
+public class TaskMapper {
+
+    public static Task getModelFromDto(TaskDto taskDto) {
         Task task = new Task();
-        task.setId(taskDto.id());
-        task.setName(taskDto.name());
-        task.setDescription(taskDto.description());
-        task.setPerformer(taskDto.performer());
-        task.setEstimatedHours(taskDto.estimatedHours());
-        task.setDeadline(taskDto.deadline());
-        task.setStatus(taskDto.status());
-        task.setAuthor(taskDto.author());
-        task.setCreationDate(taskDto.creationDate());
-        task.setLastUpdateDate(taskDto.lastUpdateDate());
+        task.setTaskId(taskDto.getId());
+        task.setName(taskDto.getName());
+        task.setDescription(taskDto.getDescription());
+        task.setEstimatedHours(taskDto.getEstimatedHours());
+        task.setDeadline(taskDto.getDeadline());
+        task.setStatus(taskDto.getStatus());
+        task.setCreationDate(taskDto.getCreationDate());
+        task.setLastUpdateDate(taskDto.getLastUpdateDate());
+
+        ProjectMember author = new ProjectMember();
+        author.setProjectMemberId(taskDto.getAuthorId());
+        task.setAuthor(author);
+
+        Employee employee = new Employee();
+        employee.setEmployeeId(taskDto.getPerformerId());
+        task.setPerformer(employee);
         return task;
     }
 
-    @Override
-    public TaskDto getDtoFromModel(Task task) {
-        return new TaskDto(
-                task.getId(),
-                task.getName(),
-                task.getDescription(),
-                task.getPerformer(),
-                task.getEstimatedHours(),
-                task.getDeadline(),
-                task.getStatus(),
-                task.getAuthor(),
-                task.getCreationDate(),
-                task.getLastUpdateDate()
-        );
+    public static TaskDto getDtoFromModel(Task task) {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setId(task.getTaskId());
+        taskDto.setName(task.getName());
+        taskDto.setDescription(task.getDescription());
+        taskDto.setPerformerId(task.getPerformer().getEmployeeId());
+        taskDto.setEstimatedHours(task.getTaskId());
+        taskDto.setDeadline(task.getDeadline());
+        taskDto.setStatus(task.getStatus());
+        taskDto.setAuthorId(task.getAuthor().getProjectMemberId());
+        taskDto.setCreationDate(task.getCreationDate());
+        taskDto.setLastUpdateDate(task.getLastUpdateDate());
+        return taskDto;
     }
 }

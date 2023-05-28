@@ -1,27 +1,33 @@
 package com.sqy.mapper;
 
+import com.sqy.domain.employee.Employee;
+import com.sqy.domain.project.Project;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.dto.ProjectMemberDto;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ProjectMemberMapper implements Mapper<ProjectMemberDto, ProjectMember> {
-    @Override
-    public ProjectMember getModelFromDto(ProjectMemberDto projectMemberDto) {
+public class ProjectMemberMapper {
+    public static ProjectMember getModelFromDto(ProjectMemberDto projectMemberDto) {
         ProjectMember projectMember = new ProjectMember();
-        projectMember.setId(projectMemberDto.id());
-        projectMember.setProject(projectMemberDto.project());
-        projectMember.setEmployee(projectMemberDto.employee());
-        projectMember.setProjectMemberRole(projectMemberDto.projectMemberRole());
+
+        projectMember.setProjectMemberId(projectMemberDto.getId());
+        projectMember.setProjectMemberRole(projectMemberDto.getProjectMemberRole());
+
+        Project project = new Project();
+        project.setProjectId(projectMemberDto.getProjectId());
+        projectMember.setProject(project);
+
+        Employee employee = new Employee();
+        employee.setEmployeeId(projectMemberDto.getEmployeeId());
+        projectMember.setEmployee(employee);
+
         return projectMember;
     }
 
-    @Override
-    public ProjectMemberDto getDtoFromModel(ProjectMember projectMember) {
+    public static ProjectMemberDto getDtoFromModel(ProjectMember projectMember) {
         return new ProjectMemberDto(
-                projectMember.getId(),
-                projectMember.getProject(),
-                projectMember.getEmployee(),
+                projectMember.getProjectMemberId(),
+                projectMember.getProject().getProjectId(),
+                projectMember.getEmployee().getEmployeeId(),
                 projectMember.getProjectMemberRole()
         );
     }

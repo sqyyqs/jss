@@ -1,19 +1,17 @@
 package com.sqy.service.interfaces;
 
-import com.sqy.dto.TaskDto;
+import com.sqy.dto.task.TaskDto;
+import com.sqy.dto.task.TaskFilterDto;
+import com.sqy.dto.task.TaskNewStatusDto;
 
 import java.util.List;
 
 public interface TaskService {
-    List<TaskDto> getAll();
+    Long save(TaskDto taskDto);
 
-    TaskDto getById(Long id);
+    boolean update(TaskDto taskDto);
 
-    void save(TaskDto taskDto);
+    boolean updateStatus(TaskNewStatusDto taskNewStatusDto);
 
-    void update(TaskDto taskDto);
-
-    void delete(Long id);
-
-    List<TaskDto> search();
+    List<TaskDto> searchByFilters(TaskFilterDto taskFilterDto);
 }

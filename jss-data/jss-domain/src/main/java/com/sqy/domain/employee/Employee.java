@@ -5,6 +5,8 @@ import com.sqy.domain.task.Task;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +32,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
-    private Long id;
+    private Long employeeId;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -50,11 +52,12 @@ public class Employee {
     @Nullable
     private Object account;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Nullable
     private String email;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private EmployeeStatus status;
 
     @OneToMany(mappedBy = "employee")
@@ -62,4 +65,5 @@ public class Employee {
 
     @OneToOne(mappedBy = "performer")
     private Task task;
+
 }

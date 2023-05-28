@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    username:
+    password:
+    url:
+    driver-class-name:
+  liquibase:
+    change-log:
+    enabled:

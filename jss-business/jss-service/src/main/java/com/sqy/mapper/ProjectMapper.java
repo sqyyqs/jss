@@ -1,25 +1,24 @@
 package com.sqy.mapper;
 
 import com.sqy.domain.project.Project;
+import com.sqy.domain.project.ProjectStatus;
 import com.sqy.dto.project.ProjectDto;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ProjectMapper implements Mapper<ProjectDto, Project> {
-    @Override
-    public Project getModelFromDto(ProjectDto projectDto) {
+public class ProjectMapper {
+
+    public static Project getModelFromDto(ProjectDto projectDto) {
         Project project = new Project();
-        project.setId(projectDto.id());
-        project.setName(projectDto.name());
-        project.setDescription(projectDto.description());
-        project.setProjectStatus(projectDto.projectStatus());
+        project.setProjectId(projectDto.getId());
+        project.setCode(projectDto.getCode());
+        project.setName(projectDto.getName());
+        project.setDescription(projectDto.getDescription());
+        project.setProjectStatus(ProjectStatus.DRAFT);
         return project;
     }
 
-    @Override
-    public ProjectDto getDtoFromModel(Project project) {
+    public static ProjectDto getDtoFromModel(Project project) {
         return new ProjectDto(
-                project.getId(),
+                project.getProjectId(),
                 project.getCode(),
                 project.getName(),
                 project.getDescription(),

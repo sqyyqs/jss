@@ -5,6 +5,8 @@ import com.sqy.domain.projectmember.ProjectMember;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -30,7 +33,7 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
-    private Long id;
+    private Long taskId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -50,15 +53,18 @@ public class Task {
     private LocalDateTime deadline;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
     @OneToOne
     @JoinColumn(name = "author_id", referencedColumnName = "project_member_id")
     private ProjectMember author;
 
-    @Column(name = "creation_date", nullable = false)
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime creationDate;
 
     @Column(name = "last_update_date", nullable = false)
+    @CreationTimestamp
     private LocalDateTime lastUpdateDate;
 }
