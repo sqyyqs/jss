@@ -1,4 +1,4 @@
-package com.sqy.security;
+package com.sqy.security.principle;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 

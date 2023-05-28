@@ -11,7 +11,7 @@ public interface ProjectMemberService {
 
     List<ProjectMemberDto> getAllByProjectId(Long id);
 
-    boolean save(ProjectMemberDto projectMemberDto);
+    Long save(ProjectMemberDto projectMemberDto);
 
     boolean delete(Long id);
 

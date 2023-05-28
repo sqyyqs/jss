@@ -97,16 +97,17 @@
             </dependency>
 
             <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.sqy</groupId>
                 <artifactId>jss-security</artifactId>
                 <version>${revision}${changelist}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>${jwt.version}</version>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>

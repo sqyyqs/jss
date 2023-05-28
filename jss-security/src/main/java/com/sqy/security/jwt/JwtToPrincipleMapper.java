@@ -1,7 +1,8 @@
-package com.sqy.security;
+package com.sqy.security.jwt;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.sqy.security.principle.UserPrinciple;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 

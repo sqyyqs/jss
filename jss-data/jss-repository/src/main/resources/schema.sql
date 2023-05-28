@@ -16,6 +16,10 @@ create table employee
     primary key (employee_id)
 );
 
+CREATE UNIQUE INDEX employee_unique_account
+    ON employee (account)
+    WHERE status = 'ACTIVE';
+
 CREATE TYPE project_status AS ENUM (
     'DRAFT',
     'IN_PROGRESS',

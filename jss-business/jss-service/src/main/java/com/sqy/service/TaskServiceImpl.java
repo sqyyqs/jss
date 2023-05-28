@@ -9,8 +9,8 @@ import com.sqy.mapper.TaskMapper;
 import com.sqy.repository.TaskRepository;
 import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.TaskSpecificationBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,32 +21,29 @@ import java.util.List;
 import static com.sqy.mapper.TaskMapper.getModelFromDto;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class TaskServiceImpl implements TaskService {
-    private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+
     private final TaskRepository taskRepository;
 
-    public TaskServiceImpl(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
-
     @Override
-    public boolean save(TaskDto taskDto) {
-        logger.info("Invoke save({}).", taskDto);
+    public Long save(TaskDto taskDto) {
+        log.info("Invoke save({}).", taskDto);
         if (taskDto.getId() != null) {
             taskDto.setId(null);
         }
         try {
-            taskRepository.save(getModelFromDto(taskDto));
-            return true;
+            return taskRepository.save(getModelFromDto(taskDto)).getTaskId();
         } catch (DataIntegrityViolationException ex) {
-            logger.info("Invoke save({}) with exception.", taskDto, ex);
+            log.info("Invoke save({}) with exception.", taskDto, ex);
         }
-        return false;
+        return null;
     }
 
     @Override
     public boolean update(TaskDto taskDto) {
-        logger.info("Invoke update({}).", taskDto);
+        log.info("Invoke update({}).", taskDto);
         if (taskDto.getId() == null || !taskRepository.existsById(taskDto.getId())) {
             return false;
         }
@@ -54,14 +51,14 @@ public class TaskServiceImpl implements TaskService {
             taskRepository.save(getModelFromDto(taskDto));
             return true;
         } catch (DataIntegrityViolationException ex) {
-            logger.info("Invoke update({}) with exception.", taskDto, ex);
+            log.info("Invoke update({}) with exception.", taskDto, ex);
         }
         return false;
     }
 
     @Override
     public boolean updateStatus(TaskNewStatusDto taskNewStatusDto) {
-        logger.info("Invoke updateStatus({}).", taskNewStatusDto);
+        log.info("Invoke updateStatus({}).", taskNewStatusDto);
         Task task = taskRepository.findById(taskNewStatusDto.id()).orElse(null);
         if (task == null) {
             return false;
@@ -93,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDto> searchByFilters(TaskFilterDto taskFilterDto) {
-        logger.info("Invoke searchByFilters({}).", taskFilterDto);
+        log.info("Invoke searchByFilters({}).", taskFilterDto);
         Specification<Task> specification = TaskSpecificationBuilder.buildSpecification(taskFilterDto);
         return taskRepository.findAll(specification, Sort.by(Sort.Direction.DESC, "creationDate"))
                 .stream()

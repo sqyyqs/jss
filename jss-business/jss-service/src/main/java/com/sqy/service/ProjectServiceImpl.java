@@ -8,8 +8,8 @@ import com.sqy.dto.project.ProjectSearchDto;
 import com.sqy.mapper.ProjectMapper;
 import com.sqy.repository.ProjectRepository;
 import com.sqy.service.interfaces.ProjectService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +18,14 @@ import java.util.List;
 import static com.sqy.mapper.ProjectMapper.getModelFromDto;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProjectServiceImpl implements ProjectService {
-    private static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
+
     private final ProjectRepository projectRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
-
     public List<ProjectDto> getAll() {
-        logger.info("Invoke getAll().");
+        log.info("Invoke getAll().");
         return projectRepository.findAll()
                 .stream()
                 .map(ProjectMapper::getDtoFromModel)
@@ -36,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Nullable
     public ProjectDto getById(Long id) {
-        logger.info("Invoke getById({}).", id);
+        log.info("Invoke getById({}).", id);
         return projectRepository.findById(id)
                 .stream()
                 .map(ProjectMapper::getDtoFromModel)
@@ -44,20 +42,19 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElse(null);
     }
 
-    public boolean save(ProjectDto projectDto) {
-        logger.info("Invoke save({}).", projectDto);
+    public Long save(ProjectDto projectDto) {
+        log.info("Invoke save({}).", projectDto);
         if (projectRepository.existsByCode(projectDto.getCode())) {
-            return false;
+            return null;
         }
         if (projectDto.getId() != null) {
             projectDto.setId(null);
         }
-        projectRepository.save(getModelFromDto(projectDto));
-        return true;
+        return projectRepository.save(getModelFromDto(projectDto)).getProjectId();
     }
 
     public boolean update(ProjectDto projectDto) {
-        logger.info("Invoke update({}).", projectDto);
+        log.info("Invoke update({}).", projectDto);
         if (projectDto.getId() == null || projectDto.getCode() == null
                 || projectRepository.existsByCode(projectDto.getCode())) {
             return false;
@@ -74,7 +71,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public boolean updateState(ProjectNewStatusDto projectNewStatusDto) {
-        logger.info("Invoke updateState({}).", projectNewStatusDto);
+        log.info("Invoke updateState({}).", projectNewStatusDto);
         Project project = projectRepository.findById(projectNewStatusDto.id()).orElse(null);
         if (project == null) {
             return false;
@@ -105,6 +102,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public List<ProjectDto> search(ProjectSearchDto projectSearchDto) {
+        log.info("Invoke search({}).", projectSearchDto);
         return projectRepository
                 .findByFieldsContainingWithStatuses(projectSearchDto.value(), projectSearchDto.statuses())
                 .stream()

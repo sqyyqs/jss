@@ -6,8 +6,8 @@ import com.sqy.dto.employee.EmployeeDto;
 import com.sqy.mapper.EmployeeMapper;
 import com.sqy.repository.EmployeeRepository;
 import com.sqy.service.interfaces.EmployeeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +16,14 @@ import java.util.List;
 import static com.sqy.mapper.EmployeeMapper.getModelFromDto;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
     public List<EmployeeDto> getAll() {
-        logger.info("Invoke getAll().");
+        log.info("Invoke getAll().");
         return employeeRepository.findAll()
                 .stream()
                 .map(EmployeeMapper::getDtoFromModel)
@@ -35,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Nullable
     public EmployeeDto getById(Long id) {
-        logger.info("Invoke getById({}).", id);
+        log.info("Invoke getById({}).", id);
         return employeeRepository.findById(id)
                 .stream()
                 .map(EmployeeMapper::getDtoFromModel)
@@ -43,17 +40,16 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElse(null);
     }
 
-    public boolean save(EmployeeDto employeeDto) {
-        logger.info("Invoke save({}).", employeeDto);
+    public Long save(EmployeeDto employeeDto) {
+        log.info("Invoke save({}).", employeeDto);
         if (employeeDto.getId() != null) {
             employeeDto.setId(null);
         }
-        employeeRepository.save(getModelFromDto(employeeDto));
-        return true;
+        return employeeRepository.save(getModelFromDto(employeeDto)).getEmployeeId();
     }
 
     public boolean update(EmployeeDto employeeDto) {
-        logger.info("Invoke update({}).", employeeDto);
+        log.info("Invoke update({}).", employeeDto);
         if (employeeDto.getId() == null) {
             return false;
         }
@@ -68,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public boolean delete(Long id) {
-        logger.info("Invoke delete({}).", id);
+        log.info("Invoke delete({}).", id);
         return employeeRepository.findById(id)
                 .map(employee -> {
                     employee.setStatus(EmployeeStatus.DELETED);
@@ -79,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public List<EmployeeDto> search(String value) {
-        logger.info("Invoke search({}).", value);
+        log.info("Invoke search({}).", value);
         return employeeRepository.findByFieldsContaining(value)
                 .stream()
                 .map(EmployeeMapper::getDtoFromModel)

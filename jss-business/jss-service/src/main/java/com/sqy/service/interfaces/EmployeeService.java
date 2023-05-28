@@ -9,7 +9,7 @@ public interface EmployeeService {
 
     EmployeeDto getById(Long id);
 
-    boolean save(EmployeeDto employeeDto);
+    Long save(EmployeeDto employeeDto);
 
     boolean update(EmployeeDto employeeDto);
 

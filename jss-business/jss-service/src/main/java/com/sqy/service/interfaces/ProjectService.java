@@ -11,7 +11,7 @@ public interface ProjectService {
 
     ProjectDto getById(Long id);
 
-    boolean save(ProjectDto projectDto);
+    Long save(ProjectDto projectDto);
 
     boolean update(ProjectDto projectDto);
 

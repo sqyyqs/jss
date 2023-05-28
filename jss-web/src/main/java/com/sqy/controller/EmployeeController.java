@@ -3,8 +3,8 @@ package com.sqy.controller;
 import com.sqy.dto.employee.EmployeeDto;
 import com.sqy.service.interfaces.EmployeeService;
 import com.sqy.util.MappingUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,24 +20,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employee")
+@RequiredArgsConstructor
+@Slf4j
 public class EmployeeController {
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
     @GetMapping
     public ResponseEntity<List<EmployeeDto>> getAll() {
-        logger.info("Invoke getAll().");
+        log.info("Invoke getAll().");
         return ResponseEntity.ok(employeeService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> getById(@PathVariable("id") Long id) {
-        logger.info("Invoke getById({}).", id);
+        log.info("Invoke getById({}).", id);
         EmployeeDto result = employeeService.getById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
@@ -47,17 +44,17 @@ public class EmployeeController {
 
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody EmployeeDto employeeDto) {
-        logger.info("Invoke save({}).", employeeDto);
-        boolean status = employeeService.save(employeeDto);
-        if (status) {
-            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        log.info("Invoke save({}).", employeeDto);
+        Long resultId = employeeService.save(employeeDto);
+        if (resultId != null) {
+            return ResponseEntity.ok("{\"id\": " + resultId + "}");
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/update")
     public ResponseEntity<String> update(@RequestBody EmployeeDto employeeDto) {
-        logger.info("Invoke update({}).", employeeDto);
+        log.info("Invoke update({}).", employeeDto);
         boolean status = employeeService.update(employeeDto);
         if (status) {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
@@ -67,7 +64,7 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        logger.info("Invoke delete({}).", id);
+        log.info("Invoke delete({}).", id);
         boolean status = employeeService.delete(id);
         if (status) {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
@@ -77,7 +74,7 @@ public class EmployeeController {
 
     @GetMapping("/search/{value}")
     public ResponseEntity<List<EmployeeDto>> search(@PathVariable("value") String value) {
-        logger.info("Invoke search({}).", value);
+        log.info("Invoke search({}).", value);
         return ResponseEntity.ok(employeeService.search(value));
     }
 }

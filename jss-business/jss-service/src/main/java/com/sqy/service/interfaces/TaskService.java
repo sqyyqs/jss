@@ -7,7 +7,7 @@ import com.sqy.dto.task.TaskNewStatusDto;
 import java.util.List;
 
 public interface TaskService {
-    boolean save(TaskDto taskDto);
+    Long save(TaskDto taskDto);
 
     boolean update(TaskDto taskDto);
 

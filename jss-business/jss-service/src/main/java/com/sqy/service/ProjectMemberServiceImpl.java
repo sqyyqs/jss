@@ -4,8 +4,8 @@ import com.sqy.dto.ProjectMemberDto;
 import com.sqy.mapper.ProjectMemberMapper;
 import com.sqy.repository.ProjectMemberRepository;
 import com.sqy.service.interfaces.ProjectMemberService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -15,16 +15,14 @@ import java.util.List;
 import static com.sqy.mapper.ProjectMemberMapper.getModelFromDto;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ProjectMemberServiceImpl implements ProjectMemberService {
-    private static final Logger logger = LoggerFactory.getLogger(ProjectMemberServiceImpl.class);
+
     private final ProjectMemberRepository projectMemberRepository;
 
-    public ProjectMemberServiceImpl(ProjectMemberRepository projectMemberRepository) {
-        this.projectMemberRepository = projectMemberRepository;
-    }
-
     public List<ProjectMemberDto> getAll() {
-        logger.info("Invoke getAll().");
+        log.info("Invoke getAll().");
         return projectMemberRepository.findAll()
                 .stream()
                 .map(ProjectMemberMapper::getDtoFromModel)
@@ -33,7 +31,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Nullable
     public ProjectMemberDto getById(Long id) {
-        logger.info("Invoke getById({}).", id);
+        log.info("Invoke getById({}).", id);
         return projectMemberRepository.findById(id)
                 .stream()
                 .map(ProjectMemberMapper::getDtoFromModel)
@@ -43,30 +41,29 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     public List<ProjectMemberDto> getAllByProjectId(Long projectId) {
-        logger.info("Invoke getAllByProjectId({}).", projectId);
+        log.info("Invoke getAllByProjectId({}).", projectId);
         return projectMemberRepository.findProjectMemberByProjectProjectId(projectId)
                 .stream()
                 .map(ProjectMemberMapper::getDtoFromModel)
                 .toList();
     }
 
-    public boolean save(ProjectMemberDto projectMemberDto) {
-        logger.info("Invoke save({}).", projectMemberDto);
+    public Long save(ProjectMemberDto projectMemberDto) {
+        log.info("Invoke save({}).", projectMemberDto);
         if (projectMemberDto.getId() != null) {
             projectMemberDto.setId(null);
         }
         try {
-            projectMemberRepository.save(getModelFromDto(projectMemberDto));
-            return true;
+            return projectMemberRepository.save(getModelFromDto(projectMemberDto)).getProjectMemberId();
         } catch (DataIntegrityViolationException ex) {
-            logger.info("Invoke save({}) with exception.", projectMemberDto, ex);
+            log.info("Invoke save({}) with exception.", projectMemberDto, ex);
         }
-        return false;
+        return null;
     }
 
     @Override
     public boolean delete(Long id) {
-        logger.info("Invoke delete({}).", id);
+        log.info("Invoke delete({}).", id);
         if (!projectMemberRepository.existsById(id)) {
             return false;
         }
@@ -75,3 +72,5 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
 }
+
+

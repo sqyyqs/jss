@@ -1,5 +1,6 @@
-package com.sqy.security;
+package com.sqy.security.jwt;
 
+import com.sqy.security.principle.UserPrincipleAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
