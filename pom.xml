@@ -35,6 +35,7 @@
         <liquibase.version>4.22.0</liquibase.version>
         <spring-doc.version>2.1.0</spring-doc.version>
         <jwt.version>4.4.0</jwt.version>
+        <test-containers.version>1.18.2</test-containers.version>
     </properties>
 
 
@@ -108,6 +109,19 @@
                 <version>${revision}${changelist}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${test-containers.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${test-containers.version}</version>
+                <scope>test</scope>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

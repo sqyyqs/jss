@@ -19,5 +19,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             + " e.code         LIKE %:value%)")
     List<Project> findByFieldsContainingWithStatuses(@Param("value") String value, @Param("statuses") Set<ProjectStatus> statuses);
 
+    boolean existsByCodeAndProjectIdNot(String code, Long id);
+
     boolean existsByCode(String code);
+
 }

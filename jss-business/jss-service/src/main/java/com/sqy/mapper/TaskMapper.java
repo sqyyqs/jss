@@ -34,12 +34,13 @@ public class TaskMapper {
         taskDto.setName(task.getName());
         taskDto.setDescription(task.getDescription());
         taskDto.setPerformerId(task.getPerformer().getEmployeeId());
-        taskDto.setEstimatedHours(task.getTaskId());
+        taskDto.setEstimatedHours(task.getEstimatedHours());
         taskDto.setDeadline(task.getDeadline());
         taskDto.setStatus(task.getStatus());
         taskDto.setAuthorId(task.getAuthor().getProjectMemberId());
         taskDto.setCreationDate(task.getCreationDate());
         taskDto.setLastUpdateDate(task.getLastUpdateDate());
+
         return taskDto;
     }
 }
