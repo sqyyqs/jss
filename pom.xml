@@ -36,6 +36,7 @@
         <spring-doc.version>2.1.0</spring-doc.version>
         <jwt.version>4.4.0</jwt.version>
         <test-containers.version>1.18.2</test-containers.version>
+        <mustache.version>0.9.10</mustache.version>
     </properties>
 
 
@@ -121,6 +122,12 @@
                 <artifactId>junit-jupiter</artifactId>
                 <version>${test-containers.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.spullara.mustache.java</groupId>
+                <artifactId>compiler</artifactId>
+                <version>${mustache.version}</version>
             </dependency>
 
         </dependencies>

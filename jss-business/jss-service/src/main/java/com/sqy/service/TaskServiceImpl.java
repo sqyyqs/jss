@@ -1,6 +1,9 @@
 package com.sqy.service;
 
+import com.sqy.domain.email.Email;
+import com.sqy.domain.email.EmailTemplate;
 import com.sqy.domain.task.Task;
+import com.sqy.domain.task.TaskEmailInfo;
 import com.sqy.domain.task.TaskStatus;
 import com.sqy.dto.task.TaskDto;
 import com.sqy.dto.task.TaskFilterDto;
@@ -8,6 +11,7 @@ import com.sqy.dto.task.TaskNewStatusDto;
 import com.sqy.mapper.TaskMapper;
 import com.sqy.repository.TaskRepository;
 import com.sqy.service.interfaces.TaskService;
+import com.sqy.util.EmailTemplateProcessor;
 import com.sqy.util.TaskSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +21,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import static com.sqy.mapper.TaskMapper.getModelFromDto;
 
@@ -27,6 +33,7 @@ import static com.sqy.mapper.TaskMapper.getModelFromDto;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final EmailService emailService;
 
     @Override
     @Nullable
@@ -36,7 +43,25 @@ public class TaskServiceImpl implements TaskService {
             taskDto.setId(null);
         }
         try {
-            return taskRepository.save(getModelFromDto(taskDto)).getTaskId();
+            Long savedId = taskRepository.save(getModelFromDto(taskDto)).getTaskId();
+
+            TaskEmailInfo info = taskRepository.getTaskEmailInfoByTaskId(savedId);
+            if (info.getTo() == null) {
+                return savedId;
+            }
+            Email email = Email.builder().recipient(info.getTo())
+                    .subject("У вас новая задача!")
+                    .html(EmailTemplateProcessor.prepareMessage(EmailTemplate.EMPLOYEE_EMAIL, Map.of(
+                            "performer.first.name", info.getPerformerFirstName(),
+                            "performer.last.name", info.getPerformerLastName(),
+                            "project.name", info.getProjectName(),
+                            "task.name", info.getTaskName(),
+                            "task.deadline", info.getTaskDeadline().format(DateTimeFormatter.ISO_LOCAL_DATE),
+                            "author.first.name", info.getAuthorFirstName(),
+                            "author.last.name", info.getAuthorLastName()
+                    ))).build();
+            emailService.sendEmail(email);
+            return savedId;
         } catch (DataIntegrityViolationException ex) {
             log.info("Invoke save({}) with exception.", taskDto, ex);
         }
