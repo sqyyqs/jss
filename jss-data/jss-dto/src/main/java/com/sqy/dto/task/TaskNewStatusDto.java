@@ -8,13 +8,12 @@ import com.sqy.domain.task.TaskStatus;
 import java.util.Objects;
 
 public record TaskNewStatusDto(
-        long id,
-        TaskStatus newTaskStatus
+        @JsonProperty("id") long id,
+        @JsonProperty("new_task_status") TaskStatus newTaskStatus
 ) {
     @JsonCreator
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public TaskNewStatusDto(@JsonProperty("id") long id,
-                            @JsonProperty("new_task_status") TaskStatus newTaskStatus) {
+    public TaskNewStatusDto(long id, TaskStatus newTaskStatus) {
         this.id = id;
         this.newTaskStatus = Objects.requireNonNull(newTaskStatus);
     }

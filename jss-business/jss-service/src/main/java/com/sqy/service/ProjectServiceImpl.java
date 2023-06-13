@@ -24,6 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
 
+    @Override
     public List<ProjectDto> getAll() {
         log.info("Invoke getAll().");
         return projectRepository.findAll()
@@ -33,6 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Nullable
+    @Override
     public ProjectDto getById(Long id) {
         log.info("Invoke getById({}).", id);
         return projectRepository.findById(id)
@@ -42,6 +44,8 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElse(null);
     }
 
+    @Nullable
+    @Override
     public Long save(ProjectDto projectDto) {
         log.info("Invoke save({}).", projectDto);
         if (projectRepository.existsByCode(projectDto.getCode())) {
@@ -53,10 +57,10 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.save(getModelFromDto(projectDto)).getProjectId();
     }
 
+    @Override
     public boolean update(ProjectDto projectDto) {
         log.info("Invoke update({}).", projectDto);
-        if (projectDto.getId() == null || projectDto.getCode() == null
-                || projectRepository.existsByCode(projectDto.getCode())) {
+        if (projectDto.getId() == null || projectRepository.existsByCodeAndProjectIdNot(projectDto.getCode(), projectDto.getId())) {
             return false;
         }
         Project project = projectRepository.findById(projectDto.getId()).orElse(null);
@@ -70,6 +74,7 @@ public class ProjectServiceImpl implements ProjectService {
         return true;
     }
 
+    @Override
     public boolean updateState(ProjectNewStatusDto projectNewStatusDto) {
         log.info("Invoke updateState({}).", projectNewStatusDto);
         Project project = projectRepository.findById(projectNewStatusDto.id()).orElse(null);
@@ -101,6 +106,7 @@ public class ProjectServiceImpl implements ProjectService {
         return true;
     }
 
+    @Override
     public List<ProjectDto> search(ProjectSearchDto projectSearchDto) {
         log.info("Invoke search({}).", projectSearchDto);
         return projectRepository

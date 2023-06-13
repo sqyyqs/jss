@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     @Override
+    @Nullable
     public Long save(TaskDto taskDto) {
         log.info("Invoke save({}).", taskDto);
         if (taskDto.getId() != null) {
@@ -85,7 +87,7 @@ public class TaskServiceImpl implements TaskService {
         }
         task.setStatus(taskNewStatusDto.newTaskStatus());
         taskRepository.save(task);
-        return false;
+        return true;
     }
 
     @Override

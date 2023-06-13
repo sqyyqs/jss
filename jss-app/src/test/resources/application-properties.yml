@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    username: ${CONTAINER.USERNAME}
+    password: ${CONTAINER.PASSWORD}
+    url: ${CONTAINER.URL}
+  liquibase:
+    enabled: false
+  jpa:
+    show-sql: true

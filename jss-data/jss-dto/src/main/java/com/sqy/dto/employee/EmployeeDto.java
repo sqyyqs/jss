@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sqy.domain.employee.EmployeeStatus;
 import jakarta.annotation.Nullable;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,40 +19,44 @@ import static java.util.Objects.requireNonNull;
 @Setter
 @NoArgsConstructor
 @ToString
+@Builder
+@EqualsAndHashCode
 public class EmployeeDto {
     @Nullable
+    @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("first_name")
     private String firstName;
 
+    @JsonProperty("last_name")
     private String lastName;
 
     @Nullable
+    @JsonProperty("middle_name")
     private String middleName;
 
     @Nullable
+    @JsonProperty("position")
     private String position;
 
     @Nullable
-    private Object account;
+    @JsonProperty("account")
+    private String account;
 
     @Nullable
+    @JsonProperty("email")
     private String email;
 
     @Nullable
+    @JsonProperty("employee_status")
     private EmployeeStatus employeeStatus;
 
 
     @JsonCreator
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public EmployeeDto(@JsonProperty("id") @Nullable Long id,
-                       @JsonProperty("first_name") String firstName,
-                       @JsonProperty("last_name") String lastName,
-                       @JsonProperty("middle_name") @Nullable String middleName,
-                       @JsonProperty("position") @Nullable String position,
-                       @JsonProperty("account") @Nullable Object account,
-                       @JsonProperty("email") @Nullable String email,
-                       @JsonProperty("employee_status") @Nullable EmployeeStatus employeeStatus) {
+    public EmployeeDto(@Nullable Long id, String firstName, String lastName, @Nullable String middleName, @Nullable String position,
+                       @Nullable String account, @Nullable String email, @Nullable EmployeeStatus employeeStatus) {
         this.id = id;
         this.firstName = requireNonNull(firstName);
         this.lastName = requireNonNull(lastName);

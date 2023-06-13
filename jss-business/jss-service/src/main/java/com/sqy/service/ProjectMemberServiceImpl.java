@@ -21,6 +21,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     private final ProjectMemberRepository projectMemberRepository;
 
+    @Override
     public List<ProjectMemberDto> getAll() {
         log.info("Invoke getAll().");
         return projectMemberRepository.findAll()
@@ -30,6 +31,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
     @Nullable
+    @Override
     public ProjectMemberDto getById(Long id) {
         log.info("Invoke getById({}).", id);
         return projectMemberRepository.findById(id)
@@ -48,6 +50,8 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
                 .toList();
     }
 
+    @Nullable
+    @Override
     public Long save(ProjectMemberDto projectMemberDto) {
         log.info("Invoke save({}).", projectMemberDto);
         if (projectMemberDto.getId() != null) {

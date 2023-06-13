@@ -51,10 +51,10 @@ public class ProjectMemberController {
     public ResponseEntity<String> save(@RequestBody ProjectMemberDto projectMemberDto) {
         log.info("Invoke save({}).", projectMemberDto);
         Long resultId = projectMemberService.save(projectMemberDto);
-        if (resultId != null) {
-            return ResponseEntity.ok("{\"id\": " + resultId + "}");
+        if (resultId == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return ResponseEntity.ok("{\"id\": " + resultId + "}");
     }
 
     @DeleteMapping("/{id}")

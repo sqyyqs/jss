@@ -7,28 +7,20 @@ import com.sqy.dto.ProjectMemberDto;
 
 public class ProjectMemberMapper {
     public static ProjectMember getModelFromDto(ProjectMemberDto projectMemberDto) {
-        ProjectMember projectMember = new ProjectMember();
-
-        projectMember.setProjectMemberId(projectMemberDto.getId());
-        projectMember.setProjectMemberRole(projectMemberDto.getProjectMemberRole());
-
-        Project project = new Project();
-        project.setProjectId(projectMemberDto.getProjectId());
-        projectMember.setProject(project);
-
-        Employee employee = new Employee();
-        employee.setEmployeeId(projectMemberDto.getEmployeeId());
-        projectMember.setEmployee(employee);
-
-        return projectMember;
+        return ProjectMember.builder()
+                .projectMemberId(projectMemberDto.getId())
+                .projectMemberRole(projectMemberDto.getProjectMemberRole())
+                .project(Project.builder().projectId(projectMemberDto.getProjectId()).build())
+                .employee(Employee.builder().employeeId(projectMemberDto.getEmployeeId()).build())
+                .build();
     }
 
     public static ProjectMemberDto getDtoFromModel(ProjectMember projectMember) {
-        return new ProjectMemberDto(
-                projectMember.getProjectMemberId(),
-                projectMember.getProject().getProjectId(),
-                projectMember.getEmployee().getEmployeeId(),
-                projectMember.getProjectMemberRole()
-        );
+        return ProjectMemberDto.builder()
+                .id(projectMember.getProjectMemberId())
+                .projectId(projectMember.getProject().getProjectId())
+                .employeeId(projectMember.getEmployee().getEmployeeId())
+                .projectMemberRole(projectMember.getProjectMemberRole())
+                .build();
     }
 }

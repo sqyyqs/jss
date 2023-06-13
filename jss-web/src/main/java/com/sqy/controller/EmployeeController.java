@@ -46,10 +46,10 @@ public class EmployeeController {
     public ResponseEntity<String> save(@RequestBody EmployeeDto employeeDto) {
         log.info("Invoke save({}).", employeeDto);
         Long resultId = employeeService.save(employeeDto);
-        if (resultId != null) {
-            return ResponseEntity.ok("{\"id\": " + resultId + "}");
+        if (resultId == null) {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok("{\"id\": " + resultId + "}");
     }
 
     @PutMapping("/update")
@@ -69,7 +69,7 @@ public class EmployeeController {
         if (status) {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @GetMapping("/search/{value}")

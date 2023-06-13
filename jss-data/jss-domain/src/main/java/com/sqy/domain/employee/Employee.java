@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -50,7 +52,7 @@ public class Employee {
 
     @Column(name = "account")
     @Nullable
-    private Object account;
+    private String account;
 
     @Column(name = "email", unique = true)
     @Nullable

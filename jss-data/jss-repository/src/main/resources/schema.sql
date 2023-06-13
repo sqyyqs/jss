@@ -1,18 +1,13 @@
-CREATE TYPE employee_status AS ENUM (
-    'ACTIVE',
-    'DELETED'
-    );
-
 create table employee
 (
     employee_id serial,
-    first_name  varchar(255)    not null,
-    last_name   varchar(255)    not null,
+    first_name  varchar(255) not null,
+    last_name   varchar(255) not null,
     middle_name varchar(255),
     position    varchar(255),
     account     bytea,
     email       varchar(255),
-    status      employee_status not null,
+    status      varchar(255) not null,
     primary key (employee_id)
 );
 
@@ -20,12 +15,6 @@ CREATE UNIQUE INDEX employee_unique_account
     ON employee (account)
     WHERE status = 'ACTIVE';
 
-CREATE TYPE project_status AS ENUM (
-    'DRAFT',
-    'IN_PROGRESS',
-    'IN_TESTING',
-    'COMPLETED'
-    );
 
 create table project
 (
@@ -33,34 +22,23 @@ create table project
     code        varchar(255) unique not null,
     name        varchar(255)        not null,
     description text,
-    status      project_status      not null,
+    status      varchar(255)        not null,
     primary key (project_id)
 );
 
-CREATE TYPE project_member_role AS ENUM (
-    'LEAD',
-    'ANALYST',
-    'DEVELOPER',
-    'TESTER'
-    );
+
 
 create table project_member
 (
     project_member_id serial,
-    project_id        int         not null,
-    employee_id       int         not null,
-    role              varchar(50) not null,
+    project_id        int          not null,
+    employee_id       int          not null,
+    role              varchar(255) not null,
     primary key (project_member_id),
     foreign key (project_id) references project (project_id) on delete cascade,
     foreign key (employee_id) references employee (employee_id) on delete cascade
 );
 
-CREATE TYPE task_status AS ENUM (
-    'NEW',
-    'IN_PROGRESS',
-    'COMPLETED',
-    'CLOSED'
-    );
 
 create table task
 (
@@ -70,7 +48,7 @@ create table task
     performer_id     int          not null,
     estimated_hours  int          not null,
     deadline         timestamp    not null,
-    status           varchar(50)  not null,
+    status           varchar(255) not null,
     author_id        int          not null,
     creation_date    timestamp default current_timestamp,
     last_update_date timestamp default current_timestamp,

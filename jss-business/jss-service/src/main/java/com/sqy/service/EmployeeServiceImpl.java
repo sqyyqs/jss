@@ -22,6 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
+    @Override
     public List<EmployeeDto> getAll() {
         log.info("Invoke getAll().");
         return employeeRepository.findAll()
@@ -31,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Nullable
+    @Override
     public EmployeeDto getById(Long id) {
         log.info("Invoke getById({}).", id);
         return employeeRepository.findById(id)
@@ -40,6 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElse(null);
     }
 
+    @Override
     public Long save(EmployeeDto employeeDto) {
         log.info("Invoke save({}).", employeeDto);
         if (employeeDto.getId() != null) {
@@ -48,6 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(getModelFromDto(employeeDto)).getEmployeeId();
     }
 
+    @Override
     public boolean update(EmployeeDto employeeDto) {
         log.info("Invoke update({}).", employeeDto);
         if (employeeDto.getId() == null) {
@@ -63,6 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 }).orElse(false);
     }
 
+    @Override
     public boolean delete(Long id) {
         log.info("Invoke delete({}).", id);
         return employeeRepository.findById(id)
@@ -74,6 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElse(false);
     }
 
+    @Override
     public List<EmployeeDto> search(String value) {
         log.info("Invoke search({}).", value);
         return employeeRepository.findByFieldsContaining(value)

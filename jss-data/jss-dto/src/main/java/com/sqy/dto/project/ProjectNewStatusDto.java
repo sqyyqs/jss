@@ -8,12 +8,12 @@ import com.sqy.domain.project.ProjectStatus;
 import java.util.Objects;
 
 public record ProjectNewStatusDto(
-        long id,
-        ProjectStatus newProjectStatus
+        @JsonProperty("id") long id,
+        @JsonProperty("new_status") ProjectStatus newProjectStatus
 ) {
     @JsonCreator
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public ProjectNewStatusDto(@JsonProperty("id") long id, @JsonProperty("new_status") ProjectStatus newProjectStatus) {
+    public ProjectNewStatusDto(long id, ProjectStatus newProjectStatus) {
         this.id = id;
         this.newProjectStatus = Objects.requireNonNull(newProjectStatus);
     }

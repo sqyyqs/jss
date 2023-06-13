@@ -36,10 +36,10 @@ public class TaskController {
     public ResponseEntity<String> save(@RequestBody TaskDto taskDto) {
         log.info("Invoke save({}).", taskDto);
         Long resultId = taskService.save(taskDto);
-        if (resultId != null) {
-            return ResponseEntity.ok("{\"id\": " + resultId + "}");
+        if (resultId == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return ResponseEntity.ok("{\"id\": " + resultId + "}");
     }
 
     @PutMapping("/update")

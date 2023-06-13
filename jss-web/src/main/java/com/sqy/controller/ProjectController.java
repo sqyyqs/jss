@@ -37,20 +37,20 @@ public class ProjectController {
     public ResponseEntity<ProjectDto> getById(@PathVariable Long id) {
         log.info("Invoke getById({}).", id);
         ProjectDto result = projectService.getById(id);
-        if (result != null) {
-            return ResponseEntity.ok(result);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody ProjectDto projectDto) {
         log.info("Invoke save({}).", projectDto);
         Long resultId = projectService.save(projectDto);
-        if (resultId != null) {
-            return ResponseEntity.ok("{\"id\": " + resultId + "}");
+        if (resultId == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        return ResponseEntity.ok("{\"id\": " + resultId + "}");
     }
 
     @PutMapping("/update")
@@ -61,7 +61,6 @@ public class ProjectController {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
-
     }
 
     @PutMapping("/update-state")
