@@ -7,6 +7,11 @@ spring:
     enabled: false
   jpa:
     show-sql: true
+  rabbitmq:
+    host: ${CONTAINER.HOST}
+    port: ${CONTAINER.PORT}
+    username: ${CONTAINER.USERNAME}
+    password: ${CONTAINER.PASSWORD}
   mail:
     host: smtp.gmail.com
     port: 587
