@@ -15,8 +15,8 @@ public class TaskMapper {
         task.setEstimatedHours(taskDto.getEstimatedHours());
         task.setDeadline(taskDto.getDeadline());
         task.setStatus(taskDto.getStatus());
-        task.setCreationDate(taskDto.getCreationDate());
-        task.setLastUpdateDate(taskDto.getLastUpdateDate());
+        task.setCreationDate(null);
+        task.setLastUpdateDate(null);
 
         ProjectMember author = new ProjectMember();
         author.setProjectMemberId(taskDto.getAuthorId());

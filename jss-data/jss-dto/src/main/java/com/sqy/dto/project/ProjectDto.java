@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sqy.domain.project.ProjectStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -17,20 +18,25 @@ import static java.util.Objects.requireNonNull;
 public class ProjectDto {
     @Nullable
     @JsonProperty("id")
+    @Schema(description = "Идентификационный номер(обязателен при update, будет проигнорирован при save).")
     private Long id;
 
     @JsonProperty("code")
+    @Schema(description = "Уникальный код.")
     private String code;
 
     @JsonProperty("name")
+    @Schema(description = "Имя проекта.")
     private String name;
 
     @Nullable
     @JsonProperty("description")
+    @Schema(description = "Описание проекта(необязательно).")
     private String description;
 
     @Nullable
     @JsonProperty("project_status")
+    @Schema(description = "Статус проекта(черновик / в работе / в тестировании / завершен)(необязательно).")
     private ProjectStatus projectStatus;
 
     @JsonCreator

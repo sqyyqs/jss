@@ -45,9 +45,7 @@ public class TaskServiceImpl implements TaskService {
         }
         try {
             Long savedId = taskRepository.save(getModelFromDto(taskDto)).getTaskId();
-
             TaskEmailInfo info = taskRepository.getTaskEmailInfoByTaskId(savedId);
-            System.out.println(info);
             if (info == null || info.getTo() == null) {
                 return savedId;
             }

@@ -4,12 +4,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sqy.domain.project.ProjectStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Objects;
 
 public record ProjectNewStatusDto(
-        @JsonProperty("id") long id,
-        @JsonProperty("new_status") ProjectStatus newProjectStatus
+        @JsonProperty("id")
+        @Schema(description = "Идентификационный номер.")
+        long id,
+        @JsonProperty("new_status")
+        @Schema(description = "Новый статус.")
+        ProjectStatus newProjectStatus
 ) {
     @JsonCreator
     @JsonIgnoreProperties(ignoreUnknown = true)
