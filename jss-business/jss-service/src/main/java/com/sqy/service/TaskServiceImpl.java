@@ -13,6 +13,7 @@ import com.sqy.repository.TaskRepository;
 import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.EmailTemplateProcessor;
 import com.sqy.util.TaskSpecificationBuilder;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -62,7 +63,7 @@ public class TaskServiceImpl implements TaskService {
                     ))).build();
             emailService.sendEmail(email);
             return savedId;
-        } catch (DataIntegrityViolationException ex) {
+        } catch (DataIntegrityViolationException | MessagingException ex) {
             log.info("Invoke save({}) with exception.", taskDto, ex);
         }
         return null;

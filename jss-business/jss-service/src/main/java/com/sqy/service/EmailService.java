@@ -3,9 +3,9 @@ package com.sqy.service;
 import com.sqy.domain.email.Email;
 import com.sqy.util.EmailUtils;
 import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    @SneakyThrows
-    public void sendEmail(Email email) {
+
+    public void sendEmail(Email email) throws MessagingException {
         log.info("Invoke sendEmailToEmployee({}).", email);
         MimeMessage msg = mailSender.createMimeMessage();
 
