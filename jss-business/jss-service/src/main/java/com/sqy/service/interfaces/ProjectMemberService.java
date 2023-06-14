@@ -1,6 +1,6 @@
 package com.sqy.service.interfaces;
 
-import com.sqy.dto.ProjectMemberDto;
+import com.sqy.dto.projectmember.ProjectMemberDto;
 
 import java.util.List;
 

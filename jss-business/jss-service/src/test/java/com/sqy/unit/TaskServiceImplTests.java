@@ -7,6 +7,7 @@ import com.sqy.domain.task.TaskStatus;
 import com.sqy.dto.task.TaskDto;
 import com.sqy.dto.task.TaskFilterDto;
 import com.sqy.dto.task.TaskNewStatusDto;
+import com.sqy.rabbitmq.RabbitMqProducer;
 import com.sqy.repository.TaskRepository;
 import com.sqy.service.TaskServiceImpl;
 import com.sqy.service.interfaces.TaskService;
@@ -28,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,6 +41,9 @@ public class TaskServiceImplTests {
     @MockBean
     private TaskRepository taskRepository;
 
+    @MockBean
+    private RabbitMqProducer rabbitMqProducer;
+
     @Autowired
     private TaskService taskService;
 
@@ -46,6 +52,7 @@ public class TaskServiceImplTests {
         TaskDto input =
                 TaskDto.builder().id(1L).performerId(1L).authorId(1L).build();
         when(taskRepository.save(any(Task.class))).thenThrow(DataIntegrityViolationException.class);
+        doNothing().when(rabbitMqProducer).sendMessage(anyString(), any());
         assertNull(taskService.save(input));
         verify(taskRepository, times(1)).save(any(Task.class));
     }
@@ -61,6 +68,7 @@ public class TaskServiceImplTests {
                         .author(ProjectMember.builder().projectMemberId(1L).build())
                         .build()
         );
+        doNothing().when(rabbitMqProducer).sendMessage(anyString(), any());
         Long result = taskService.save(input);
 
         assertNotNull(result);

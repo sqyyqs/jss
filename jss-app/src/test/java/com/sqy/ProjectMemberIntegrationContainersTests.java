@@ -1,6 +1,6 @@
 package com.sqy;
 
-import com.sqy.dto.ProjectMemberDto;
+import com.sqy.dto.projectmember.ProjectMemberDto;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,6 @@ public class ProjectMemberIntegrationContainersTests {
             .withDatabaseName("project_member")
             .withUsername("postgres")
             .withPassword("test");
-
 
     @DynamicPropertySource
     private static void setProperties(DynamicPropertyRegistry registry) {

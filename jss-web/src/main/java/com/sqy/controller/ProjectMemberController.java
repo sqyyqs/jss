@@ -1,6 +1,6 @@
 package com.sqy.controller;
 
-import com.sqy.dto.ProjectMemberDto;
+import com.sqy.dto.projectmember.ProjectMemberDto;
 import com.sqy.service.interfaces.ProjectMemberService;
 import com.sqy.util.MappingUtils;
 import lombok.RequiredArgsConstructor;

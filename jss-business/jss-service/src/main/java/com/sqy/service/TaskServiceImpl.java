@@ -9,11 +9,11 @@ import com.sqy.dto.task.TaskDto;
 import com.sqy.dto.task.TaskFilterDto;
 import com.sqy.dto.task.TaskNewStatusDto;
 import com.sqy.mapper.TaskMapper;
+import com.sqy.rabbitmq.RabbitMqProducer;
 import com.sqy.repository.TaskRepository;
 import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.EmailTemplateProcessor;
 import com.sqy.util.TaskSpecificationBuilder;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,7 +34,7 @@ import static com.sqy.mapper.TaskMapper.getModelFromDto;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
-    private final EmailService emailService;
+    private final RabbitMqProducer rabbitMqProducer;
 
     @Override
     @Nullable
@@ -47,7 +47,8 @@ public class TaskServiceImpl implements TaskService {
             Long savedId = taskRepository.save(getModelFromDto(taskDto)).getTaskId();
 
             TaskEmailInfo info = taskRepository.getTaskEmailInfoByTaskId(savedId);
-            if (info.getTo() == null) {
+            System.out.println(info);
+            if (info == null || info.getTo() == null) {
                 return savedId;
             }
             Email email = Email.builder().recipient(info.getTo())
@@ -61,9 +62,9 @@ public class TaskServiceImpl implements TaskService {
                             "author.first.name", info.getAuthorFirstName(),
                             "author.last.name", info.getAuthorLastName()
                     ))).build();
-            emailService.sendEmail(email);
+            rabbitMqProducer.sendMessage("emailQueue", email);
             return savedId;
-        } catch (DataIntegrityViolationException | MessagingException ex) {
+        } catch (DataIntegrityViolationException ex) {
             log.info("Invoke save({}) with exception.", taskDto, ex);
         }
         return null;

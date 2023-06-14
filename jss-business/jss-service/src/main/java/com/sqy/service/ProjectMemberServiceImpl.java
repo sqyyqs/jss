@@ -1,6 +1,6 @@
 package com.sqy.service;
 
-import com.sqy.dto.ProjectMemberDto;
+import com.sqy.dto.projectmember.ProjectMemberDto;
 import com.sqy.mapper.ProjectMemberMapper;
 import com.sqy.repository.ProjectMemberRepository;
 import com.sqy.service.interfaces.ProjectMemberService;

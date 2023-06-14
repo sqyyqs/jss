@@ -1,4 +1,4 @@
-package com.sqy.dto;
+package com.sqy.dto.projectmember;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

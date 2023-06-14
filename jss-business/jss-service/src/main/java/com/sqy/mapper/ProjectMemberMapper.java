@@ -3,7 +3,7 @@ package com.sqy.mapper;
 import com.sqy.domain.employee.Employee;
 import com.sqy.domain.project.Project;
 import com.sqy.domain.projectmember.ProjectMember;
-import com.sqy.dto.ProjectMemberDto;
+import com.sqy.dto.projectmember.ProjectMemberDto;
 
 public class ProjectMemberMapper {
     public static ProjectMember getModelFromDto(ProjectMemberDto projectMemberDto) {

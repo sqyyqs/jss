@@ -4,7 +4,7 @@ import com.sqy.domain.employee.Employee;
 import com.sqy.domain.project.Project;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.projectmember.ProjectMemberRole;
-import com.sqy.dto.ProjectMemberDto;
+import com.sqy.dto.projectmember.ProjectMemberDto;
 import com.sqy.repository.ProjectMemberRepository;
 import com.sqy.service.ProjectMemberServiceImpl;
 import com.sqy.service.interfaces.ProjectMemberService;

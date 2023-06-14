@@ -59,7 +59,7 @@ INSERT INTO employee (first_name, last_name, middle_name, position, account, ema
 VALUES ('John', 'Doe', 'Michael', 'Manager', 'jdoe123', 'jdoe@example.com', 'ACTIVE'),
        ('Jane', 'Smith', NULL, 'Assistant', 'jsmith456', 'jsmith@example.com', 'ACTIVE'),
        ('Robert', 'Johnson', 'William', 'Clerk', 'rjohnson789', 'rjohnson@example.com', 'DELETED'),
-       ('dmitriy', 'medvedev', 'anatol''evich', 'smth', null, 'test@test.com', 'ACTIVE'),
+       ('dmitriy', 'medvedev', 'anatol''evich', 'smth', null, 'ttl1de@ya.ru', 'ACTIVE'),
        ('David', 'Wilson', 'Thomas', 'Clerk', 'dwilson123', 'dwilson@example.com', 'DELETED'),
        ('Emily', 'Taylor', 'Grace', 'Manager', 'etaylor456', 'etaylor@example.com', 'DELETED'),
        ('Sarah', 'Anderson', 'Elizabeth', 'Supervisor', 'sanders456', 'sanders@example.com', 'ACTIVE');

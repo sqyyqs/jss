@@ -7,20 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sqy.domain.employee.EmployeeStatus;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import static java.util.Objects.requireNonNull;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString
 @Builder
-@EqualsAndHashCode
 public class EmployeeDto {
     @Nullable
     @JsonProperty("id")
