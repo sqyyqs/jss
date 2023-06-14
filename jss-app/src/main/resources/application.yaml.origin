@@ -18,4 +18,9 @@ spring:
           auth: true
           starttls:
             enable: true
+  rabbitmq:
+    host:
+    port:
+    username:
+    password:
 
