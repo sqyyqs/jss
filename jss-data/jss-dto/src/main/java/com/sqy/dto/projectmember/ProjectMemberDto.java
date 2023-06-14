@@ -6,17 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sqy.domain.projectmember.ProjectMemberRole;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import static java.util.Objects.requireNonNull;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 @Builder
 public class ProjectMemberDto {
     @Nullable

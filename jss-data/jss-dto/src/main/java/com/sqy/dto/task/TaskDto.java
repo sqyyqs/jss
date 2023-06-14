@@ -6,21 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sqy.domain.task.TaskStatus;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString
 @Builder
-@EqualsAndHashCode
 public class TaskDto {
     @Nullable
     @JsonProperty("id")

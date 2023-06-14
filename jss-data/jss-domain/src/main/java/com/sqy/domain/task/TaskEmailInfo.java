@@ -2,16 +2,12 @@ package com.sqy.domain.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@ToString
 @Builder
 public class TaskEmailInfo {
     private String to;
