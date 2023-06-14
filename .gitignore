@@ -13,6 +13,8 @@
 #props
 *.properties
 *.yaml
+*.yml
+!docker-compose.yaml
 
 #all maven target
 **/target/
