@@ -22,6 +22,7 @@ public class TaskMapper {
     }
 
     public static TaskDto getDtoFromModel(Task task) {
+        log.info("Invoke getDtoFromModel({}).", task);
         return TaskDto.builder().id(task.getTaskId())
                 .name(task.getName())
                 .description(task.getDescription())
