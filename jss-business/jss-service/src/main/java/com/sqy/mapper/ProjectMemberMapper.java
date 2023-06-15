@@ -4,9 +4,13 @@ import com.sqy.domain.employee.Employee;
 import com.sqy.domain.project.Project;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.dto.projectmember.ProjectMemberDto;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ProjectMemberMapper {
     public static ProjectMember getModelFromDto(ProjectMemberDto projectMemberDto) {
+        log.info("Invoke getModelFromDto({}).", projectMemberDto);
+
         return ProjectMember.builder()
                 .projectMemberId(projectMemberDto.getId())
                 .projectMemberRole(projectMemberDto.getProjectMemberRole())
@@ -16,6 +20,7 @@ public class ProjectMemberMapper {
     }
 
     public static ProjectMemberDto getDtoFromModel(ProjectMember projectMember) {
+        log.info("Invoke getDtoFromModel({}).", projectMember);
         return ProjectMemberDto.builder()
                 .id(projectMember.getProjectMemberId())
                 .projectId(projectMember.getProject().getProjectId())

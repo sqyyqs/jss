@@ -3,26 +3,26 @@ package com.sqy.mapper;
 import com.sqy.domain.project.Project;
 import com.sqy.domain.project.ProjectStatus;
 import com.sqy.dto.project.ProjectDto;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ProjectMapper {
 
     public static Project getModelFromDto(ProjectDto projectDto) {
-        Project project = new Project();
-        project.setProjectId(projectDto.getId());
-        project.setCode(projectDto.getCode());
-        project.setName(projectDto.getName());
-        project.setDescription(projectDto.getDescription());
-        project.setProjectStatus(ProjectStatus.DRAFT);
-        return project;
+        log.info("Invoke getModelFromDto({}).", projectDto);
+        return Project.builder().projectId(projectDto.getId())
+                .code(projectDto.getCode())
+                .name(projectDto.getName())
+                .description(projectDto.getDescription())
+                .projectStatus(ProjectStatus.DRAFT).build();
     }
 
     public static ProjectDto getDtoFromModel(Project project) {
-        return new ProjectDto(
-                project.getProjectId(),
-                project.getCode(),
-                project.getName(),
-                project.getDescription(),
-                project.getProjectStatus()
-        );
+        log.info("Invoke getDtoFromModel({}).", project);
+        return ProjectDto.builder().id(project.getProjectId())
+                .code(project.getCode())
+                .name(project.getName())
+                .description(project.getDescription())
+                .projectStatus(project.getProjectStatus()).build();
     }
 }
