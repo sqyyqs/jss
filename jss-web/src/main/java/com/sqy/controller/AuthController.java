@@ -4,7 +4,7 @@ import com.sqy.domain.login.LoginRequest;
 import com.sqy.domain.login.LoginResponse;
 import com.sqy.security.jwt.JwtIssuer;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class AuthController {
     private final JwtIssuer jwtIssuer;
 

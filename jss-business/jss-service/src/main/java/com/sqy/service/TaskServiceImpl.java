@@ -19,7 +19,7 @@ import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.EmailTemplateProcessor;
 import com.sqy.util.TaskSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,7 +35,7 @@ import static com.sqy.mapper.TaskMapper.getModelFromDto;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;

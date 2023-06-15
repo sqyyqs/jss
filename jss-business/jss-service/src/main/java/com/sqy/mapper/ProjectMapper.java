@@ -3,9 +3,9 @@ package com.sqy.mapper;
 import com.sqy.domain.project.Project;
 import com.sqy.domain.project.ProjectStatus;
 import com.sqy.dto.project.ProjectDto;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
+@Log4j2
 public class ProjectMapper {
 
     public static Project getModelFromDto(ProjectDto projectDto) {

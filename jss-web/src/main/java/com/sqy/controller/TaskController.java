@@ -7,7 +7,7 @@ import com.sqy.dto.task.TaskNewStatusDto;
 import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.MappingUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/task")
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class TaskController {
 
     private final TaskService taskService;

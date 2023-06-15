@@ -3,9 +3,9 @@ package com.sqy.mapper;
 import com.sqy.domain.employee.Employee;
 import com.sqy.domain.employee.EmployeeStatus;
 import com.sqy.dto.employee.EmployeeDto;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
+@Log4j2
 public class EmployeeMapper {
 
     public static Employee getModelFromDto(EmployeeDto employeeDto) {

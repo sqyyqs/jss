@@ -7,7 +7,7 @@ import com.sqy.mapper.EmployeeMapper;
 import com.sqy.repository.EmployeeRepository;
 import com.sqy.service.interfaces.EmployeeService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import static com.sqy.mapper.EmployeeMapper.getModelFromDto;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;

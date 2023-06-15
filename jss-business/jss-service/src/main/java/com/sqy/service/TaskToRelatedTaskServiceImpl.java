@@ -6,7 +6,7 @@ import com.sqy.repository.TaskToRelatedTaskRepository;
 import com.sqy.service.interfaces.TaskToRelatedTaskService;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import static com.sqy.mapper.TaskToRelatedTaskMapper.getModelFromDto;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class TaskToRelatedTaskServiceImpl implements TaskToRelatedTaskService {
 
     private final TaskToRelatedTaskRepository taskToRelatedTaskRepository;

@@ -4,9 +4,9 @@ import com.sqy.domain.employee.Employee;
 import com.sqy.domain.project.Project;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.dto.projectmember.ProjectMemberDto;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
+@Log4j2
 public class ProjectMemberMapper {
     public static ProjectMember getModelFromDto(ProjectMemberDto projectMemberDto) {
         log.info("Invoke getModelFromDto({}).", projectMemberDto);

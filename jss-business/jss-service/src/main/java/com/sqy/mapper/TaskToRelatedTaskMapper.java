@@ -3,9 +3,9 @@ package com.sqy.mapper;
 import com.sqy.domain.task.Task;
 import com.sqy.domain.task.TaskToRelatedTask;
 import com.sqy.dto.task.TaskToRelatedTaskDto;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
+@Log4j2
 public class TaskToRelatedTaskMapper {
     public static TaskToRelatedTask getModelFromDto(TaskToRelatedTaskDto taskToRelatedTaskDto) {
         log.info("Invoke getModelFromDto({}).", taskToRelatedTaskDto);

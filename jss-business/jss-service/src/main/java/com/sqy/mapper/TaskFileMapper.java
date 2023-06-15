@@ -4,12 +4,12 @@ import com.sqy.domain.task.Task;
 import com.sqy.domain.task.TaskFile;
 import com.sqy.dto.task.TaskFileDto;
 import jakarta.annotation.Nullable;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Slf4j
+@Log4j2
 public class TaskFileMapper {
     @Nullable
     public static TaskFile getFromMultipartFile(@Nullable MultipartFile file, long taskId) {

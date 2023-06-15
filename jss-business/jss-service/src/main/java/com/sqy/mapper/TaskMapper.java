@@ -5,9 +5,9 @@ import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
 import com.sqy.domain.task.TaskStatus;
 import com.sqy.dto.task.TaskDto;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
+@Log4j2
 public class TaskMapper {
 
     public static Task getModelFromDto(TaskDto taskDto) {

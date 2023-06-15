@@ -13,7 +13,7 @@ import com.sqy.repository.ProjectFileRepository;
 import com.sqy.repository.ProjectRepository;
 import com.sqy.service.interfaces.ProjectService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import static com.sqy.mapper.ProjectMapper.getModelFromDto;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;

@@ -4,12 +4,12 @@ import com.sqy.domain.project.Project;
 import com.sqy.domain.project.ProjectFile;
 import com.sqy.dto.project.ProjectFileDto;
 import jakarta.annotation.Nullable;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Slf4j
+@Log4j2
 public class ProjectFileMapper {
     @Nullable
     public static ProjectFile getFromMultipartFile(@Nullable MultipartFile file, long projectId) {

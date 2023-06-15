@@ -5,7 +5,7 @@ import com.sqy.mapper.ProjectMemberMapper;
 import com.sqy.repository.ProjectMemberRepository;
 import com.sqy.service.interfaces.ProjectMemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import static com.sqy.mapper.ProjectMemberMapper.getModelFromDto;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     private final ProjectMemberRepository projectMemberRepository;
