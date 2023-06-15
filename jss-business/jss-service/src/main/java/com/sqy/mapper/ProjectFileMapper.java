@@ -12,8 +12,11 @@ import java.io.IOException;
 @Slf4j
 public class ProjectFileMapper {
     @Nullable
-    public static ProjectFile getFromMultipartFile(MultipartFile file, long projectId) {
+    public static ProjectFile getFromMultipartFile(@Nullable MultipartFile file, long projectId) {
         log.info("Invoke getFromMultipartFile({}, {}).", file, projectId);
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
         try {
             return ProjectFile.builder().file(file.getBytes()).fileContentType(file.getContentType())
                     .project(Project.builder().projectId(projectId).build()).build();
@@ -23,7 +26,12 @@ public class ProjectFileMapper {
         return null;
     }
 
-    public static ProjectFileDto getDtoFromModel(ProjectFile projectFile) {
+    @Nullable
+    public static ProjectFileDto getDtoFromModel(@Nullable ProjectFile projectFile) {
+        log.info("Invoke getDtoFromModel({}).", projectFile);
+        if (projectFile == null) {
+            return null;
+        }
         return new ProjectFileDto(projectFile.getFile(), projectFile.getFileContentType());
     }
 }

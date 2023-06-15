@@ -9,4 +9,6 @@ public interface ProjectFileRepository extends JpaRepository<ProjectFile, Long> 
 
     @Transactional
     void deleteProjectFileByProject_ProjectId(long projectId);
+
+    boolean existsByProject_ProjectId(long projectId);
 }

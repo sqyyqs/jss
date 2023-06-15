@@ -85,7 +85,7 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.search(projectSearchDto));
     }
 
-    @PostMapping("/upload-file/{project-id}")
+    @PostMapping("/file/{project-id}")
     public ResponseEntity<String> uploadProjectFile(@RequestBody MultipartFile file,
                                                     @PathVariable("project-id") long projectId) {
         log.info("Invoke uploadProjectFile({}, {}).", file, projectId);
@@ -93,13 +93,16 @@ public class ProjectController {
         if (status) {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
         }
-        return ResponseEntity.badRequest().body("{\"message\": \"error while uploading file\"}");
+        return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/download-file/{project-id}")
+    @GetMapping("/file/{project-id}")
     public ResponseEntity<?> downloadFileFromRelatedProject(@PathVariable("project-id") long projectId) {
         log.info("Invoke downloadFileFromRelatedTask({}).", projectId);
         ProjectFileDto projectFile = projectService.getFileFromRelatedProject(projectId);
+        if (projectFile == null) {
+            return ResponseEntity.notFound().build();
+        }
         ByteArrayResource file = new ByteArrayResource(projectFile.file());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(projectFile.fileContentType()))
@@ -112,8 +115,8 @@ public class ProjectController {
         log.info("Invoke deleteFileFromRelatedProject({}).", projectId);
         boolean status = projectService.deleteFileFromRelatedProject(projectId);
         if (status) {
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok().body(MappingUtils.EMPTY_JSON);
         }
-        return ResponseEntity.badRequest().body("{\"message\": \"error while deleting file\"}");
+        return ResponseEntity.badRequest().build();
     }
 }

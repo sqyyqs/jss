@@ -9,4 +9,6 @@ public interface TaskFileRepository extends JpaRepository<TaskFile, Long> {
 
     @Transactional
     void deleteByTask_TaskId(long taskId);
+
+    boolean existsByTask_TaskId(long taskId);
 }

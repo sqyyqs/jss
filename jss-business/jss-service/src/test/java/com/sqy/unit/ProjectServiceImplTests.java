@@ -258,9 +258,25 @@ public class ProjectServiceImplTests {
     }
 
     @Test
+    public void getFileFromRelatedProject_NotFound() {
+        when(projectFileRepository.existsByProject_ProjectId(anyLong())).thenReturn(false);
+        assertNull(projectService.getFileFromRelatedProject(1L));
+        verify(projectFileRepository, times(1)).getProjectFileByProject_ProjectId(anyLong());
+    }
+
+    @Test
     public void deleteFileFromRelatedProject() {
         doNothing().when(projectFileRepository).deleteProjectFileByProject_ProjectId(anyLong());
+        when(projectFileRepository.existsByProject_ProjectId(anyLong())).thenReturn(true);
         assertTrue(projectService.deleteFileFromRelatedProject(1L));
         verify(projectFileRepository, times(1)).deleteProjectFileByProject_ProjectId(anyLong());
+    }
+
+    @Test
+    public void deleteFileFromRelatedProject_NotFound() {
+        when(projectFileRepository.existsByProject_ProjectId(anyLong())).thenReturn(false);
+        assertFalse(projectService.deleteFileFromRelatedProject(1L));
+        verify(projectFileRepository, times(1)).existsByProject_ProjectId(anyLong());
+        verify(projectFileRepository, never()).deleteProjectFileByProject_ProjectId(anyLong());
     }
 }

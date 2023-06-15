@@ -148,6 +148,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Nullable
     public TaskFileDto getFileFromRelatedTask(long taskId) {
         log.info("Invoke getFileFromRelatedTask({}).", taskId);
         return TaskFileMapper.getDtoFromModel(taskFileRepository.getTaskFileByTask_TaskId(taskId));
@@ -156,7 +157,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean deleteFileFromRelatedTask(long taskId) {
         log.info("Invoke deleteFileFromRelatedTask({}).", taskId);
-        taskFileRepository.deleteByTask_TaskId(taskId);
-        return true;
+        if (taskFileRepository.existsByTask_TaskId(taskId)) {
+            taskFileRepository.deleteByTask_TaskId(taskId);
+            return true;
+        }
+        return false;
     }
 }

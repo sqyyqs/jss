@@ -57,7 +57,7 @@ public class TaskToRelatedTaskController {
         if (status) {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/by-task-id/{task-id}")
@@ -67,6 +67,6 @@ public class TaskToRelatedTaskController {
         if (status) {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 }

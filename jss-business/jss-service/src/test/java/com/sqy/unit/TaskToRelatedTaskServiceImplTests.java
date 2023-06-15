@@ -16,10 +16,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -118,17 +121,37 @@ public class TaskToRelatedTaskServiceImplTests {
     }
 
     @Test
+    public void removeRelationshipById_NotExistingById() {
+        when(taskToRelatedTaskRepository.existsById(anyLong())).thenReturn(false);
+        assertFalse(taskToRelatedTaskService.removeRelationshipById(1L));
+        verify(taskToRelatedTaskRepository, times(1)).existsById(anyLong());
+        verify(taskToRelatedTaskRepository, never()).deleteById(anyLong());
+    }
+
+    @Test
     public void removeRelationshipById() {
+        when(taskToRelatedTaskRepository.existsById(anyLong())).thenReturn(true);
         doNothing().when(taskToRelatedTaskRepository).deleteById(anyLong());
-        taskToRelatedTaskService.removeRelationshipById(1L);
+        assertTrue(taskToRelatedTaskService.removeRelationshipById(1L));
+        verify(taskToRelatedTaskRepository, times(1)).existsById(anyLong());
         verify(taskToRelatedTaskRepository, times(1)).deleteById(anyLong());
     }
 
 
     @Test
+    public void removeAllRelationshipsForTask_NotExistingByTaskId() {
+        when(taskToRelatedTaskRepository.existsByTask_TaskId(anyLong())).thenReturn(false);
+        assertFalse(taskToRelatedTaskService.removeAllRelationshipsForTask(1L));
+        verify(taskToRelatedTaskRepository, times(1)).existsByTask_TaskId(anyLong());
+        verify(taskToRelatedTaskRepository, never()).deleteAllByTask_TaskId(anyLong());
+    }
+
+    @Test
     public void removeAllRelationshipsForTask() {
+        when(taskToRelatedTaskRepository.existsByTask_TaskId(anyLong())).thenReturn(true);
         doNothing().when(taskToRelatedTaskRepository).deleteAllByTask_TaskId(anyLong());
-        taskToRelatedTaskService.removeAllRelationshipsForTask(1L);
+        assertTrue(taskToRelatedTaskService.removeAllRelationshipsForTask(1L));
+        verify(taskToRelatedTaskRepository, times(1)).existsByTask_TaskId(anyLong());
         verify(taskToRelatedTaskRepository, times(1)).deleteAllByTask_TaskId(anyLong());
     }
 

@@ -74,6 +74,16 @@ create table project_file
     foreign key (project_id) references project (project_id) on delete cascade
 );
 
+create table task_to_related_task
+(
+    relationship_id serial,
+    task_id         int not null,
+    related_task_id int not null,
+    primary key (relationship_id),
+    foreign key (task_id) references task (task_id) on delete cascade,
+    foreign key (related_task_id) references task (task_id) on delete cascade
+);
+
 
 
 INSERT INTO employee (first_name, last_name, middle_name, position, account, email, status)
@@ -101,8 +111,15 @@ VALUES (1, 1, 'DEVELOPER'),
        (5, 6, 'TESTER');
 
 INSERT INTO task(name, description, performer_id, estimated_hours, deadline, status, author_id)
-values ('Task 1', 'Description for Task 1', 1, 8, '2024-06-30 12:00:00', 'NEW', 2),
+VALUES ('Task 1', 'Description for Task 1', 1, 8, '2024-06-30 12:00:00', 'NEW', 2),
        ('Task 2', 'A short description', 3, 4, '2024-07-15 14:30:00', 'IN_PROGRESS', 4),
        ('Task 3',
         'This is a longer description for Task 3. It provides more details about the task requirements and expectations.',
-        5, 10, '2023-07-31 09:00:00', 'CLOSED', 1)
+        5, 10, '2023-07-31 09:00:00', 'CLOSED', 1),
+       ('Task 4', 'descdldlldakd[osdjgfopfdsj', 4, 12, '2025-07-31 09:00:00', 'NEW', 3);
+
+INSERT INTO task_to_related_task(task_id, related_task_id)
+VALUES (1, 2),
+       (1, 3),
+       (1, 4),
+       (3, 2);

@@ -18,6 +18,7 @@ import static com.sqy.mapper.TaskToRelatedTaskMapper.getModelFromDto;
 @RequiredArgsConstructor
 @Slf4j
 public class TaskToRelatedTaskServiceImpl implements TaskToRelatedTaskService {
+
     private final TaskToRelatedTaskRepository taskToRelatedTaskRepository;
 
     @Override
@@ -55,14 +56,20 @@ public class TaskToRelatedTaskServiceImpl implements TaskToRelatedTaskService {
     @Override
     public boolean removeRelationshipById(long relationshipId) {
         log.info("Invoke removeRelationshipById({}).", relationshipId);
-        taskToRelatedTaskRepository.deleteById(relationshipId);
-        return true;
+        if (taskToRelatedTaskRepository.existsById(relationshipId)) {
+            taskToRelatedTaskRepository.deleteById(relationshipId);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean removeAllRelationshipsForTask(long taskId) {
         log.info("Invoke removeAllRelationshipsForTask({}).", taskId);
-        taskToRelatedTaskRepository.deleteAllByTask_TaskId(taskId);
-        return true;
+        if (taskToRelatedTaskRepository.existsByTask_TaskId(taskId)) {
+            taskToRelatedTaskRepository.deleteAllByTask_TaskId(taskId);
+            return true;
+        }
+        return false;
     }
 }

@@ -138,6 +138,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Nullable
     public ProjectFileDto getFileFromRelatedProject(long projectId) {
         log.info("Invoke getFileFromRelatedProject({}).", projectId);
         return ProjectFileMapper.getDtoFromModel(projectFileRepository.getProjectFileByProject_ProjectId(projectId));
@@ -146,7 +147,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean deleteFileFromRelatedProject(long projectId) {
         log.info("Invoke deleteFileFromRelatedProject({}).", projectId);
-        projectFileRepository.deleteProjectFileByProject_ProjectId(projectId);
-        return true;
+        if (projectFileRepository.existsByProject_ProjectId(projectId)) {
+            projectFileRepository.deleteProjectFileByProject_ProjectId(projectId);
+            return true;
+        }
+        return false;
     }
 }

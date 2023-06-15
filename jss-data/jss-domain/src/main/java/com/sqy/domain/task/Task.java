@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -42,7 +43,7 @@ public class Task {
     @Nullable
     private String description;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "performer_id", referencedColumnName = "employee_id")
     private Employee performer;
 
@@ -56,7 +57,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "project_member_id")
     private ProjectMember author;
 

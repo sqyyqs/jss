@@ -70,7 +70,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @PostMapping("/upload-file/{task-id}")
+    @PostMapping("/file/{task-id}")
     public ResponseEntity<String> uploadTaskFile(@RequestBody MultipartFile file,
                                                  @PathVariable("task-id") long taskId) {
         log.info("Invoke uploadTaskFile({}, {}).", file, taskId);
@@ -78,13 +78,16 @@ public class TaskController {
         if (status) {
             return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
         }
-        return ResponseEntity.badRequest().body("{\"message\": \"error while uploading file\"}");
+        return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/download-file/{task-id}")
+    @GetMapping("/file/{task-id}")
     public ResponseEntity<?> downloadFileFromRelatedTask(@PathVariable("task-id") long taskId) {
         log.info("Invoke downloadFileFromRelatedTask({}).", taskId);
         TaskFileDto taskFile = taskService.getFileFromRelatedTask(taskId);
+        if (taskFile == null) {
+            return ResponseEntity.notFound().build();
+        }
         ByteArrayResource file = new ByteArrayResource(taskFile.file());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(taskFile.fileContentType()))
@@ -97,9 +100,9 @@ public class TaskController {
         log.info("Invoke deleteFileFromRelatedTask({}).", taskId);
         boolean status = taskService.deleteFileFromRelatedTask(taskId);
         if (status) {
-            return ResponseEntity.ok().body("");
+            return ResponseEntity.ok().body(MappingUtils.EMPTY_JSON);
         }
-        return ResponseEntity.badRequest().body("{\"message\": \"error while deleting file\"}");
+        return ResponseEntity.notFound().build();
     }
 
 }

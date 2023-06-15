@@ -12,8 +12,11 @@ import java.io.IOException;
 @Slf4j
 public class TaskFileMapper {
     @Nullable
-    public static TaskFile getFromMultipartFile(MultipartFile file, long taskId) {
+    public static TaskFile getFromMultipartFile(@Nullable MultipartFile file, long taskId) {
         log.info("Invoke getFromMultipartFile({}, {}).", file, taskId);
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
         try {
             return TaskFile.builder().fileContentType(file.getContentType())
                     .task(Task.builder().taskId(taskId).build())
@@ -25,9 +28,12 @@ public class TaskFileMapper {
         return null;
     }
 
-
-    public static TaskFileDto getDtoFromModel(TaskFile taskFile) {
+    @Nullable
+    public static TaskFileDto getDtoFromModel(@Nullable TaskFile taskFile) {
         log.info("Invoke getDtoFromModel({}).", taskFile);
+        if (taskFile == null) {
+            return null;
+        }
         return new TaskFileDto(taskFile.getFile(), taskFile.getFileContentType());
     }
 }

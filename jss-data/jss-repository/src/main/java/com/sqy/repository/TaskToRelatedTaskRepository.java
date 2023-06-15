@@ -11,4 +11,6 @@ public interface TaskToRelatedTaskRepository extends JpaRepository<TaskToRelated
 
     @Transactional
     void deleteAllByTask_TaskId(long taskId);
+
+    boolean existsByTask_TaskId(long taskId);
 }

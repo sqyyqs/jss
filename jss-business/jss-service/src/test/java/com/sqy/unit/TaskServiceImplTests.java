@@ -255,10 +255,27 @@ public class TaskServiceImplTests {
     }
 
     @Test
+    public void getFileFromRelatedTask_NotFound() {
+        when(taskFileRepository.existsByTask_TaskId(anyLong())).thenReturn(false);
+        assertNull(taskService.getFileFromRelatedTask(1L));
+        verify(taskFileRepository, times(1)).getTaskFileByTask_TaskId(anyLong());
+    }
+
+
+    @Test
     public void deleteFileFromRelatedTask() {
         doNothing().when(taskFileRepository).deleteByTask_TaskId(anyLong());
+        when(taskFileRepository.existsByTask_TaskId(anyLong())).thenReturn(true);
         assertTrue(taskService.deleteFileFromRelatedTask(1L));
         verify(taskFileRepository, times(1)).deleteByTask_TaskId(anyLong());
+    }
+
+    @Test
+    public void deleteFileFromRelatedTask_NotFound() {
+        when(taskFileRepository.existsByTask_TaskId(anyLong())).thenReturn(false);
+        assertFalse(taskService.deleteFileFromRelatedTask(1L));
+        verify(taskFileRepository, times(1)).existsByTask_TaskId(anyLong());
+        verify(taskFileRepository, never()).deleteByTask_TaskId(anyLong());
     }
 
 }
