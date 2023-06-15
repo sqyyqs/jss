@@ -48,11 +48,22 @@ create table task
     deadline         timestamp    not null,
     status           varchar(255) not null,
     author_id        int          not null,
+    related_file     bytea,
     creation_date    timestamp default current_timestamp,
     last_update_date timestamp default current_timestamp,
     primary key (task_id),
     foreign key (performer_id) references employee (employee_id) on delete cascade,
     foreign key (author_id) references project_member (project_member_id) on delete cascade
+);
+
+create table task_file
+(
+    task_file_id   serial,
+    task_id        int unique   not null,
+    file           bytea        not null,
+    file_extension varchar(255) not null,
+    primary key (task_file_id),
+    foreign key (task_id) references task (task_id) on delete cascade
 );
 
 INSERT INTO employee (first_name, last_name, middle_name, position, account, email, status)

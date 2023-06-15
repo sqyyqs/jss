@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: createProjectMemberTable
+      id: create_project_member_table
       author: sqy
       changes:
         - createTable:
@@ -23,19 +23,17 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: role
-                  type: varchar(50)
+                  type: varchar(255)
                   constraints:
                     nullable: false
             foreignKeys:
               - foreignKey:
-                  baseTableName: project_member
-                  baseColumnNames: project_id
+                  name: fk_project_member_project_id
                   referencedTableName: project
-                  referencedColumnNames: id
+                  referencedColumnNames: project_id
                   onDelete: CASCADE
               - foreignKey:
-                  baseTableName: project_member
-                  baseColumnNames: employee_id
+                  name: fk_project_member_employee_id
                   referencedTableName: employee
-                  referencedColumnNames: id
+                  referencedColumnNames: employee_id
                   onDelete: CASCADE

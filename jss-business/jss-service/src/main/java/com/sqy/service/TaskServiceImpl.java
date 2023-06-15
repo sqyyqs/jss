@@ -4,12 +4,16 @@ import com.sqy.domain.email.Email;
 import com.sqy.domain.email.EmailTemplate;
 import com.sqy.domain.task.Task;
 import com.sqy.domain.task.TaskEmailInfo;
+import com.sqy.domain.task.TaskFile;
 import com.sqy.domain.task.TaskStatus;
 import com.sqy.dto.task.TaskDto;
+import com.sqy.dto.task.TaskFileDto;
 import com.sqy.dto.task.TaskFilterDto;
 import com.sqy.dto.task.TaskNewStatusDto;
+import com.sqy.mapper.TaskFileMapper;
 import com.sqy.mapper.TaskMapper;
 import com.sqy.rabbitmq.RabbitMqProducer;
+import com.sqy.repository.TaskFileRepository;
 import com.sqy.repository.TaskRepository;
 import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.EmailTemplateProcessor;
@@ -21,6 +25,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,6 +39,7 @@ import static com.sqy.mapper.TaskMapper.getModelFromDto;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final TaskFileRepository taskFileRepository;
     private final RabbitMqProducer rabbitMqProducer;
 
     @Override
@@ -123,5 +129,34 @@ public class TaskServiceImpl implements TaskService {
                 .stream()
                 .map(TaskMapper::getDtoFromModel)
                 .toList();
+    }
+
+    @Override
+    public boolean uploadFileToTaskId(MultipartFile file, long taskId) {
+        log.info("Invoke uploadFileToTaskId({}, {}).", file, taskId);
+        TaskFile result = TaskFileMapper.getFromMultipartFile(file, taskId);
+        if (result == null) {
+            return false;
+        }
+        try {
+            taskFileRepository.save(result);
+            return true;
+        } catch (DataIntegrityViolationException e) {
+            log.info("Invoke uploadFileToTaskId({}, {}) with exception.", file, taskId, e);
+        }
+        return false;
+    }
+
+    @Override
+    public TaskFileDto getFileFromRelatedTask(long taskId) {
+        log.info("Invoke getFileFromRelatedTask({}).", taskId);
+        return TaskFileMapper.getDtoFromModel(taskFileRepository.getTaskFileByTaskTaskId(taskId));
+    }
+
+    @Override
+    public boolean deleteFileFromRelatedTask(long taskId) {
+        log.info("Invoke deleteFileFromRelatedTask({}).", taskId);
+        taskFileRepository.deleteByTaskTaskId(taskId);
+        return true;
     }
 }

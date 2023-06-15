@@ -65,4 +65,21 @@ public class Task {
     @Column(name = "last_update_date", nullable = false)
     @CreationTimestamp
     private LocalDateTime lastUpdateDate;
+
+    @OneToOne(mappedBy = "task")
+    private TaskFile taskFile;
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", estimatedHours=" + estimatedHours +
+                ", deadline=" + deadline +
+                ", status=" + status +
+                ", creationDate=" + creationDate +
+                ", lastUpdateDate=" + lastUpdateDate +
+                '}';
+    }
 }

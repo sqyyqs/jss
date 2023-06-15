@@ -5,7 +5,7 @@ create table employee
     last_name   varchar(255) not null,
     middle_name varchar(255),
     position    varchar(255),
-    account     bytea,
+    account     varchar(255),
     email       varchar(255),
     status      varchar(255) not null,
     primary key (employee_id)
@@ -14,7 +14,6 @@ create table employee
 CREATE UNIQUE INDEX employee_unique_account
     ON employee (account)
     WHERE status = 'ACTIVE';
-
 
 create table project
 (
@@ -27,7 +26,6 @@ create table project
 );
 
 
-
 create table project_member
 (
     project_member_id serial,
@@ -38,7 +36,6 @@ create table project_member
     foreign key (project_id) references project (project_id) on delete cascade,
     foreign key (employee_id) references employee (employee_id) on delete cascade
 );
-
 
 create table task
 (
@@ -53,8 +50,18 @@ create table task
     creation_date    timestamp default current_timestamp,
     last_update_date timestamp default current_timestamp,
     primary key (task_id),
-    foreign key (performer_id) references employee (employee_id) on delete set null,
-    foreign key (author_id) references project_member (project_member_id) on delete set null
+    foreign key (performer_id) references employee (employee_id) on delete cascade,
+    foreign key (author_id) references project_member (project_member_id) on delete cascade
+);
+
+create table task_file
+(
+    task_file_id   serial,
+    task_id        int unique   not null,
+    file           bytea        not null,
+    file_extension varchar(255) not null,
+    primary key (task_file_id),
+    foreign key (task_id) references task (task_id) on delete cascade
 );
 
 CREATE OR REPLACE FUNCTION update_last_modified()

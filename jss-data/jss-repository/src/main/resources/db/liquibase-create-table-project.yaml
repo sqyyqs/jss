@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: createProjectTable
+      id: create_project_table
       author: sqy
       changes:
         - createTable:
@@ -27,6 +27,6 @@ databaseChangeLog:
                   type: text
               - column:
                   name: status
-                  type: varchar(50)
+                  type: varchar(255)
                   constraints:
                     nullable: false

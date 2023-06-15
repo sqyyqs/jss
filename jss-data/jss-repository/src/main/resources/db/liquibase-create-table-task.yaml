@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: createTaskTable
+      id: create_task_table
       author: sqy
       changes:
         - createTable:
@@ -36,7 +36,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: status
-                  type: varchar(50)
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
@@ -45,25 +45,60 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: related_file
+                  type: bytea
+              - column:
                   name: creation_date
                   type: timestamp
-                  constraints:
-                    nullable: false
               - column:
                   name: last_update_date
                   type: timestamp
-                  constraints:
-                    nullable: false
             foreignKeys:
               - foreignKey:
-                  baseTableName: task
-                  baseColumnNames: performer_id
+                  name: fk_task_performer_id
                   referencedTableName: employee
                   referencedColumnNames: employee_id
-                  onDelete: SET NULL
+                  onDelete: cascade
               - foreignKey:
-                  baseTableName: task
-                  baseColumnNames: author_id
+                  name: fk_task_author_id
                   referencedTableName: project_member
                   referencedColumnNames: project_member_id
-                  onDelete: SET NULL
+                  onDelete: cascade
+
+  # https://github.com/liquibase/liquibase/issues/1094, нельзя проставить дефолтное значение через defaultValue
+  - changeSet:
+      id: add_default_values_to_creation_date_and_last_update_date
+      author: sqy
+      changes:
+        - sql:
+            sql: >
+              ALTER TABLE task
+              ALTER COLUMN last_update_date SET DEFAULT current_timestamp,
+              ALTER COLUMN creation_date SET DEFAULT current_timestamp;
+
+  - changeSet:
+      id: create_last_modified_function
+      author: sqy
+      changes:
+        - sql:
+            sql: >
+              CREATE OR REPLACE FUNCTION update_last_modified()
+              RETURNS TRIGGER AS
+              '
+              BEGIN
+                NEW.last_update_date = NOW();
+                RETURN NEW;
+              END;
+              ' LANGUAGE plpgsql;
+
+  - changeSet:
+      id: create_trigger_for_task_table
+      author: sqy
+      changes:
+        - sql:
+            sql: >
+              CREATE TRIGGER task_last_modified
+              BEFORE UPDATE
+              ON task
+              FOR EACH ROW
+              EXECUTE FUNCTION update_last_modified();

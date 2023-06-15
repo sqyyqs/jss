@@ -1,20 +1,27 @@
 package com.sqy.controller;
 
 import com.sqy.dto.task.TaskDto;
+import com.sqy.dto.task.TaskFileDto;
 import com.sqy.dto.task.TaskFilterDto;
 import com.sqy.dto.task.TaskNewStatusDto;
 import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.MappingUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -63,5 +70,36 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
+    @PostMapping("/upload-file/{task-id}")
+    public ResponseEntity<String> uploadTaskFile(@RequestBody MultipartFile file,
+                                                 @PathVariable("task-id") long taskId) {
+        log.info("Invoke uploadTaskFile({}, {}).", file, taskId);
+        boolean status = taskService.uploadFileToTaskId(file, taskId);
+        if (status) {
+            return ResponseEntity.ok(MappingUtils.EMPTY_JSON);
+        }
+        return ResponseEntity.badRequest().body("{\"message\": \"error while uploading file\"}");
+    }
+
+    @GetMapping("/download-file/{task-id}")
+    public ResponseEntity<?> downloadFileFromRelatedTask(@PathVariable("task-id") long taskId) {
+        log.info("Invoke downloadFileFromRelatedTask({}).", taskId);
+        TaskFileDto taskFile = taskService.getFileFromRelatedTask(taskId);
+        ByteArrayResource file = new ByteArrayResource(taskFile.file());
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(taskFile.fileExtension()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"file\"")
+                .body(file);
+    }
+
+    @DeleteMapping("/file/{task-id}")
+    public ResponseEntity<?> deleteFileFromRelatedTask(@PathVariable("task-id") long taskId) {
+        log.info("Invoke deleteFileFromRelatedTask({}).", taskId);
+        boolean status = taskService.deleteFileFromRelatedTask(taskId);
+        if (status) {
+            return ResponseEntity.ok().body("");
+        }
+        return ResponseEntity.badRequest().body("{\"message\": \"error while deleting file\"}");
+    }
 
 }

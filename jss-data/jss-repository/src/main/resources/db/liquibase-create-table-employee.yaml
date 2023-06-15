@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: createEmployeeTable
+      id: create_employee_table
       author: sqy
       changes:
         - createTable:
@@ -29,12 +29,25 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: account
-                  type: json
+                  type: varchar(255)
               - column:
                   name: email
                   type: varchar(255)
               - column:
                   name: status
-                  type: varchar(50)
+                  type: varchar(255)
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: create_unique_constraint_on_employee_where_active
+      author: sqy
+      changes:
+        - createIndex:
+            indexName: employee_unique_account
+            tableName: employee
+            unique: true
+            columns:
+              - column:
+                  name: account
+            where: status = 'ACTIVE'

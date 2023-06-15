@@ -7,3 +7,5 @@ databaseChangeLog:
       file: classpath:db/liquibase-create-table-project-member.yaml
   - include:
       file: classpath:db/liquibase-create-table-task.yaml
+  - include:
+      file: classpath:db/liquibase-create-table-task-file.yaml
