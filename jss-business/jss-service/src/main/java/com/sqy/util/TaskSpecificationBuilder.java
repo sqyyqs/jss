@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class TaskSpecificationBuilder {
     public static Specification<Task> buildSpecification(TaskFilterDto filterDTO) {
         List<Specification<Task>> specifications = new ArrayList<>();

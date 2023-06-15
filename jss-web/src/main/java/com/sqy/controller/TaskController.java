@@ -6,6 +6,7 @@ import com.sqy.dto.task.TaskFilterDto;
 import com.sqy.dto.task.TaskNewStatusDto;
 import com.sqy.service.interfaces.TaskService;
 import com.sqy.util.MappingUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ByteArrayResource;
@@ -34,12 +35,14 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/search")
+    @Operation(description = "Поиск среди задач по заданным параметрам(все необязательные) результат в порядке убывания по дате создания.")
     public ResponseEntity<List<TaskDto>> searchByFilters(@RequestBody TaskFilterDto taskFilterDto) {
         log.info("Invoke searchByFilters({}).", taskFilterDto);
         return ResponseEntity.ok(taskService.searchByFilters(taskFilterDto));
     }
 
     @PostMapping("/save")
+    @Operation(description = "Сохранение задачи в базу данных, id игнорируется.")
     public ResponseEntity<String> save(@RequestBody TaskDto taskDto) {
         log.info("Invoke save({}).", taskDto);
         Long resultId = taskService.save(taskDto);
@@ -50,6 +53,7 @@ public class TaskController {
     }
 
     @PutMapping("/update")
+    @Operation(description = "Обновление задачи по id.")
     public ResponseEntity<String> update(@RequestBody TaskDto taskDto) {
         log.info("Invoke update({}).", taskDto);
         boolean status = taskService.update(taskDto);
@@ -61,6 +65,7 @@ public class TaskController {
     }
 
     @PutMapping("/update-status")
+    @Operation(summary = "Обновление статуса задачи по id. Допустимые обновления: NEW -> IN_PROGRESS -> COMPLETED -> CLOSED.")
     public ResponseEntity<String> updateStatus(@RequestBody TaskNewStatusDto taskNewStatusDto) {
         log.info("Invoke updateStatus({}).", taskNewStatusDto);
         boolean status = taskService.updateStatus(taskNewStatusDto);
@@ -71,6 +76,7 @@ public class TaskController {
     }
 
     @PostMapping("/file/{task-id}")
+    @Operation(summary = "Загрузка файла в задачу по id, у задачи может быть только 1 файл.")
     public ResponseEntity<String> uploadTaskFile(@RequestBody MultipartFile file,
                                                  @PathVariable("task-id") long taskId) {
         log.info("Invoke uploadTaskFile({}, {}).", file, taskId);
@@ -82,6 +88,7 @@ public class TaskController {
     }
 
     @GetMapping("/file/{task-id}")
+    @Operation(summary = "Загрузка файла с задачи по id.")
     public ResponseEntity<?> downloadFileFromRelatedTask(@PathVariable("task-id") long taskId) {
         log.info("Invoke downloadFileFromRelatedTask({}).", taskId);
         TaskFileDto taskFile = taskService.getFileFromRelatedTask(taskId);
@@ -96,6 +103,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/file/{task-id}")
+    @Operation(summary = "Удаление файла с задачи по id.")
     public ResponseEntity<?> deleteFileFromRelatedTask(@PathVariable("task-id") long taskId) {
         log.info("Invoke deleteFileFromRelatedTask({}).", taskId);
         boolean status = taskService.deleteFileFromRelatedTask(taskId);
