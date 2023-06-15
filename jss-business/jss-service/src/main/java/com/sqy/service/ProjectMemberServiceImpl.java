@@ -35,9 +35,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     public ProjectMemberDto getById(Long id) {
         log.info("Invoke getById({}).", id);
         return projectMemberRepository.findById(id)
-                .stream()
                 .map(ProjectMemberMapper::getDtoFromModel)
-                .findAny()
                 .orElse(null);
     }
 

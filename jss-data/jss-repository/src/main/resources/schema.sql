@@ -74,6 +74,16 @@ create table project_file
     foreign key (project_id) references project (project_id) on delete cascade
 );
 
+create table task_to_related_task
+(
+    task_to_related_task_id serial,
+    task_id                 int not null,
+    related_task_id         int not null,
+    primary key (task_to_related_task_id),
+    foreign key (task_id) references task (task_id) on delete cascade,
+    foreign key (related_task_id) references task (task_id) on delete cascade
+);
+
 CREATE OR REPLACE FUNCTION update_last_modified()
     RETURNS TRIGGER AS
 $$

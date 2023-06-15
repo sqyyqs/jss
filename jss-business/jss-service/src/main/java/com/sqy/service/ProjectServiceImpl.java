@@ -45,9 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDto getById(Long id) {
         log.info("Invoke getById({}).", id);
         return projectRepository.findById(id)
-                .stream()
                 .map(ProjectMapper::getDtoFromModel)
-                .findAny()
                 .orElse(null);
     }
 

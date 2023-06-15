@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_task_to_related_task_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: task_to_related_task
+            columns:
+              - column:
+                  name: relationship_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: task_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: related_task_id
+                  type: int
+                  constraints:
+                    nullable: false
+            constraints:
+              - primaryKey:
+                  columnNames: task_to_related_task_id
+              - foreignKey:
+                  baseTableName: task_to_related_task
+                  baseColumnNames: task_id
+                  referencedTableName: task
+                  referencedColumnNames: task_id
+                  onDelete: cascade
+              - foreignKey:
+                  baseTableName: task_to_related_task
+                  baseColumnNames: related_task_id
+                  referencedTableName: task
+                  referencedColumnNames: task_id
+                  onDelete: cascade

@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -68,6 +70,9 @@ public class Task {
 
     @OneToOne(mappedBy = "task")
     private TaskFile taskFile;
+
+    @OneToMany(mappedBy = "task")
+    private Set<TaskToRelatedTask> taskRelationships;
 
     @Override
     public String toString() {

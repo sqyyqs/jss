@@ -36,9 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto getById(Long id) {
         log.info("Invoke getById({}).", id);
         return employeeRepository.findById(id)
-                .stream()
                 .map(EmployeeMapper::getDtoFromModel)
-                .findAny()
                 .orElse(null);
     }
 
