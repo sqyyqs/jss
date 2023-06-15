@@ -50,4 +50,15 @@ public class Project {
 
     @OneToOne(mappedBy = "project")
     private ProjectFile projectFile;
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectId=" + projectId +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", projectStatus=" + projectStatus +
+                '}';
+    }
 }

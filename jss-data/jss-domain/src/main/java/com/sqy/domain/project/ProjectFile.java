@@ -13,8 +13,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,7 +39,7 @@ public class ProjectFile {
     public String toString() {
         return "ProjectFile{" +
                 "projectFileId=" + projectFileId +
-                ", file=" + Arrays.toString(file).substring(0, 10) + "...]" +
+                ", file=byte[" + file.length + ']' +
                 ", fileContentType='" + fileContentType + '\'' +
                 '}';
     }

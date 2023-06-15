@@ -13,8 +13,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,7 +39,7 @@ public class TaskFile {
     public String toString() {
         return "TaskFile{" +
                 "taskFileId=" + taskFileId +
-                ", file=" + Arrays.toString(file).substring(0, 10) + "...]" +
+                ", file=byte[" + file.length + ']' +
                 ", fileContentType='" + fileContentType + '\'' +
                 '}';
     }

@@ -32,4 +32,11 @@ public class TaskToRelatedTask {
     @ManyToOne
     @JoinColumn(name = "related_task_id", referencedColumnName = "task_id")
     private Task relatedTask;
+
+    @Override
+    public String toString() {
+        return "TaskToRelatedTask{" +
+                "relationshipId=" + relationshipId +
+                '}';
+    }
 }

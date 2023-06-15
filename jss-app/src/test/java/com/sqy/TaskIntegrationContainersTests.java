@@ -27,7 +27,6 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 
-import static com.sqy.domain.task.TaskStatus.COMPLETED;
 import static com.sqy.domain.task.TaskStatus.IN_PROGRESS;
 import static com.sqy.domain.task.TaskStatus.NEW;
 import static com.sqy.util.MappingUtils.convertObjectToJson;
@@ -163,7 +162,7 @@ public class TaskIntegrationContainersTests {
                 .andExpect(jsonPath("$[0].description", is(nullValue())))
                 .andExpect(jsonPath("$[0].performer_id", is(4)))
                 .andExpect(jsonPath("$[0].estimated_hours", is(168)))
-                .andExpect(jsonPath("$[0].status", is(IN_PROGRESS.name())))
+                .andExpect(jsonPath("$[0].status", is(NEW.name())))
                 .andExpect(jsonPath("$[0].author_id", is(2)));
     }
 
@@ -171,7 +170,7 @@ public class TaskIntegrationContainersTests {
     @Test
     @Order(5)
     public void testUpdateStatus() throws Exception {
-        TaskNewStatusDto input = new TaskNewStatusDto(4L, COMPLETED);
+        TaskNewStatusDto input = new TaskNewStatusDto(4L, IN_PROGRESS);
 
         mockMvc.perform(put("/api/v1/task/update-status")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -195,7 +194,7 @@ public class TaskIntegrationContainersTests {
                 .andExpect(jsonPath("$[0].description", is(nullValue())))
                 .andExpect(jsonPath("$[0].performer_id", is(4)))
                 .andExpect(jsonPath("$[0].estimated_hours", is(168)))
-                .andExpect(jsonPath("$[0].status", is(COMPLETED.name())))
+                .andExpect(jsonPath("$[0].status", is(IN_PROGRESS.name())))
                 .andExpect(jsonPath("$[0].author_id", is(2)));
     }
 

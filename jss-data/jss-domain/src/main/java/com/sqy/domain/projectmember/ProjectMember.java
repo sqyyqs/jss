@@ -45,4 +45,12 @@ public class ProjectMember {
 
     @OneToOne(mappedBy = "author")
     private Task task;
+
+    @Override
+    public String toString() {
+        return "ProjectMember{" +
+                "projectMemberId=" + projectMemberId +
+                ", projectMemberRole=" + projectMemberRole +
+                '}';
+    }
 }
