@@ -57,7 +57,7 @@ public class TaskServiceImplTests {
     private TaskService taskService;
 
     @Test
-    void save_WithException_ReturnsNull() {
+    public void save_WithException_ReturnsNull() {
         TaskDto input = TaskDto.builder().id(1L).name("first_project_name").performerId(1L).authorId(1L)
                 .estimatedHours(168L).deadline(LocalDateTime.now().plusYears(1)).build();
         when(taskRepository.save(any(Task.class))).thenThrow(DataIntegrityViolationException.class);
@@ -67,7 +67,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void save_ReturnsSavedEntityId() {
+    public void save_ReturnsSavedEntityId() {
         TaskDto input = TaskDto.builder().id(1L).name("first_project_name").performerId(1L).authorId(1L)
                 .estimatedHours(168L).deadline(LocalDateTime.now().plusYears(1)).build();
 
@@ -86,7 +86,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void update_ReturnsFalse_NullId() {
+    public void update_ReturnsFalse_NullId() {
         TaskDto input = TaskDto.builder().name("first_project_name").performerId(1L).authorId(1L)
                 .estimatedHours(168L).deadline(LocalDateTime.now().plusYears(1)).build();
         assertFalse(taskService.update(input));
@@ -95,7 +95,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void update_ReturnsFalse_NotExistingById() {
+    public void update_ReturnsFalse_NotExistingById() {
         TaskDto input = TaskDto.builder().id(1L).name("first_project_name").performerId(1L).authorId(1L)
                 .estimatedHours(168L).deadline(LocalDateTime.now().plusYears(1)).build();
         when(taskRepository.existsById(anyLong())).thenReturn(false);
@@ -105,7 +105,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void update_ReturnsFalse_ThrowsException() {
+    public void update_ReturnsFalse_ThrowsException() {
         TaskDto input = TaskDto.builder().id(1L).name("first_project_name").performerId(1L).authorId(1L)
                 .estimatedHours(168L).deadline(LocalDateTime.now().plusYears(1)).build();
 
@@ -118,7 +118,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void update_ReturnsTrue() {
+    public void update_ReturnsTrue() {
         TaskDto input = TaskDto.builder().id(1L).name("first_project_name").performerId(1L).authorId(1L)
                 .estimatedHours(168L).deadline(LocalDateTime.now().plusYears(1)).build();
 
@@ -131,7 +131,7 @@ public class TaskServiceImplTests {
 
 
     @Test
-    void updateStatus_ReturnsFalse_NotExistingById() {
+    public void updateStatus_ReturnsFalse_NotExistingById() {
         TaskNewStatusDto input = new TaskNewStatusDto(1L, TaskStatus.COMPLETED);
 
         when(taskRepository.findById(anyLong())).thenReturn(Optional.empty());
@@ -142,7 +142,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void updateStatus_ReturnsFalse_IncorrectStatus() {
+    public void updateStatus_ReturnsFalse_IncorrectStatus() {
         TaskNewStatusDto input = new TaskNewStatusDto(1L, TaskStatus.COMPLETED);
 
         when(taskRepository.findById(anyLong())).thenReturn(Optional.of(
@@ -155,7 +155,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void updateStatus_ReturnsFalse_CompletedStatus() {
+    public void updateStatus_ReturnsFalse_CompletedStatus() {
         TaskNewStatusDto input = new TaskNewStatusDto(1L, TaskStatus.COMPLETED);
 
         when(taskRepository.findById(anyLong())).thenReturn(Optional.of(
@@ -168,7 +168,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void updateStatus_ReturnsTrue() {
+    public void updateStatus_ReturnsTrue() {
         TaskNewStatusDto input = new TaskNewStatusDto(1L, TaskStatus.COMPLETED);
 
         when(taskRepository.findById(anyLong())).thenReturn(Optional.of(
@@ -181,7 +181,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void searchByFilters_returnsList() {
+    public void searchByFilters_returnsList() {
         TaskFilterDto qwe = new TaskFilterDto("qwe", null, null, null, null, null);
         LocalDateTime someDate = LocalDateTime.now().plusYears(1);
 
@@ -219,7 +219,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void uploadFileToTaskId() throws IOException {
+    public void uploadFileToTaskId() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
         when(taskFileRepository.save(any(TaskFile.class))).thenReturn(
                 TaskFile.builder().taskFileId(1L)
@@ -232,7 +232,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void uploadFileToTaskId_ThrowsException() {
+    public void uploadFileToTaskId_ThrowsException() {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
         when(taskFileRepository.save(any(TaskFile.class))).thenThrow(DataIntegrityViolationException.class);
         assertFalse(taskService.uploadFileToTaskId(file, 1L));
@@ -240,7 +240,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void getFileFromRelatedTask() throws IOException {
+    public void getFileFromRelatedTask() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
         when(taskFileRepository.getTaskFileByTask_TaskId(anyLong())).thenReturn(
                 TaskFile.builder().taskFileId(1L)
@@ -255,7 +255,7 @@ public class TaskServiceImplTests {
     }
 
     @Test
-    void deleteFileFromRelatedTask() {
+    public void deleteFileFromRelatedTask() {
         doNothing().when(taskFileRepository).deleteByTask_TaskId(anyLong());
         assertTrue(taskService.deleteFileFromRelatedTask(1L));
         verify(taskFileRepository, times(1)).deleteByTask_TaskId(anyLong());

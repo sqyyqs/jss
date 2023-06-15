@@ -7,7 +7,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class EmailService {
             msg.setSubject(email.getSubject());
             msg.setContent(email.getHtml(), EmailUtils.TEXT_HTML_UTF_8);
             mailSender.send(msg);
-        } catch (MessagingException | MailAuthenticationException e) {
+        } catch (MessagingException | MailException e) {
             log.info("Invoke sendEmail({}) with exception.", email, e);
         }
     }

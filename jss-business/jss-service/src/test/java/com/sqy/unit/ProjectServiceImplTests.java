@@ -52,7 +52,7 @@ public class ProjectServiceImplTests {
 
 
     @Test
-    void getAll_ReturnsListOfProjects() {
+    public void getAll_ReturnsListOfProjects() {
         List<ProjectDto> expected = List.of(
                 ProjectDto.builder().id(1L).code("FIRST_code").name("FIRST_name").build(),
                 ProjectDto.builder().id(2L).code("SECOND_code").name("SECOND_name").build(),
@@ -72,7 +72,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void getById_ReturnsProjectDto() {
+    public void getById_ReturnsProjectDto() {
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(
                 Project.builder().projectId(1L).code("FIRST_code").name("FIRST_name").build()
         ));
@@ -84,14 +84,14 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void getById_ReturnsNull() {
+    public void getById_ReturnsNull() {
         when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
         assertNull(projectService.getById(2L));
         verify(projectRepository, times(1)).findById(anyLong());
     }
 
     @Test
-    void save_ReturnsNull_CodeExisting() {
+    public void save_ReturnsNull_CodeExisting() {
         ProjectDto input =
                 ProjectDto.builder().id(1L).code("FIRST_code").name("FIRST_name").build();
 
@@ -104,7 +104,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void save_ReturnsSavedEntityId_CodeNotExisting() {
+    public void save_ReturnsSavedEntityId_CodeNotExisting() {
         ProjectDto input =
                 ProjectDto.builder().id(1L).code("FIRST_code").name("FIRST_name").build();
 
@@ -123,7 +123,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void update_ReturnsFalse_NullId() {
+    public void update_ReturnsFalse_NullId() {
         ProjectDto input =
                 ProjectDto.builder().code("FIRST_code").name("FIRST_name").build();
 
@@ -134,7 +134,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void update_ReturnsFalse_NotExistingById() {
+    public void update_ReturnsFalse_NotExistingById() {
         ProjectDto input =
                 ProjectDto.builder().id(1L).code("null").name("FIRST_name").build();
 
@@ -148,7 +148,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void update_ReturnsTrue() {
+    public void update_ReturnsTrue() {
         ProjectDto input =
                 ProjectDto.builder().id(1L).code("null").name("FIRST_name").build();
 
@@ -164,7 +164,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void updateState_ReturnsFalse_NotExistingById() {
+    public void updateState_ReturnsFalse_NotExistingById() {
         ProjectNewStatusDto input = new ProjectNewStatusDto(1L, ProjectStatus.IN_TESTING);
 
         when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
@@ -175,7 +175,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void updateState_ReturnsFalse_CompletedStatus() {
+    public void updateState_ReturnsFalse_CompletedStatus() {
         ProjectNewStatusDto input = new ProjectNewStatusDto(1L, ProjectStatus.COMPLETED);
 
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(
@@ -188,7 +188,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void updateState_ReturnsTrue() {
+    public void updateState_ReturnsTrue() {
         ProjectNewStatusDto input = new ProjectNewStatusDto(1L, ProjectStatus.COMPLETED);
 
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(
@@ -201,7 +201,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void search() {
+    public void search() {
         ProjectSearchDto input = new ProjectSearchDto("vvv", Set.of(ProjectStatus.IN_TESTING, ProjectStatus.COMPLETED));
 
         List<ProjectDto> expected = List.of(
@@ -221,7 +221,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void uploadFileToProjectId() throws IOException {
+    public void uploadFileToProjectId() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
         when(projectFileRepository.save(any(ProjectFile.class))).thenReturn(
                 ProjectFile.builder().projectFileId(1L)
@@ -234,7 +234,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void uploadFileToProjectId_ThrowsException() {
+    public void uploadFileToProjectId_ThrowsException() {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
         when(projectFileRepository.save(any(ProjectFile.class))).thenThrow(DataIntegrityViolationException.class);
         assertFalse(projectService.uploadFileToProjectId(file, 1L));
@@ -242,7 +242,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void getFileFromRelatedProject() throws IOException {
+    public void getFileFromRelatedProject() throws IOException {
         MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
         when(projectFileRepository.getProjectFileByProject_ProjectId(anyLong())).thenReturn(
                 ProjectFile.builder().projectFileId(1L)
@@ -258,7 +258,7 @@ public class ProjectServiceImplTests {
     }
 
     @Test
-    void deleteFileFromRelatedProject() {
+    public void deleteFileFromRelatedProject() {
         doNothing().when(projectFileRepository).deleteProjectFileByProject_ProjectId(anyLong());
         assertTrue(projectService.deleteFileFromRelatedProject(1L));
         verify(projectFileRepository, times(1)).deleteProjectFileByProject_ProjectId(anyLong());

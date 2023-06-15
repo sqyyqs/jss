@@ -39,7 +39,7 @@ public class EmployeeServiceImplTests {
 
 
     @Test
-    void getAll_returnsListOfEmployees() {
+    public void getAll_returnsListOfEmployees() {
         List<EmployeeDto> expected = List.of(
                 EmployeeDto.builder().id(1L).firstName("FIRST_firstName").lastName("FIRST_lastName").build(),
                 EmployeeDto.builder().id(2L).firstName("SECOND_firstName").lastName("SECOND_lastName").build(),
@@ -74,7 +74,7 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void getById_ReturnsEmployeeDto() {
+    public void getById_ReturnsEmployeeDto() {
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(
                 Employee.builder()
                         .employeeId(1L)
@@ -94,14 +94,14 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void getById_ReturnsNull() {
+    public void getById_ReturnsNull() {
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
         assertNull(employeeService.getById(2L));
         verify(employeeRepository, times(1)).findById(anyLong());
     }
 
     @Test
-    void save_ReturnsSavedEntityId() {
+    public void save_ReturnsSavedEntityId() {
         EmployeeDto input =
                 EmployeeDto.builder().id(13L).firstName("first_name").lastName("last_name").build();
 
@@ -116,7 +116,7 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void update_WithoutId() {
+    public void update_WithoutId() {
         EmployeeDto employeeDto = EmployeeDto.builder().firstName("FN").lastName("LN").build();
         assertFalse(employeeService.update(employeeDto));
         verify(employeeRepository, never()).findById(anyLong());
@@ -124,7 +124,7 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void update_WithNonExistingId() {
+    public void update_WithNonExistingId() {
         EmployeeDto employeeDto = EmployeeDto.builder().id(123L).firstName("FN").lastName("LN").build();
 
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
@@ -134,7 +134,7 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void update_WithExistingId_Active() {
+    public void update_WithExistingId_Active() {
         EmployeeDto employeeDto = EmployeeDto.builder().id(123L).firstName("FN").lastName("LN").build();
 
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(
@@ -147,7 +147,7 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void update_WithExistingId_Deleted() {
+    public void update_WithExistingId_Deleted() {
         EmployeeDto employeeDto = EmployeeDto.builder().id(123L).firstName("FN").lastName("LN").build();
 
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(
@@ -161,7 +161,7 @@ public class EmployeeServiceImplTests {
 
 
     @Test
-    void delete_WithExistingId_ReturnsTrue() {
+    public void delete_WithExistingId_ReturnsTrue() {
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(
                 Employee.builder().employeeId(1L).firstName("firstName").lastName("lastName").build()
         ));
@@ -172,7 +172,7 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void delete_WithNonExistingId_ReturnsFalse() {
+    public void delete_WithNonExistingId_ReturnsFalse() {
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
         assertFalse(employeeService.delete(1L));
         verify(employeeRepository, times(1)).findById(anyLong());
@@ -180,7 +180,7 @@ public class EmployeeServiceImplTests {
     }
 
     @Test
-    void search() {
+    public void search() {
         List<EmployeeDto> expected = List.of(
                 EmployeeDto.builder().id(45L).firstName("ASDskdfskfdj").lastName("FIRST_lastName").build(),
                 EmployeeDto.builder().id(46L).firstName("dofjsdopfjsp").lastName("ASD123").build(),

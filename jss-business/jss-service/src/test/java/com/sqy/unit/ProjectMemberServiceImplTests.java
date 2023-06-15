@@ -41,7 +41,7 @@ public class ProjectMemberServiceImplTests {
     private ProjectMemberService projectMemberService;
 
     @Test
-    void getAll_ReturnsListOfProjectMemberDto() {
+    public void getAll_ReturnsListOfProjectMemberDto() {
         List<ProjectMemberDto> expectedDtoList = List.of(
                 ProjectMemberDto.builder().id(1L).projectId(1L).employeeId(1L).projectMemberRole(ProjectMemberRole.LEAD).build(),
                 ProjectMemberDto.builder().id(2L).projectId(2L).employeeId(2L).projectMemberRole(ProjectMemberRole.ANALYST).build(),
@@ -77,7 +77,7 @@ public class ProjectMemberServiceImplTests {
     }
 
     @Test
-    void getById_ReturnsProjectMemberDto() {
+    public void getById_ReturnsProjectMemberDto() {
         when(projectMemberRepository.findById(anyLong())).thenReturn(Optional.of(
                 ProjectMember.builder()
                         .projectMemberId(1L)
@@ -99,14 +99,14 @@ public class ProjectMemberServiceImplTests {
     }
 
     @Test
-    void getById_ReturnsNull() {
+    public void getById_ReturnsNull() {
         when(projectMemberRepository.findById(anyLong())).thenReturn(Optional.empty());
         assertNull(projectMemberService.getById(2L));
         verify(projectMemberRepository, times(1)).findById(anyLong());
     }
 
     @Test
-    void getAllByProjectId_ReturnsListOfProjectMemberDto() {
+    public void getAllByProjectId_ReturnsListOfProjectMemberDto() {
         List<ProjectMemberDto> expectedDtoList = List.of(
                 ProjectMemberDto.builder().id(1L).projectId(1L).employeeId(1L).projectMemberRole(ProjectMemberRole.LEAD).build(),
                 ProjectMemberDto.builder().id(2L).projectId(1L).employeeId(2L).projectMemberRole(ProjectMemberRole.ANALYST).build(),
@@ -142,7 +142,7 @@ public class ProjectMemberServiceImplTests {
     }
 
     @Test
-    void save_ReturnsSavedEntityId() {
+    public void save_ReturnsSavedEntityId() {
         ProjectMemberDto input =
                 ProjectMemberDto.builder().projectMemberRole(ProjectMemberRole.LEAD).projectId(1L).employeeId(1L).build();
 
@@ -157,7 +157,7 @@ public class ProjectMemberServiceImplTests {
     }
 
     @Test
-    void save_WithException_ReturnsNull() {
+    public void save_WithException_ReturnsNull() {
         ProjectMemberDto input =
                 ProjectMemberDto.builder().projectMemberRole(ProjectMemberRole.LEAD).projectId(1L).employeeId(1L).build();
 
@@ -167,7 +167,7 @@ public class ProjectMemberServiceImplTests {
     }
 
     @Test
-    void delete_WithExistingId_ReturnsTrue() {
+    public void delete_WithExistingId_ReturnsTrue() {
         when(projectMemberRepository.existsById(1L)).thenReturn(true);
         doNothing().when(projectMemberRepository).deleteById(anyLong());
         assertTrue(projectMemberService.delete(1L));
@@ -176,7 +176,7 @@ public class ProjectMemberServiceImplTests {
     }
 
     @Test
-    void delete_WithExistingId_ReturnsFalse() {
+    public void delete_WithExistingId_ReturnsFalse() {
         when(projectMemberRepository.existsById(1L)).thenReturn(false);
         assertFalse(projectMemberService.delete(1L));
         verify(projectMemberRepository, times(1)).existsById(anyLong());
