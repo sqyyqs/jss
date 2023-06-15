@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    username:
+    password:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/liquibase-create-tables.yaml
+    enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mail
+    password: gmail-app-password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  rabbitmq:
+    host:
+    port:
+    username:
+    password:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration

@@ -1,6 +1,5 @@
 package com.sqy.util;
 
-import com.sqy.domain.employee.Employee;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
 import com.sqy.dto.task.TaskFilterDto;
@@ -9,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class TaskSpecificationBuilder {
     public static Specification<Task> buildSpecification(TaskFilterDto filterDTO) {
@@ -36,8 +36,8 @@ public class TaskSpecificationBuilder {
 
         if (filterDTO.performerId() != null) {
             specifications.add((root, query, criteriaBuilder) -> {
-                Join<Task, Employee> performerJoin = root.join("performer");
-                return criteriaBuilder.equal(performerJoin.get("employeeId"), filterDTO.performerId());
+                Join<Task, ProjectMember> performerJoin = root.join("performer");
+                return criteriaBuilder.equal(performerJoin.get("projectMemberId"), filterDTO.performerId());
             });
         }
 

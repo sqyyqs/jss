@@ -25,7 +25,6 @@
         <dependency>
             <groupId>com.sqy</groupId>
             <artifactId>jss-security</artifactId>
-
         </dependency>
 
         <dependency>

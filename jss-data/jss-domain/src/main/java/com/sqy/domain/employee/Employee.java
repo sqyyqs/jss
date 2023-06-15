@@ -1,7 +1,6 @@
 package com.sqy.domain.employee;
 
 import com.sqy.domain.projectmember.ProjectMember;
-import com.sqy.domain.task.Task;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,22 +10,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
 @Entity
 @Table(name = "employee")
@@ -65,7 +59,17 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private Set<ProjectMember> projectMembers;
 
-    @OneToOne(mappedBy = "performer")
-    private Task task;
-
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", position='" + position + '\'' +
+                ", account='" + account + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

@@ -44,7 +44,6 @@ public class EmployeeIntegrationContainerTests {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withInitScript("init_script.sql")
             .withDatabaseName("employee")
             .withUsername("postgres")
             .withPassword("test");
@@ -107,7 +106,7 @@ public class EmployeeIntegrationContainerTests {
                 .andExpect(jsonPath("$.middle_name", is("anatol'evich")))
                 .andExpect(jsonPath("$.position", is("smth")))
                 .andExpect(jsonPath("$.account", is(nullValue())))
-                .andExpect(jsonPath("$.email", is("test@test.com")))
+                .andExpect(jsonPath("$.email", is("ttl1de@ya.ru")))
                 .andExpect(jsonPath("$.employee_status", is(ACTIVE.name())));
     }
 

@@ -1,35 +1,34 @@
-package com.sqy.dto;
+package com.sqy.dto.projectmember;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sqy.domain.projectmember.ProjectMemberRole;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import static java.util.Objects.requireNonNull;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 @Builder
 public class ProjectMemberDto {
     @Nullable
     @JsonProperty("id")
+    @Schema(description = "Идентификационный номер(необязательно).")
     private Long id;
 
     @JsonProperty("project_id")
+    @Schema(description = "Идентификационный номер проекта.")
     private Long projectId;
 
     @JsonProperty("employee_id")
+    @Schema(description = "Идентификационный номер сотрудника.")
     private Long employeeId;
 
     @JsonProperty("project_member_role")
+    @Schema(description = "Роль сотрудника в проекте.")
     private ProjectMemberRole projectMemberRole;
 
     @JsonCreator

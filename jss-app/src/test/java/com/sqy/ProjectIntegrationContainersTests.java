@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
@@ -29,9 +31,14 @@ import static com.sqy.util.MappingUtils.convertObjectToJson;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,7 +55,6 @@ public class ProjectIntegrationContainersTests {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withInitScript("init_script.sql")
             .withDatabaseName("project_member")
             .withUsername("postgres")
             .withPassword("test");
@@ -209,5 +215,72 @@ public class ProjectIntegrationContainersTests {
                         .content(convertObjectToJson(input)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(4)));
+    }
+
+    @Test
+    @Order(14)
+    public void testUploadFile() throws Exception {
+        MockMultipartFile file =
+                new MockMultipartFile("file", "test.txt", MediaType.TEXT_PLAIN_VALUE, "testtext".getBytes());
+        mockMvc.perform(multipart("/api/v1/project/file/{project-id}", 1L)
+                        .file(file))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Test
+    @Order(15)
+    public void testUploadFile_NonExistingId() throws Exception {
+        MockMultipartFile file =
+                new MockMultipartFile("file", "test.txt", MediaType.TEXT_PLAIN_VALUE, "testtext".getBytes());
+        mockMvc.perform(multipart("/api/v1/project/file/{project-id}", 999L)
+                        .file(file))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(16)
+    public void testDownloadFile() throws Exception {
+        byte[] expected = "testtext".getBytes();
+        mockMvc.perform(get("/api/v1/project/file/{project-id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"project_file\""))
+                .andExpect(content().contentType(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(result -> {
+                    byte[] contentAsByteArray = result.getResponse().getContentAsByteArray();
+                    assertArrayEquals(expected, contentAsByteArray);
+                });
+    }
+
+    @Test
+    @Order(17)
+    public void testDownloadFile_NonExistingId() throws Exception {
+        mockMvc.perform(get("/api/v1/project/file/{project-id}", 999L))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(18)
+    public void testUploadFile_AlreadyExist() throws Exception {
+        MockMultipartFile file =
+                new MockMultipartFile("file", "test.txt", MediaType.TEXT_PLAIN_VALUE, "testtext".getBytes());
+        mockMvc.perform(multipart("/api/v1/project/file/{project-id}", 1L)
+                        .file(file))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(19)
+    public void deleteFileFromRelatedTask() throws Exception {
+        mockMvc.perform(delete("/api/v1/project/file/{project-id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Test
+    @Order(20)
+    public void deleteFileFromRelatedTask_NonExistingId() throws Exception {
+        mockMvc.perform(delete("/api/v1/project/file/{project-id}", 1L))
+                .andExpect(status().isBadRequest());
     }
 }

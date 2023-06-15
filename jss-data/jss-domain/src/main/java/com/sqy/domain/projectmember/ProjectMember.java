@@ -12,20 +12,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
+import java.util.Set;
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
 @Entity
 @Table(name = "project_member")
@@ -47,6 +45,17 @@ public class ProjectMember {
     @Enumerated(EnumType.STRING)
     private ProjectMemberRole projectMemberRole;
 
-    @OneToOne(mappedBy = "author")
-    private Task task;
+    @OneToMany(mappedBy = "author")
+    private Set<Task> authorTasks;
+
+    @OneToMany(mappedBy = "performer")
+    private Set<Task> performerTasks;
+
+    @Override
+    public String toString() {
+        return "ProjectMember{" +
+                "projectMemberId=" + projectMemberId +
+                ", projectMemberRole=" + projectMemberRole +
+                '}';
+    }
 }

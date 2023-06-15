@@ -15,11 +15,11 @@ public class JwtToPrincipleMapper {
         return new UserPrinciple(Long.valueOf(
                 jwt.getSubject()),
                 jwt.getClaim("email").toString(),
-                extreactAuthoritiesFromClaim(jwt)
+                extractAuthoritiesFromClaim(jwt)
         );
     }
 
-    private List<SimpleGrantedAuthority> extreactAuthoritiesFromClaim(DecodedJWT jwt) {
+    private List<SimpleGrantedAuthority> extractAuthoritiesFromClaim(DecodedJWT jwt) {
         Claim roles = jwt.getClaim("roles");
         if (roles.isNull() || roles.isMissing()) {
             return Collections.emptyList();

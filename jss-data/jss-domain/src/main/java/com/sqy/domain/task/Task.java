@@ -1,6 +1,5 @@
 package com.sqy.domain.task;
 
-import com.sqy.domain.employee.Employee;
 import com.sqy.domain.projectmember.ProjectMember;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -11,23 +10,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
 @Entity
 @Table(name = "task")
@@ -44,9 +42,10 @@ public class Task {
     @Nullable
     private String description;
 
-    @OneToOne
-    @JoinColumn(name = "performer_id", referencedColumnName = "employee_id")
-    private Employee performer;
+    @ManyToOne
+    @JoinColumn(name = "performer_id", referencedColumnName = "project_member_id")
+    @Nullable
+    private ProjectMember performer;
 
     @Column(name = "estimated_hours", nullable = false)
     private Long estimatedHours;
@@ -58,7 +57,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "project_member_id")
     private ProjectMember author;
 
@@ -69,4 +68,24 @@ public class Task {
     @Column(name = "last_update_date", nullable = false)
     @CreationTimestamp
     private LocalDateTime lastUpdateDate;
+
+    @OneToOne(mappedBy = "task")
+    private TaskFile taskFile;
+
+    @OneToMany(mappedBy = "task")
+    private Set<TaskToRelatedTask> taskRelationships;
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", estimatedHours=" + estimatedHours +
+                ", deadline=" + deadline +
+                ", status=" + status +
+                ", creationDate=" + creationDate +
+                ", lastUpdateDate=" + lastUpdateDate +
+                '}';
+    }
 }

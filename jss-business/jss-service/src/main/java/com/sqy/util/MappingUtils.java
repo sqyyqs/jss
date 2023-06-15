@@ -7,10 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.Nullable;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.util.StringUtils;
 
 
-@Slf4j
+@Log4j2
 public final class MappingUtils {
     private MappingUtils() {
     }
@@ -36,5 +37,17 @@ public final class MappingUtils {
             }
         }
         return EMPTY_JSON;
+    }
+
+    @Nullable
+    public static <T> T parseJsonToInstance(@Nullable String json, Class<T> type) {
+        if (StringUtils.hasText(json)) {
+            try {
+                return OBJECT_MAPPER.readValue(json, type);
+            } catch (JsonProcessingException ex) {
+                log.error("Can't parse json: '{}' to instance.", json, ex);
+            }
+        }
+        return null;
     }
 }
