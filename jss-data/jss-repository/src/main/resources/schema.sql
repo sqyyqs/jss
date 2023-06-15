@@ -56,12 +56,22 @@ create table task
 
 create table task_file
 (
-    task_file_id   serial,
-    task_id        int unique   not null,
-    file           bytea        not null,
-    file_extension varchar(255) not null,
+    task_file_id      serial,
+    task_id           int unique   not null,
+    file              bytea        not null,
+    file_content_type varchar(255) not null,
     primary key (task_file_id),
     foreign key (task_id) references task (task_id) on delete cascade
+);
+
+create table project_file
+(
+    project_file_id   serial,
+    project_id        int unique   not null,
+    file              bytea        not null,
+    file_content_type varchar(255) not null,
+    primary key (project_file_id),
+    foreign key (project_id) references project (project_id) on delete cascade
 );
 
 CREATE OR REPLACE FUNCTION update_last_modified()

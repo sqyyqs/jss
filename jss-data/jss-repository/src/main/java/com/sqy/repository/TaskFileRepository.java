@@ -5,8 +5,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskFileRepository extends JpaRepository<TaskFile, Long> {
-    TaskFile getTaskFileByTaskTaskId(long taskId);
+    TaskFile getTaskFileByTask_TaskId(long taskId);
 
     @Transactional
-    void deleteByTaskTaskId(long taskId);
+    void deleteByTask_TaskId(long taskId);
 }

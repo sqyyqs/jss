@@ -1,11 +1,11 @@
-package com.sqy.dto.task;
+package com.sqy.dto.project;
 
 import java.util.Arrays;
 
-public record TaskFileDto(byte[] file, String fileContentType) {
+public record ProjectFileDto(byte[] file, String fileContentType) {
     @Override
     public String toString() {
-        return "TaskFileDto{" +
+        return "ProjectFileDto{" +
                 "file=" + Arrays.toString(file).substring(0, 10) + "...]" +
                 ", fileContentType='" + fileContentType + '\'' +
                 '}';

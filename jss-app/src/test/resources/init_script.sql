@@ -11,7 +11,6 @@ create table employee
     primary key (employee_id)
 );
 
-
 CREATE UNIQUE INDEX employee_unique_account
     ON employee (account)
     WHERE status = 'ACTIVE';
@@ -48,7 +47,6 @@ create table task
     deadline         timestamp    not null,
     status           varchar(255) not null,
     author_id        int          not null,
-    related_file     bytea,
     creation_date    timestamp default current_timestamp,
     last_update_date timestamp default current_timestamp,
     primary key (task_id),
@@ -58,13 +56,25 @@ create table task
 
 create table task_file
 (
-    task_file_id   serial,
-    task_id        int unique   not null,
-    file           bytea        not null,
-    file_extension varchar(255) not null,
+    task_file_id      serial,
+    task_id           int unique   not null,
+    file              bytea        not null,
+    file_content_type varchar(255) not null,
     primary key (task_file_id),
     foreign key (task_id) references task (task_id) on delete cascade
 );
+
+create table project_file
+(
+    project_file_id   serial,
+    project_id        int unique   not null,
+    file              bytea        not null,
+    file_content_type varchar(255) not null,
+    primary key (project_file_id),
+    foreign key (project_id) references project (project_id) on delete cascade
+);
+
+
 
 INSERT INTO employee (first_name, last_name, middle_name, position, account, email, status)
 VALUES ('John', 'Doe', 'Michael', 'Manager', 'jdoe123', 'jdoe@example.com', 'ACTIVE'),

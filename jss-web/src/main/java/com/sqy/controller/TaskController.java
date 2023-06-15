@@ -87,8 +87,8 @@ public class TaskController {
         TaskFileDto taskFile = taskService.getFileFromRelatedTask(taskId);
         ByteArrayResource file = new ByteArrayResource(taskFile.file());
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(taskFile.fileExtension()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"file\"")
+                .contentType(MediaType.parseMediaType(taskFile.fileContentType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"task_file\"")
                 .body(file);
     }
 

@@ -150,13 +150,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskFileDto getFileFromRelatedTask(long taskId) {
         log.info("Invoke getFileFromRelatedTask({}).", taskId);
-        return TaskFileMapper.getDtoFromModel(taskFileRepository.getTaskFileByTaskTaskId(taskId));
+        return TaskFileMapper.getDtoFromModel(taskFileRepository.getTaskFileByTask_TaskId(taskId));
     }
 
     @Override
     public boolean deleteFileFromRelatedTask(long taskId) {
         log.info("Invoke deleteFileFromRelatedTask({}).", taskId);
-        taskFileRepository.deleteByTaskTaskId(taskId);
+        taskFileRepository.deleteByTask_TaskId(taskId);
         return true;
     }
 }

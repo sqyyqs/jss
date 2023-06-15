@@ -19,4 +19,4 @@
 **/target/
 
 !docker-compose.yaml
-!**/db
+!db/**
