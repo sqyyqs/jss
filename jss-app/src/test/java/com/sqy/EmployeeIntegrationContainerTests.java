@@ -44,7 +44,6 @@ public class EmployeeIntegrationContainerTests {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withInitScript("init_script.sql")
             .withDatabaseName("employee")
             .withUsername("postgres")
             .withPassword("test");

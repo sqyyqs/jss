@@ -291,7 +291,7 @@ databaseChangeLog:
             tableName: task_to_related_task
             columns:
               - column:
-                  name: task_to_related_task_id
+                  name: relationship_id
                   type: serial
                   constraints:
                     primaryKey: true
@@ -324,4 +324,45 @@ databaseChangeLog:
             referencedTableName: task
             onDelete: cascade
 
+  - changeSet:
+      id: inserts
+      author: sqy
+      changes:
+        - sql:
+            INSERT INTO employee (first_name, last_name, middle_name, position, account, email, status)
+            VALUES ('John', 'Doe', 'Michael', 'Manager', 'jdoe123', 'jdoe@example.com', 'ACTIVE'),
+            ('Jane', 'Smith', NULL, 'Assistant', 'jsmith456', 'jsmith@example.com', 'ACTIVE'),
+            ('Robert', 'Johnson', 'William', 'Clerk', 'rjohnson789', 'rjohnson@example.com', 'DELETED'),
+            ('dmitriy', 'medvedev', 'anatol''evich', 'smth', null, 'ttl1de@ya.ru', 'ACTIVE'),
+            ('David', 'Wilson', 'Thomas', 'Clerk', 'dwilson123', 'dwilson@example.com', 'DELETED'),
+            ('Emily', 'Taylor', 'Grace', 'Manager', 'etaylor456', 'etaylor@example.com', 'DELETED'),
+            ('Sarah', 'Anderson', 'Elizabeth', 'Supervisor', 'sanders456', 'sanders@example.com', 'ACTIVE');
 
+            INSERT INTO project (code, name, description, status)
+            VALUES ('P001', 'Project 1', 'This is project 1', 'DRAFT'),
+            ('P002', 'Project 2', null, 'IN_PROGRESS'),
+            ('P003', 'Project 3', 'This is project 3', 'IN_TESTING'),
+            ('P004', 'Project 4', 'This project has a very long description...', 'COMPLETED'),
+            ('P005', 'Project 5', 'This is project 5', 'IN_PROGRESS');
+
+            INSERT INTO project_member (project_id, employee_id, role)
+            VALUES (1, 1, 'DEVELOPER'),
+            (1, 2, 'TESTER'),
+            (2, 3, 'LEAD'),
+            (3, 4, 'ANALYST'),
+            (4, 5, 'DEVELOPER'),
+            (5, 6, 'TESTER');
+
+            INSERT INTO task(name, description, performer_id, estimated_hours, deadline, status, author_id)
+            VALUES ('Task 1', 'Description for Task 1', 1, 8, '2024-06-30 12:00:00', 'NEW', 2),
+            ('Task 2', 'A short description', 3, 4, '2024-07-15 14:30:00', 'IN_PROGRESS', 4),
+            ('Task 3',
+            'This is a longer description for Task 3. It provides more details about the task requirements and expectations.',
+            5, 10, '2023-07-31 09:00:00', 'CLOSED', 1),
+            ('Task 4', 'descdldlldakd[osdjgfopfdsj', 4, 12, '2025-07-31 09:00:00', 'NEW', 3);
+
+            INSERT INTO task_to_related_task(task_id, related_task_id)
+            VALUES (1, 2),
+            (1, 3),
+            (1, 4),
+            (3, 2);

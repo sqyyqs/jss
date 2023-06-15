@@ -43,7 +43,6 @@ public class TaskToRelatedTaskIntegrationContainerTests {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withInitScript("init_script.sql")
             .withDatabaseName("project_member")
             .withUsername("postgres")
             .withPassword("test");

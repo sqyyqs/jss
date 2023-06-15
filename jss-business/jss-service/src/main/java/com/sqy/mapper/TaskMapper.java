@@ -18,7 +18,8 @@ public class TaskMapper {
                 .deadline(taskDto.getDeadline())
                 .status(TaskStatus.NEW)
                 .author(ProjectMember.builder().projectMemberId(taskDto.getAuthorId()).build())
-                .performer(ProjectMember.builder().projectMemberId(taskDto.getPerformerId()).build()).build();
+                .performer(taskDto.getPerformerId() == null ?
+                        null : ProjectMember.builder().projectMemberId(taskDto.getPerformerId()).build()).build();
     }
 
     public static TaskDto getDtoFromModel(Task task) {
@@ -30,7 +31,7 @@ public class TaskMapper {
                 .deadline(task.getDeadline())
                 .status(task.getStatus())
                 .authorId(task.getAuthor().getProjectMemberId())
-                .performerId(task.getPerformer().getProjectMemberId())
+                .performerId(task.getPerformer() == null ? null : task.getPerformer().getProjectMemberId())
                 .creationDate(task.getCreationDate())
                 .lastUpdateDate(task.getLastUpdateDate())
                 .build();

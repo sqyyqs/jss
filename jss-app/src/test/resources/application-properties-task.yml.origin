@@ -23,3 +23,5 @@ spring:
           auth: true
           starttls:
             enable: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration

@@ -3,7 +3,6 @@ package com.sqy;
 import com.sqy.dto.task.TaskDto;
 import com.sqy.dto.task.TaskFilterDto;
 import com.sqy.dto.task.TaskNewStatusDto;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -24,9 +23,6 @@ import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 
 import static com.sqy.domain.task.TaskStatus.IN_PROGRESS;
@@ -48,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(properties = {"spring.config.location=classpath:task-application-properties.yml"})
+@TestPropertySource(properties = {"spring.config.location=classpath:application-properties-task.yml"})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc(addFilters = false)
 @SpringBootTest
@@ -59,7 +55,6 @@ public class TaskIntegrationContainersTests {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
-            .withInitScript("init_script.sql")
             .withDatabaseName("project_member")
             .withUsername("postgres")
             .withPassword("test");
@@ -82,33 +77,33 @@ public class TaskIntegrationContainersTests {
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
 
-    @BeforeAll
-    public static void addTrigger() throws Exception {
-        String jdbcUrl = postgreSQLContainer.getJdbcUrl();
-        String username = postgreSQLContainer.getUsername();
-        String password = postgreSQLContainer.getPassword();
-
-        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
-             Statement statement = connection.createStatement()) {
-            statement.execute("""
-                        CREATE OR REPLACE FUNCTION update_last_modified()
-                        RETURNS TRIGGER AS
-                    $$
-                    BEGIN
-                        NEW.last_update_date = NOW();
-                        RETURN NEW;
-                    END;
-                    $$ LANGUAGE plpgsql;
-
-
-                    CREATE TRIGGER task_last_modified
-                        BEFORE UPDATE
-                        ON task
-                        FOR EACH ROW
-                    EXECUTE FUNCTION update_last_modified();
-                    """);
-        }
-    }
+//    @BeforeAll
+//    public static void addTrigger() throws Exception {
+//        String jdbcUrl = postgreSQLContainer.getJdbcUrl();
+//        String username = postgreSQLContainer.getUsername();
+//        String password = postgreSQLContainer.getPassword();
+//
+//        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+//             Statement statement = connection.createStatement()) {
+//            statement.execute("""
+//                        CREATE OR REPLACE FUNCTION update_last_modified()
+//                        RETURNS TRIGGER AS
+//                    $$
+//                    BEGIN
+//                        NEW.last_update_date = NOW();
+//                        RETURN NEW;
+//                    END;
+//                    $$ LANGUAGE plpgsql;
+//
+//
+//                    CREATE TRIGGER task_last_modified
+//                        BEFORE UPDATE
+//                        ON task
+//                        FOR EACH ROW
+//                    EXECUTE FUNCTION update_last_modified();
+//                    """);
+//        }
+//    }
 
     @Test
     @Order(1)

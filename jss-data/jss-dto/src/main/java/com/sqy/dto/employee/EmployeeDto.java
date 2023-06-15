@@ -52,7 +52,7 @@ public class EmployeeDto {
 
     @Nullable
     @JsonProperty("employee_status")
-    @Schema(description = "Статус(активный / удаленный), при создании не влияет, всегда active(необязательно).")
+    @Schema(description = "Статус(активный / удаленный), при создании не влияет, всегда active.")
     private EmployeeStatus employeeStatus;
 
 

@@ -4,7 +4,8 @@ spring:
     password: ${CONTAINER.PASSWORD}
     url: ${CONTAINER.URL}
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: liquitest.yml
   jpa:
     show-sql: true
   mail:
@@ -18,3 +19,5 @@ spring:
           auth: true
           starttls:
             enable: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration

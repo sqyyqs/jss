@@ -44,6 +44,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "performer_id", referencedColumnName = "project_member_id")
+    @Nullable
     private ProjectMember performer;
 
     @Column(name = "estimated_hours", nullable = false)

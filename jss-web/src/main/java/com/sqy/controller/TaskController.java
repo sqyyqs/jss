@@ -42,7 +42,7 @@ public class TaskController {
     }
 
     @PostMapping("/save")
-    @Operation(description = "Сохранение задачи в базу данных, id игнорируется.")
+    @Operation(summary = "Сохранение задачи в базу данных, id игнорируется.")
     public ResponseEntity<String> save(@RequestBody TaskDto taskDto) {
         log.info("Invoke save({}).", taskDto);
         Long resultId = taskService.save(taskDto);
@@ -53,7 +53,7 @@ public class TaskController {
     }
 
     @PutMapping("/update")
-    @Operation(description = "Обновление задачи по id.")
+    @Operation(summary = "Обновление задачи по id.")
     public ResponseEntity<String> update(@RequestBody TaskDto taskDto) {
         log.info("Invoke update({}).", taskDto);
         boolean status = taskService.update(taskDto);
