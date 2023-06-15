@@ -1,0 +1,368 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_employee_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: employee
+            columns:
+              - column:
+                  name: employee_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: middle_name
+                  type: varchar(255)
+              - column:
+                  name: position
+                  type: varchar(255)
+              - column:
+                  name: account
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - sql: >
+            CREATE UNIQUE INDEX employee_unique_account
+            ON employee (account)
+            WHERE status = 'ACTIVE';
+
+  - changeSet:
+      id: create_project_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: project
+            columns:
+              - column:
+                  name: project_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: code
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create_project_member_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: project_member
+            columns:
+              - column:
+                  name: project_member_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: employee_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: project_member
+            constraintName: difvhdfoibdofibo
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: project_id
+            referencedTableName: project
+            onDelete: cascade
+        - addForeignKeyConstraint:
+            baseColumnNames: employee_id
+            baseTableName: project_member
+            constraintName: sidjhvodfhvjoidjk
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: employee_id
+            referencedTableName: employee
+            onDelete: cascade
+
+  - changeSet:
+      id: create_task_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: task_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: performer_id
+                  type: int
+              - column:
+                  name: estimated_hours
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deadline
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_date
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+              - column:
+                  name: last_update_date
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+        - addForeignKeyConstraint:
+            baseColumnNames: performer_id
+            baseTableName: task
+            constraintName: asdasdmspfbvhdfoiop
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: project_member_id
+            referencedTableName: project_member
+            onDelete: cascade
+        - addForeignKeyConstraint:
+            baseColumnNames: author_id
+            baseTableName: task
+            constraintName: sidjhvodfhvjoidjfdskfksk
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: project_member_id
+            referencedTableName: project_member
+            onDelete: cascade
+        - sql:
+            dbms: postgresql
+            sql: >
+              CREATE OR REPLACE FUNCTION update_last_modified()
+              RETURNS TRIGGER AS
+              '
+              BEGIN
+                NEW.last_update_date = NOW();
+                RETURN NEW;
+              END;
+              ' LANGUAGE plpgsql;
+
+              CREATE TRIGGER task_last_modified
+              BEFORE UPDATE
+              ON task
+              FOR EACH ROW
+              EXECUTE FUNCTION update_last_modified();
+
+  - changeSet:
+      id: create_task_file_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: task_file
+            columns:
+              - column:
+                  name: task_file_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: task_id
+                  type: int
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: file
+                  type: bytea
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_content_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: task_id
+            baseTableName: task_file
+            constraintName: knsdsdcqweqfp
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: task_id
+            referencedTableName: task
+            onDelete: cascade
+  - changeSet:
+      id: create_project_file_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: project_file
+            columns:
+              - column:
+                  name: project_file_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_id
+                  type: int
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: file
+                  type: bytea
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_content_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: project_file
+            constraintName: qndjlkndfvdiuyipos
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: project_id
+            referencedTableName: project
+            onDelete: cascade
+
+  - changeSet:
+      id: create_task_to_related_task_table
+      author: sqy
+      changes:
+        - createTable:
+            tableName: task_to_related_task
+            columns:
+              - column:
+                  name: relationship_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: task_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: related_task_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: task_id
+            baseTableName: task_to_related_task
+            constraintName: qndjlkndfsdadvdiuyipos
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: task_id
+            referencedTableName: task
+            onDelete: cascade
+        - addForeignKeyConstraint:
+            baseColumnNames: related_task_id
+            baseTableName: task_to_related_task
+            constraintName: qndjlkndfvdiuyiposasvadvsdv
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: task_id
+            referencedTableName: task
+            onDelete: cascade
+
+  - changeSet:
+      id: inserts
+      author: sqy
+      changes:
+        - sql:
+            INSERT INTO employee (first_name, last_name, middle_name, position, account, email, status)
+            VALUES ('John', 'Doe', 'Michael', 'Manager', 'jdoe123', 'jdoe@example.com', 'ACTIVE'),
+            ('Jane', 'Smith', NULL, 'Assistant', 'jsmith456', 'jsmith@example.com', 'ACTIVE'),
+            ('Robert', 'Johnson', 'William', 'Clerk', 'rjohnson789', 'rjohnson@example.com', 'DELETED'),
+            ('dmitriy', 'medvedev', 'anatol''evich', 'smth', null, 'ttl1de@ya.ru', 'ACTIVE'),
+            ('David', 'Wilson', 'Thomas', 'Clerk', 'dwilson123', 'dwilson@example.com', 'DELETED'),
+            ('Emily', 'Taylor', 'Grace', 'Manager', 'etaylor456', 'etaylor@example.com', 'DELETED'),
+            ('Sarah', 'Anderson', 'Elizabeth', 'Supervisor', 'sanders456', 'sanders@example.com', 'ACTIVE');
+
+            INSERT INTO project (code, name, description, status)
+            VALUES ('P001', 'Project 1', 'This is project 1', 'DRAFT'),
+            ('P002', 'Project 2', null, 'IN_PROGRESS'),
+            ('P003', 'Project 3', 'This is project 3', 'IN_TESTING'),
+            ('P004', 'Project 4', 'This project has a very long description...', 'COMPLETED'),
+            ('P005', 'Project 5', 'This is project 5', 'IN_PROGRESS');
+
+            INSERT INTO project_member (project_id, employee_id, role)
+            VALUES (1, 1, 'DEVELOPER'),
+            (1, 2, 'TESTER'),
+            (2, 3, 'LEAD'),
+            (3, 4, 'ANALYST'),
+            (4, 5, 'DEVELOPER'),
+            (5, 6, 'TESTER');
+
+            INSERT INTO task(name, description, performer_id, estimated_hours, deadline, status, author_id)
+            VALUES ('Task 1', 'Description for Task 1', 1, 8, '2024-06-30 12:00:00', 'NEW', 2),
+            ('Task 2', 'A short description', 3, 4, '2024-07-15 14:30:00', 'IN_PROGRESS', 4),
+            ('Task 3',
+            'This is a longer description for Task 3. It provides more details about the task requirements and expectations.',
+            5, 10, '2023-07-31 09:00:00', 'CLOSED', 1),
+            ('Task 4', 'descdldlldakd[osdjgfopfdsj', 4, 12, '2025-07-31 09:00:00', 'NEW', 3);
+
+            INSERT INTO task_to_related_task(task_id, related_task_id)
+            VALUES (1, 2),
+            (1, 3),
+            (1, 4),
+            (3, 2);

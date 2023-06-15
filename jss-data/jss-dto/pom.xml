@@ -9,13 +9,29 @@
         <version>${revision}${changelist}</version>
     </parent>
     <packaging>jar</packaging>
+
     <dependencies>
         <dependency>
             <groupId>com.sqy</groupId>
             <artifactId>jss-domain</artifactId>
-            <version>${revision}${changelist}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
     </dependencies>
+
     <artifactId>jss-dto</artifactId>
 
 </project>

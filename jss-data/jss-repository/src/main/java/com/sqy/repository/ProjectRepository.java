@@ -1,20 +1,26 @@
 package com.sqy.repository;
 
 import com.sqy.domain.project.Project;
+import com.sqy.domain.project.ProjectStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-public interface ProjectRepository {
-    void create(Project project);
+@Repository
+public interface ProjectRepository extends JpaRepository<Project, Long> {
+    @Query("SELECT e FROM Project e "
+            + "WHERE (e.projectStatus IN :statuses) AND ("
+            + " e.description  LIKE %:value% OR  "
+            + " e.name         LIKE %:value% OR  "
+            + " e.code         LIKE %:value%)")
+    List<Project> findByFieldsContainingWithStatuses(@Param("value") String value, @Param("statuses") Set<ProjectStatus> statuses);
 
-    void update(Project project);
+    boolean existsByCodeAndProjectIdNot(String code, Long id);
 
-    Project getById(Long id);
+    boolean existsByCode(String code);
 
-    List<Project> getAll();
-
-    void deleteById(Long id);
-
-    List<Project> searchByProps(Map<String, Object> properties);
 }
