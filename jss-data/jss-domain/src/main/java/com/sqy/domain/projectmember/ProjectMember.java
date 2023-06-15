@@ -46,7 +46,10 @@ public class ProjectMember {
     private ProjectMemberRole projectMemberRole;
 
     @OneToMany(mappedBy = "author")
-    private Set<Task> tasks;
+    private Set<Task> authorTasks;
+
+    @OneToMany(mappedBy = "performer")
+    private Set<Task> performerTasks;
 
     @Override
     public String toString() {

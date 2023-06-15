@@ -1,6 +1,5 @@
 package com.sqy.unit;
 
-import com.sqy.domain.employee.Employee;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
 import com.sqy.domain.task.TaskFile;
@@ -73,7 +72,7 @@ public class TaskServiceImplTests {
 
         when(taskRepository.save(any(Task.class))).thenReturn(
                 Task.builder().taskId(1L)
-                        .performer(Employee.builder().employeeId(1L).build())
+                        .performer(ProjectMember.builder().projectMemberId(1L).build())
                         .author(ProjectMember.builder().projectMemberId(1L).build())
                         .build()
         );
@@ -186,30 +185,30 @@ public class TaskServiceImplTests {
         LocalDateTime someDate = LocalDateTime.now().plusYears(1);
 
         List<TaskDto> expected = List.of(
-                TaskDto.builder().id(1L).name("first_project_name").performerId(1L).authorId(1L)
+                TaskDto.builder().id(1L).name("first_project_name").performerId(2L).authorId(1L)
                         .estimatedHours(168L).deadline(someDate).build(),
-                TaskDto.builder().id(2L).name("second_project_name").performerId(2L).authorId(2L)
+                TaskDto.builder().id(2L).name("second_project_name").performerId(3L).authorId(2L)
                         .estimatedHours(168L).deadline(someDate).build(),
-                TaskDto.builder().id(3L).name("third_project_name").performerId(3L).authorId(3L)
+                TaskDto.builder().id(3L).name("third_project_name").performerId(4L).authorId(3L)
                         .estimatedHours(168L).deadline(someDate).build()
         );
 
         when(taskRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(List.of(
                 Task.builder().taskId(1L).name("first_project_name")
                         .author(ProjectMember.builder().projectMemberId(1L).build())
-                        .performer(Employee.builder().employeeId(1L).build())
+                        .performer(ProjectMember.builder().projectMemberId(2L).build())
                         .estimatedHours(168L).deadline(someDate)
                         .build(),
 
                 Task.builder().taskId(2L).name("second_project_name")
                         .author(ProjectMember.builder().projectMemberId(2L).build())
-                        .performer(Employee.builder().employeeId(2L).build())
+                        .performer(ProjectMember.builder().projectMemberId(3L).build())
                         .estimatedHours(168L).deadline(someDate)
                         .build(),
 
                 Task.builder().taskId(3L).name("third_project_name")
                         .author(ProjectMember.builder().projectMemberId(3L).build())
-                        .performer(Employee.builder().employeeId(3L).build())
+                        .performer(ProjectMember.builder().projectMemberId(4L).build())
                         .estimatedHours(168L).deadline(someDate)
                         .build()
         ));

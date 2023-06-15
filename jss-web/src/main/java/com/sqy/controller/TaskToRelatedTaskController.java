@@ -23,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 public class TaskToRelatedTaskController {
+
     private final TaskToRelatedTaskService taskToRelatedTaskService;
 
     @GetMapping("/{relationship-id}")
@@ -55,7 +56,7 @@ public class TaskToRelatedTaskController {
     }
 
     @DeleteMapping("/{relationship-id}")
-    @Operation(summary = "Удаление линковки задачи по id")
+    @Operation(summary = "Удаление линковки задачи по id.")
     public ResponseEntity<String> deleteRelationshipById(@PathVariable("relationship-id") long relationshipId) {
         log.info("Invoke deleteRelationship({}).", relationshipId);
         boolean status = taskToRelatedTaskService.removeRelationshipById(relationshipId);
@@ -66,7 +67,7 @@ public class TaskToRelatedTaskController {
     }
 
     @DeleteMapping("/by-task-id/{task-id}")
-    @Operation(summary = "Удаление линковки всех задач по id задачи")
+    @Operation(summary = "Удаление линковки всех задач по id задачи.")
     public ResponseEntity<String> deleteAllRelationshipsByTaskId(@PathVariable("task-id") long taskId) {
         log.info("Invoke deleteAllRelationshipsByTaskId({}).", taskId);
         boolean status = taskToRelatedTaskService.removeAllRelationshipsForTask(taskId);

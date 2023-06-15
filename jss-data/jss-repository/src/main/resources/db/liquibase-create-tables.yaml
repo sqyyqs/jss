@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create_employee_table
-      author: liquibase
+      author: sqy
       changes:
         - createTable:
             tableName: employee
@@ -45,7 +45,7 @@ databaseChangeLog:
 
   - changeSet:
       id: create_project_table
-      author: liquibase
+      author: sqy
       changes:
         - createTable:
             tableName: project
@@ -77,7 +77,7 @@ databaseChangeLog:
 
   - changeSet:
       id: create_project_member_table
-      author: liquibase
+      author: sqy
       changes:
         - createTable:
             tableName: project_member
@@ -110,6 +110,7 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: project_id
             referencedTableName: project
+            onDelete: cascade
         - addForeignKeyConstraint:
             baseColumnNames: employee_id
             baseTableName: project_member
@@ -118,10 +119,11 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: employee_id
             referencedTableName: employee
+            onDelete: cascade
 
   - changeSet:
       id: create_task_table
-      author: liquibase
+      author: sqy
       changes:
         - createTable:
             tableName: task
@@ -178,8 +180,9 @@ databaseChangeLog:
             constraintName: asdasdmspfbvhdfoiop
             deferrable: false
             initiallyDeferred: false
-            referencedColumnNames: employee_id
-            referencedTableName: employee
+            referencedColumnNames: project_member_id
+            referencedTableName: project_member
+            onDelete: cascade
         - addForeignKeyConstraint:
             baseColumnNames: author_id
             baseTableName: task
@@ -188,6 +191,7 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: project_member_id
             referencedTableName: project_member
+            onDelete: cascade
         - sql:
             dbms: postgresql
             sql: >
@@ -208,7 +212,7 @@ databaseChangeLog:
 
   - changeSet:
       id: create_task_file_table
-      author: liquibase
+      author: sqy
       changes:
         - createTable:
             tableName: task_file
@@ -241,9 +245,10 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: task_id
             referencedTableName: task
+            onDelete: cascade
   - changeSet:
       id: create_project_file_table
-      author: liquibase
+      author: sqy
       changes:
         - createTable:
             tableName: project_file
@@ -276,10 +281,11 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: project_id
             referencedTableName: project
+            onDelete: cascade
 
   - changeSet:
       id: create_task_to_related_task_table
-      author: liquibase
+      author: sqy
       changes:
         - createTable:
             tableName: task_to_related_task
@@ -307,6 +313,7 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: task_id
             referencedTableName: task
+            onDelete: cascade
         - addForeignKeyConstraint:
             baseColumnNames: related_task_id
             baseTableName: task_to_related_task
@@ -315,5 +322,6 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: task_id
             referencedTableName: task
+            onDelete: cascade
 
 

@@ -1,6 +1,5 @@
 package com.sqy.domain.task;
 
-import com.sqy.domain.employee.Employee;
 import com.sqy.domain.projectmember.ProjectMember;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -44,8 +43,8 @@ public class Task {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "performer_id", referencedColumnName = "employee_id")
-    private Employee performer;
+    @JoinColumn(name = "performer_id", referencedColumnName = "project_member_id")
+    private ProjectMember performer;
 
     @Column(name = "estimated_hours", nullable = false)
     private Long estimatedHours;

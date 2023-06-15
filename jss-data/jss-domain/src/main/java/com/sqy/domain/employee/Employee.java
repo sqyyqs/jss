@@ -1,7 +1,6 @@
 package com.sqy.domain.employee;
 
 import com.sqy.domain.projectmember.ProjectMember;
-import com.sqy.domain.task.Task;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,9 +58,6 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private Set<ProjectMember> projectMembers;
-
-    @OneToMany(mappedBy = "performer")
-    private Set<Task> tasks;
 
     @Override
     public String toString() {

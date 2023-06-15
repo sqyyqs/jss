@@ -1,6 +1,5 @@
 package com.sqy.mapper;
 
-import com.sqy.domain.employee.Employee;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
 import com.sqy.domain.task.TaskStatus;
@@ -19,7 +18,7 @@ public class TaskMapper {
                 .deadline(taskDto.getDeadline())
                 .status(TaskStatus.NEW)
                 .author(ProjectMember.builder().projectMemberId(taskDto.getAuthorId()).build())
-                .performer(Employee.builder().employeeId(taskDto.getPerformerId()).build()).build();
+                .performer(ProjectMember.builder().projectMemberId(taskDto.getPerformerId()).build()).build();
     }
 
     public static TaskDto getDtoFromModel(Task task) {
@@ -31,7 +30,7 @@ public class TaskMapper {
                 .deadline(task.getDeadline())
                 .status(task.getStatus())
                 .authorId(task.getAuthor().getProjectMemberId())
-                .performerId(task.getPerformer().getEmployeeId())
+                .performerId(task.getPerformer().getProjectMemberId())
                 .creationDate(task.getCreationDate())
                 .lastUpdateDate(task.getLastUpdateDate())
                 .build();

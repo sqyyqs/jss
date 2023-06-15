@@ -34,7 +34,7 @@ public class TaskDto {
     private String description;
 
     @JsonProperty("performer_id")
-    @Schema(description = "Идентификационный номер исполнителя.")
+    @Schema(description = "Идентификационный номер исполнителя(ProjectMember).")
     private Long performerId;
 
     @JsonProperty("estimated_hours")
@@ -75,7 +75,7 @@ public class TaskDto {
         this.id = id;
         this.name = requireNonNull(name);
         this.description = description;
-        this.performerId = requireNonNull(performerId);
+        this.performerId = performerId;
         this.estimatedHours = requireNonNull(estimatedHours);
         this.deadline = requireNonNull(deadline);
         this.status = status;

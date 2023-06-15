@@ -50,7 +50,7 @@ create table task
     creation_date    timestamp default current_timestamp,
     last_update_date timestamp default current_timestamp,
     primary key (task_id),
-    foreign key (performer_id) references employee (employee_id) on delete cascade,
+    foreign key (performer_id) references project_member (project_member_id) on delete cascade,
     foreign key (author_id) references project_member (project_member_id) on delete cascade
 );
 

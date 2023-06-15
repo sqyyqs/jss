@@ -1,6 +1,5 @@
 package com.sqy.util;
 
-import com.sqy.domain.employee.Employee;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
 import com.sqy.dto.task.TaskFilterDto;
@@ -37,8 +36,8 @@ public class TaskSpecificationBuilder {
 
         if (filterDTO.performerId() != null) {
             specifications.add((root, query, criteriaBuilder) -> {
-                Join<Task, Employee> performerJoin = root.join("performer");
-                return criteriaBuilder.equal(performerJoin.get("employeeId"), filterDTO.performerId());
+                Join<Task, ProjectMember> performerJoin = root.join("performer");
+                return criteriaBuilder.equal(performerJoin.get("projectMemberId"), filterDTO.performerId());
             });
         }
 
