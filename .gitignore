@@ -14,7 +14,9 @@
 *.properties
 *.yaml
 *.yml
-!docker-compose.yaml
 
 #all maven target
 **/target/
+
+!docker-compose.yaml
+!**/db
