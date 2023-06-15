@@ -3,6 +3,7 @@ package com.sqy.mapper;
 import com.sqy.domain.employee.Employee;
 import com.sqy.domain.projectmember.ProjectMember;
 import com.sqy.domain.task.Task;
+import com.sqy.domain.task.TaskStatus;
 import com.sqy.dto.task.TaskDto;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,7 @@ public class TaskMapper {
                 .description(taskDto.getDescription())
                 .estimatedHours(taskDto.getEstimatedHours())
                 .deadline(taskDto.getDeadline())
-                .status(taskDto.getStatus())
+                .status(TaskStatus.NEW)
                 .author(ProjectMember.builder().projectMemberId(taskDto.getAuthorId()).build())
                 .performer(Employee.builder().employeeId(taskDto.getPerformerId()).build()).build();
     }

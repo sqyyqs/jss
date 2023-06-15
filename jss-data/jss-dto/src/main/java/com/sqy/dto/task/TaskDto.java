@@ -45,8 +45,9 @@ public class TaskDto {
     @Schema(description = "Крайний срок в формате ISO 8601.")
     private LocalDateTime deadline;
 
+    @Nullable
     @JsonProperty("status")
-    @Schema(description = "Статус задачи(новая / в процессе / завершена / закрыта).")
+    @Schema(description = "Статус задачи(новая / в процессе / завершена / закрыта), будет проигнорировано.")
     private TaskStatus status;
 
     @JsonProperty("author_id")
@@ -68,7 +69,7 @@ public class TaskDto {
     @JsonCreator
     @JsonIgnoreProperties(ignoreUnknown = true)
     public TaskDto(@Nullable Long id, String name, @Nullable String description, Long performerId,
-                   Long estimatedHours, LocalDateTime deadline, TaskStatus status, Long authorId,
+                   Long estimatedHours, LocalDateTime deadline, @Nullable TaskStatus status, Long authorId,
                    @Nullable LocalDateTime creationDate, @Nullable LocalDateTime lastUpdateDate
     ) {
         this.id = id;
@@ -77,7 +78,7 @@ public class TaskDto {
         this.performerId = requireNonNull(performerId);
         this.estimatedHours = requireNonNull(estimatedHours);
         this.deadline = requireNonNull(deadline);
-        this.status = requireNonNull(status);
+        this.status = status;
         this.authorId = requireNonNull(authorId);
         this.creationDate = creationDate;
         this.lastUpdateDate = lastUpdateDate;

@@ -1,10 +1,13 @@
 package com.sqy.unit;
 
 import com.sqy.domain.project.Project;
+import com.sqy.domain.project.ProjectFile;
 import com.sqy.domain.project.ProjectStatus;
 import com.sqy.dto.project.ProjectDto;
+import com.sqy.dto.project.ProjectFileDto;
 import com.sqy.dto.project.ProjectNewStatusDto;
 import com.sqy.dto.project.ProjectSearchDto;
+import com.sqy.repository.ProjectFileRepository;
 import com.sqy.repository.ProjectRepository;
 import com.sqy.service.ProjectServiceImpl;
 import com.sqy.service.interfaces.ProjectService;
@@ -12,7 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,6 +32,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,6 +43,9 @@ public class ProjectServiceImplTests {
 
     @MockBean
     private ProjectRepository projectRepository;
+
+    @MockBean
+    private ProjectFileRepository projectFileRepository;
 
     @Autowired
     private ProjectService projectService;
@@ -208,5 +218,49 @@ public class ProjectServiceImplTests {
 
         assertEquals(expected, projectService.search(input));
         verify(projectRepository, times(1)).findByFieldsContainingWithStatuses(anyString(), anySet());
+    }
+
+    @Test
+    void uploadFileToProjectId() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
+        when(projectFileRepository.save(any(ProjectFile.class))).thenReturn(
+                ProjectFile.builder().projectFileId(1L)
+                        .file(file.getBytes())
+                        .fileContentType(file.getContentType())
+                        .build()
+        );
+        assertTrue(projectService.uploadFileToProjectId(file, 1L));
+        verify(projectFileRepository, times(1)).save(any(ProjectFile.class));
+    }
+
+    @Test
+    void uploadFileToProjectId_ThrowsException() {
+        MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
+        when(projectFileRepository.save(any(ProjectFile.class))).thenThrow(DataIntegrityViolationException.class);
+        assertFalse(projectService.uploadFileToProjectId(file, 1L));
+        verify(projectFileRepository, times(1)).save(any(ProjectFile.class));
+    }
+
+    @Test
+    void getFileFromRelatedProject() throws IOException {
+        MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", "File content".getBytes());
+        when(projectFileRepository.getProjectFileByProject_ProjectId(anyLong())).thenReturn(
+                ProjectFile.builder().projectFileId(1L)
+                        .file(file.getBytes())
+                        .fileContentType(file.getContentType())
+                        .build()
+        );
+        ProjectFileDto expected = new ProjectFileDto(file.getBytes(), file.getContentType());
+
+        assertEquals(expected, projectService.getFileFromRelatedProject(1L));
+        verify(projectFileRepository, times(1)).getProjectFileByProject_ProjectId(anyLong());
+
+    }
+
+    @Test
+    void deleteFileFromRelatedProject() {
+        doNothing().when(projectFileRepository).deleteProjectFileByProject_ProjectId(anyLong());
+        assertTrue(projectService.deleteFileFromRelatedProject(1L));
+        verify(projectFileRepository, times(1)).deleteProjectFileByProject_ProjectId(anyLong());
     }
 }
